@@ -1,0 +1,203 @@
+<ion-content>
+
+    <form [formGroup]="eventForm">
+
+        <body>
+
+            <div id="bg">
+                <ion-grid>
+                    <ion-row justify-content-center>
+
+                        <ion-col align-self-center size-md="11" size-lg="11" size-xs="12">
+                           
+                           
+                            <div class="div1">
+                                <ion-buttons slot="start"  routerLink="/tabs/club-profile">
+                                    <ion-icon color="light" name="arrow-back" style="zoom:1.5"></ion-icon>
+                                </ion-buttons> 
+                                <!-- <ion-icon name="arrow-round-back" defaultHref="club-profile"></ion-icon> -->
+
+
+                                <h2 id="heading">Add Your Event!</h2>
+                                <div class="profile-image">
+                                    <div *ngIf="urlPath ==''">
+                                        <img src="/assets/images/profile-user.png" class="x">
+                                    </div>
+
+                                    <div *ngIf="urlPath !=''">
+                                        <img data-src="{{urlPath}}">
+                                    </div>
+
+                                    <div class="image-upload">
+                                        <ion-fab horizontal="center" vertical="top" class="fab">
+                                            <ion-fab-button color="primary" size="small">
+                                                <ion-icon name="camera" class="input"> </ion-icon>
+                                            </ion-fab-button>
+
+
+                                            <ion-fab-list side="end">
+                                                <ion-fab-button color="primary">
+                                                    <label for="file-input2">
+                                                            <ion-icon name="document" class="document"> </ion-icon> 
+                                                    </label>
+                                                </ion-fab-button>
+                                            </ion-fab-list>
+                                        </ion-fab>
+
+
+                                        <input id="file-input2" class="input" type="file" (change)="uploadEventPic($event)" />
+                                    </div>
+                                </div>
+                            </div>
+                                <br><br><br>
+                                <div class="div2">
+
+                                    <!-- <form #form="ngForm" (ngSubmit)="login(form)"> -->
+
+
+                                    <div padding>
+                                        <br><br><br>
+
+                                        <ion-item id="item" color="transparent">
+                                            <ion-label position="floating">Event name</ion-label>
+                                            <ion-input type="text" maxlength="20"[(ngModel)]="newName" formControlName="newName"></ion-input>
+                                        </ion-item>
+                                        <div class="error" *ngIf="eventForm.get('newName').hasError('required') && eventForm.get('newName').touched">
+                                            Please input your event
+                                        </div>
+                                        <div class="error" *ngIf="eventForm.get('newName').hasError('minlength') && eventForm.get('newName').touched">
+                                            Minimum 4 characters
+                                        </div>
+                                        <div class="error" *ngIf="eventForm.get('newName').hasError('maxlength') && eventForm.get('newName').touched">
+                                            Maximum 20 characters
+                                        </div>
+ <!-- address search -->
+<ion-item id="item" color="transparent">
+    <ion-label position="floating">Address</ion-label>
+    <ion-input type="text" [(ngModel)]="newAddress" formControlName="newAddress" (ionInput)="search($event)"  [value]="selectedAddress" clearInput></ion-input>
+</ion-item>
+<div style="position: absolute; max-width: 90%; min-width: 90%; z-index: 999; " class="search">
+    <ion-list lines="none" *ngIf="addresses.length > 0" color="lightb" style="background: var(--ion-item-background,var(--ion-background-color, black)); ">
+        <ion-item *ngFor="let address of addresses ; let i=index" (click)="onSelect(address, i)" color="dark">
+            <ion-icon name="pin"></ion-icon>
+            <p class="searchv">{{address}}</p>
+        </ion-item>
+    </ion-list>
+</div>
+<!-- address search -->
+
+                                        <div *ngIf="eventForm.controls.newAddress.invalid && eventForm.controls.newAddress.dirty">
+                                        </div>
+                                        <div class="error" *ngIf="eventForm.get('newAddress').hasError('required') && eventForm.get('newAddress').touched">
+                                            Please input your Address
+                                        </div> 
+
+                                        <ion-item id="item" color="transparent">
+                                            <ion-label position="floating">Distance (KM)</ion-label>
+                                            <ion-input type="number" maxlength="5" minlength="2" [(ngModel)]="newDistance" formControlName="newDistance"></ion-input>
+                                        </ion-item>
+                                        <div class="error" *ngIf="eventForm.get('newDistance').hasError('required') && eventForm.get('newDistance').touched">
+                                            Please input the distance
+                                        </div>
+                                        <div class="error" *ngIf="eventForm.get('newDistance').hasError('minlength') && eventForm.get('newDistance').touched">
+                                            Minimum 2 numbers
+                                        </div>
+                                        <div class="error" *ngIf="eventForm.get('newDistance').hasError('maxlength') && eventForm.get('newDistance').touched">
+                                            Maximum 6 numbers
+                                        </div>
+                                        <!-- event date -->
+                                       
+
+                                        <ion-item id="item" color="transparent">
+                                            <ion-label position="floating">Date: MM DD YY</ion-label>
+                                            <ion-datetime displayFormat="MM DD YY" [(ngModel)]="newDate" formControlName="newDate"></ion-datetime>
+
+                                           
+                                        </ion-item>
+                                        <div class="error" *ngIf="eventForm.get('newDate').hasError('required') && eventForm.get('newDate').touched">
+                                            Please select event date
+                                        </div>
+                                       
+
+
+
+                                        <!-- event times -->
+                                        <ion-grid>
+                                            <ion-row>
+                                                <ion-col>
+                                                    <ion-item id="item" color="transparent">
+                                                        <ion-label position="floating">Opening Time</ion-label>
+                                                        <ion-datetime [(ngModel)]="newOpeningHours" formControlName="newOpeningHours" displayFormat="H:mm a"></ion-datetime>
+                                                    </ion-item>
+                                                    <div *ngIf="eventForm.controls.newOpeningHours.invalid && eventForm.controls.newOpeningHours.dirty">
+                                                    </div>
+                                                    <div class="error" *ngIf="eventForm.get('newOpeningHours').hasError('required') && eventForm.get('newOpeningHours').touched">
+                                                        Please input your Open Hour
+                                                    </div>
+                                                </ion-col>
+                                                <ion-col>
+                                                    <ion-item id="item" color="transparent">
+                                                        <ion-label position="floating">Closing Time</ion-label>
+                                                        <ion-datetime [(ngModel)]="newClosingHours" formControlName="newClosingHours" displayFormat="H:mm a"></ion-datetime>
+                                                    </ion-item>
+                                                    <div *ngIf="eventForm.controls.newClosingHours.invalid && eventForm.controls.newClosingHours">
+                                                    </div>
+                                                    <div class="error" *ngIf="eventForm.get('newClosingHours').hasError('required') && eventForm.get('newClosingHours').touched">
+                                                        Please input your Close Hour
+                                                    </div>
+                                                </ion-col>
+                                                <!-- price -->
+                                                <ion-item id="item" color="transparent">
+                                                    <ion-label position="floating">Price(R)</ion-label>
+                                                    <ion-input type="number" [(ngModel)]="newPrice" formControlName="newPrice"></ion-input>
+                                                </ion-item>
+
+                                                <div *ngIf="eventForm.controls.newPrice.invalid && eventForm.controls.newPrice.dirty">
+                                                </div>
+                                                <div class="error" *ngIf="eventForm.get('newPrice').hasError('required') && eventForm.get('newPrice').touched">
+                                                    Please input the Price
+                                                </div>
+
+                                                <!-- price -->
+                                            </ion-row>
+                                        </ion-grid>
+
+
+
+
+                                        <!-- <ion-item color="transparent" lines="none">
+                                            <div id="h">
+                                                <h2>Submit</h2>
+                                            </div>
+
+                                            <div id="but">
+                                                <ion-fab-button [disabled]="!eventForm.valid" (click)="trySubmit()" color="light" size="small">
+                                                    <ion-icon color="primary" name="arrow-forward"></ion-icon>
+                                                </ion-fab-button>
+
+                                            </div>
+                                        </ion-item> -->
+                                        <br><br>
+                                        <ion-col>
+                                            <ion-button style="margin-right: 4%;margin-left: 4%;"  shape="round"  expand="full" color="primary" [disabled]="!eventForm.valid" (click)="addEvent()">Add</ion-button>
+                                        </ion-col>
+
+                                        <br>
+
+
+
+                                    </div>
+                                </div>
+                          
+                        </ion-col>
+
+                    </ion-row>
+                </ion-grid>
+
+
+
+            </div>
+
+        </body>
+    </form>
+</ion-content>

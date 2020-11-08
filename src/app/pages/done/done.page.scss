@@ -1,0 +1,177 @@
+$bgcolor: #11C2D4;
+$textcolor: #11C2D4;
+$fontsize: 18px;
+body {
+    font-size: $fontsize;
+    $mywidth: 100%;
+    width: $mywidth;
+    $myheight: 100%;
+    height: $myheight;
+    text-align: center;
+    overflow: scroll;
+    .avatar {
+        position: absolute;
+        z-index: 5;
+        top: 10%;
+        left: 80%;
+    }
+    #bg {
+        width: 106% !important;
+        margin: 0px -50% 0px -3% !important;
+        padding: 10px 0px 0px 0px !important;
+        $myheight: 100%;
+        height: $myheight;
+        $myposition: absolute;
+        position: $myposition;
+        $z-index: -1;
+        z-index: $z-index;
+        top: -20px;
+    }
+    #bd {
+        $mywidth: 100%;
+        width: $mywidth;
+        $myheight: 100%;
+        height: $myheight;
+        $myborder-radius: 10px;
+        border-radius: $myborder-radius;
+        $mybackground: rgba(0, 0, 0, 0.6);
+        background: $mybackground;
+    }
+    h3 {
+        $fontsize: 25px;
+        font-size: $fontsize;
+       // $font-family: "Times New Roman", Times, serif;
+      //  font-family: $font-family;
+        $textcolor: #11C2D4;
+        color: $textcolor;
+        text-align: start;
+    }
+    h2 {
+        $fontsize: 25px;
+        font-size: $fontsize;
+       // $font-family: "Comic Sans MS";
+      //  font-family: $font-family;
+        $textcolor: #11C2D4;
+        color: $textcolor;
+    }
+    h1 {
+        font-weight: bold;
+        text-align: center;
+    }
+    .cd {
+        margin-left: 40%;
+        color: black;
+       
+    }
+    h6 {
+        text-align: start;
+    }
+    p {
+        $textcolor: #11C2D4;
+        color: $textcolor;
+        $font-size: inherit;
+        font-size: $font-size;
+    }
+    #item {
+        $textcolor: #11C2D4;
+        color: $textcolor;
+        margin-right: 10px;
+    }
+    #cen {
+        $margin: 5px 20px 5px 300px;
+        margin: $margin;
+    }
+    #lol {
+        $textcolor: #11C2D4;
+        color: $textcolor;
+    }
+    #button {
+        $padding: 10px;
+        padding: $padding;
+        $border-radius: 50px 20px;
+        border-radius: $border-radius;
+    }
+    #but {
+        ion-fab-button {
+            float: right;
+        }
+    }
+    .div2 {
+        $background-color: #ffff;
+        background-color: $background-color;
+        $mywidth: 100%;
+        width: $mywidth;
+        $margin-right: 20%;
+        margin-right: $margin-right;
+        $myheight: 500px;
+        height: $myheight;
+        $margin-bottom: 0%;
+        margin-bottom: $margin-bottom;
+        padding-left: 15px;
+        color: #11C2D4;
+    }
+    #img {
+        $myheight: 60%;
+        height: $myheight;
+    }
+    .div1 {
+        $background-color: #11C2D4;
+        background-color: $background-color;
+        $myheight: 40%;
+        height: $myheight;
+        border-bottom-right-radius: 20%;
+        border-bottom-left-radius: 20%;
+        padding: 10px 0px 0px 0px !important;
+        .price {
+            color: whitesmoke;
+        }
+    }
+    .bah {
+        top: 60px;
+    }
+    #out {
+        text-align: start;
+    }
+    #for {
+        $margin-left: 62%;
+        margin-left: $margin-left;
+    }
+    #heading {
+        $fontsize: 25px;
+        font-size: $fontsize;
+      //  $font-family: "Comic Sans MS";
+     //   font-family: $font-family;
+        $textcolor: #ffff;
+        color: $textcolor;
+    }
+    a {
+        color: #11C2D4;
+        text-decoration: none;
+    }
+    #h {
+        width: 35%;
+        text-align: center;
+    }
+    .card1 {
+        background-color: white;
+        top: 30px;
+        padding: 0 !important;
+        border: 55px;
+        color: #11C2D4;
+    }
+    .ref {
+        color: black;
+        font-weight: bold;
+    }
+    .blac {
+        color: black;
+    }
+    .label {
+        font-weight: bold;
+        float: left;
+        color: black;
+    }
+    p {
+        float: left;
+    }
+}

@@ -1,0 +1,148 @@
+<ion-content>
+
+    <form [formGroup]="paymentsForm">
+
+        <body>
+
+            <div id="bg">
+
+                <ion-grid>
+                    <ion-row color="primary" justify-content-center>
+
+                        <ion-col align-self-center size-md="11" size-lg="11" size-xs="12">
+
+                            <div class="div1">
+                                <br><br><br>
+                                <img src="assets/images/logo.png" alt="Avatar" class="imgC">
+                                <br><br>
+
+                                <br>
+                                <div class="div2">
+                                    <br>
+                                    <!-- <img src="assets/images/card.jpg" alt="Avatar" class="card"> -->
+                                    <ion-card class="the-card">
+                                        <ion-item lines="none">
+                                            <h3>Cheque</h3>
+                                            <ion-icon class="logo" slot="end" name="logo-google"></ion-icon>
+                                        </ion-item>
+                                        <ion-item lines="none">
+                                            <ion-icon class="icons" slot="start" name="barcode"></ion-icon>
+                                        </ion-item>
+                                        <div class="cardNo">
+                                            <h2>{{card1}}-{{card2}}-{{card3}}-{{card4}}</h2>
+                                        </div>
+
+                                        <ion-item lines="none" class="exp">
+                                            <p>expires end</p>
+                                        </ion-item>
+                                        <ion-item lines="none">
+                                            <h3>{{name}}</h3>
+                                        </ion-item>
+                                        <ion-item lines="none" class="date">
+                                            <h3>{{date}}</h3>
+                                        </ion-item>
+                                    </ion-card>
+                                    <br>
+                                    <ion-grid>
+                                        <ion-row>
+                                            <ion-col>
+                                                <ion-label class="labels">Name on card</ion-label>
+                                                <br><br><br>
+                                                <ion-item class="roundedInput" lines="none">
+                                                    <ion-input type="text" [(ngModel)]='name' formControlName="name"></ion-input>
+                                                </ion-item>
+                                                <div class="error" *ngIf="paymentsForm.get('name').hasError('required') && paymentsForm.get('name').touched">
+                                                    Please input your card name
+                                                </div>
+                                                <div class="error" *ngIf="paymentsForm.get('name').hasError('minlength') && paymentsForm.get('name').touched">
+                                                    Minimum 4 characters
+                                                </div>
+                                                <div class="error" *ngIf="paymentsForm.get('name').hasError('maxlength') && paymentsForm.get('name').touched">
+                                                    Maximum 30 characters
+                                                </div>
+                                                <br><br>
+                                            </ion-col>
+                                        </ion-row>
+                                        <ion-row>
+                                            <ion-col>
+                                                <ion-label class="labels">Card No.</ion-label>
+
+                                                <br><br>
+                                                <ion-item class="roundedInput" lines="none">
+                                                    <!-- <ion-input type="text" maxlength="3"></ion-input> -->
+                                                    <ion-input pattern="'([0-9]{3})'" type="tel" maxlength="16" [(ngModel)]='card' (input)="pattern($event.target.value)" formControlName="card" required></ion-input>
+                                                </ion-item>
+                                                <div *ngIf="paymentsForm.controls.card.invalid && paymentsForm.controls.card.dirty">
+                                                </div>
+                                                <div class="error" *ngIf="paymentsForm.get('card').hasError('required') && paymentsForm.get('card').touched">
+                                                    Please input your Card Number
+                                                </div>
+                                                <div class="error" *ngIf="paymentsForm.get('card').hasError('minlength') && paymentsForm.get('card').touched">
+                                                    Minimum 16 number
+                                                </div>
+
+                                                <div class="error" *ngIf="paymentsForm.get('card').hasError('maxlength') && paymentsForm.get('card').touched">
+                                                    Maximum 16 number
+                                                </div>
+                                                <br><br>
+                                            </ion-col>
+                                        </ion-row>
+                                        <ion-row>
+                                            <ion-col>
+                                                <ion-label class="labels">CVV2</ion-label>
+                                                <br><br>
+                                                <ion-item class="roundedInput" lines="none">
+                                                    <ion-input type="tel" [(ngModel)]='number' formControlName="number"></ion-input>
+                                                    <!-- <ion-input></ion-input> -->
+                                                </ion-item>
+                                                <div *ngIf="paymentsForm.controls.number.invalid && paymentsForm.controls.number.dirty">
+                                                </div>
+                                                <div class="error" *ngIf="paymentsForm.get('number').hasError('required') && paymentsForm.get('number').touched">
+                                                    Please input your card CVV2
+                                                </div>
+                                                <div class="error" *ngIf="paymentsForm.get('number').hasError('minlength') && paymentsForm.get('number').touched">
+                                                    Minimum 3 number
+                                                </div>
+
+                                                <div class="error" *ngIf="paymentsForm.get('number').hasError('maxlength') && paymentsForm.get('number').touched">
+                                                    Maximum 3 number
+                                                </div>
+                                                <br><br>
+                                            </ion-col>
+                                            <ion-col>
+                                                <ion-label class="labels">Expiry Date</ion-label>
+                                                <br><br>
+                                                <ion-item class="roundedInput" lines="none">
+                                                    <ion-input type="text" [(ngModel)]='date' formControlName="date"></ion-input>
+                                                    <!-- <ion-input></ion-input> -->
+                                                </ion-item>
+                                                <div *ngIf="paymentsForm.controls.date.invalid && paymentsForm.controls.date.dirty">
+                                                </div>
+                                                <div class="error" *ngIf="paymentsForm.get('date').hasError('required') && paymentsForm.get('date').touched">
+                                                    Please input your Date
+                                                </div>
+                                                <br><br>
+                                            </ion-col>
+                                        </ion-row>
+                                        <ion-row>
+                                            <ion-col>
+                                                <ion-button shape="round" expand="full" [disabled]="!paymentsForm.valid"><b>Pay now</b></ion-button>
+
+                                                <br><br>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                </div>
+                            </div>
+
+                        </ion-col>
+
+                    </ion-row>
+                </ion-grid>
+            </div>
+
+
+        </body>
+    </form>
+
+</ion-content>

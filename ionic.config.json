@@ -1,0 +1,8 @@
+{
+  "name": "funRace",
+  "integrations": {
+    "cordova": {},
+    "capacitor": {}
+  },
+  "type": "angular"
+}

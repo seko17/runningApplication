@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">running</string>
+    <string name="title_activity_main">running</string>
+    <string name="package_name">com.running</string>
+    <string name="custom_url_scheme">com.running</string>
+</resources>

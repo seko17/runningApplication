@@ -1,0 +1,83 @@
+$bgcolor: #11C2D4;
+$textcolor: #11C2D4;
+$fontsize: 18px;
+.body{
+    font-size: $fontsize;
+    $mywidth: 100%;
+    width: $mywidth;
+    $myheight: 100%;
+    height: $myheight;
+    text-align: center;
+    // overflow: scroll;
+    .div2 {
+    $background-color:  #000;
+ background-color: $background-color;
+  //  background-image: url('/assets/images/rep.jpg');
+    background-position: center no-repeat;
+    background-size: cover ;
+    $mywidth: 100%;
+    width: $mywidth;
+  
+    
+   // $margin-right: 20%;
+    //margin-right: $margin-right;
+   // $myheight: 500px;
+   // height: $myheight;
+  //  $margin-bottom: 0%;
+ //   margin-bottom: $margin-bottom;
+ //   border-bottom-right-radius: 80%;
+ margin-top: -15px;
+ height: 30%;
+ -ms-transform: skewY(4deg);
+ -webkit-transform:skewY(4deg);
+ transform:skewY(4deg);
+   // padding-left: 5px;
+    // padding: 10px 0px 0px 0px !important;
+}
+.backbutton
+{
+  padding-top: 20px;
+    -ms-transform: skewY(-4deg);
+    -webkit-transform:skewY(-4deg);
+    transform:skewY(-4deg);
+}
+.div1 {
+    -ms-transform: skewY(4deg);
+    -webkit-transform:skewY(4deg);
+    transform:skewY(4deg);
+ 
+ //   height: 65%;
+    // $myheight: 100%;
+    // height: $myheight;
+    // border-bottom-right-radius: 10%;
+    // border-bottom-left-radius: 10%;
+   // padding: 0px 0px 0px 0px !important;
+}
+.div3
+{
+    padding-top: 20px;
+    -ms-transform: skewY(-4deg);
+    -webkit-transform:skewY(-4deg);
+    transform:skewY(-4deg);
+}
+img{
+    $mywidth: 100%;
+    width: $mywidth;
+   // $margin-right: 20%;
+    //margin-right: $margin-right;
+   // $myheight: 500px;
+   // height: $myheight;
+  //  $margin-bottom: 0%;
+ //   margin-bottom: $margin-bottom;
+ //   border-bottom-right-radius: 80%;
+  //  border-left   : 25px solid transparent;
+    border-right  : 1000px solid transparent;
+//   width         : 0;
+    height        : 35%;
+    //transform     : rotate(33deg);  
+    border-bottom : 100px solid #fff;
+   
+   // padding-left: 5px;
+    // padding: 10px 0px 0px 0px !important;
+}
+}

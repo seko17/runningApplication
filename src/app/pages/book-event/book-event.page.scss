@@ -1,0 +1,79 @@
+body {
+    background-color: #11C2D4;
+    $mywidth: 100%;
+    width: $mywidth;
+    $myheight: 100%;
+    height: $myheight;
+    text-align: center;
+    overflow: scroll;
+    h2 {
+        $fontsize: 35px;
+        font-size: $fontsize;
+       // $font-family: "Comic Sans MS";
+       // font-family: $font-family;
+        $textcolor: #ffff;
+        color: $textcolor;
+    }
+    h5,
+    h1 {
+        font-size: 20px;
+    }
+    .card2 {
+        background-color: white;
+        // width: 95%;
+        // height: 30%;
+        padding: 0 !important;
+        color: #11C2D4;
+    }
+    .card1 {
+        background-color: white;
+        // width: 95%;
+        // height: 20%;
+        padding: 0 !important;
+        border: 55px;
+        color: #11C2D4;
+    }
+    .mon {
+        // top: 25px;
+        text-align: center;
+        // padding-left: 0%;
+        float: right;
+        bottom: 10px;
+    }
+    .endi {
+        // margin-left: 40px;
+        font-size: 20px;
+    }
+    .bot {
+        font-size: 20px;
+    }
+    .money {
+        color: #11C2D4;
+        width: 40px;
+        height: 40px;
+    }
+    .wak {
+        text-align: center;
+        margin-top: 30px;
+        width: 30px !important;
+        height: 30px !important;
+    }
+    .end {
+        // margin-left: 18px;
+        font-size: 20px;
+    }
+    .endo {
+        font-size: 20px;
+    }
+    ion-item {
+        color: #11C2D4;
+        text-align: center;
+    }
+    ion-fab-button {
+        width: 67px;
+        height: 67px;
+    }
+    ion-row {
+        text-align: center;
+    }
+}

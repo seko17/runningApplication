@@ -1,0 +1,89 @@
+<ion-content>
+   
+    <body *ngFor="let myevents of events">
+            <ion-toolbar>
+                    <ion-buttons slot="start"  (click)="backClicked()">
+                        <ion-icon color="primary" name="arrow-back" style="zoom:1.5"></ion-icon>
+                    </ion-buttons>
+                </ion-toolbar>
+        <br><br>
+        <h2>Confirmation</h2>
+        <br><br>
+        <ion-card class="card1">
+
+
+            <ion-grid>
+                <ion-row>
+                    <ion-col>
+                        <h5>Open Hours</h5>
+                    </ion-col>
+                    <ion-col>
+                        <ion-icon class="wak" color="dark" name="walk"></ion-icon>
+                    </ion-col>
+                    <ion-col>
+                        <h5 class="ends"> Close Hours</h5>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>
+                        <h6 class="endo">{{myevents.openingHours}}</h6>
+                    </ion-col>
+                    <ion-col>
+                        <h6 class="end"> 10 Km</h6>
+                    </ion-col>
+                    <ion-col>
+                        <h6 class="endi">{{myevents.closingHours}}</h6>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+            <ion-item ></ion-item>
+            <br>
+            <ion-item lines="none" class="mon">
+                <ion-icon class="money" name="cash"></ion-icon> &nbsp;&nbsp;
+
+
+                <p> <sub class="bot">R{{myevents.price}}.00</sub> Per Person</p>
+            </ion-item>
+
+        </ion-card>
+        <ion-card class="card2">
+            <br>
+            <h5>How many tickets do you want?</h5>
+            <br><br>
+            <ion-item-divider  lines="none" class="go" >
+                <div style="width: 100%; text-align: center;">
+                    <ion-fab-button (click)="sub(1)" center color="light" size="small">
+                        <ion-icon color="primary" name="remove"></ion-icon>
+                    </ion-fab-button>
+                  <p style="zoom: 1.5;"> {{tickets}}</p> 
+                    <ion-fab-button (click)="add(1)" color="light" size="small">
+                        <ion-icon color="primary" name="add"></ion-icon>
+                    </ion-fab-button>
+                
+
+                    <!-- <meta name="viewport" content="width=device-width, initial-scale=1">
+                    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+                    <body>
+                    
+                    <div class="w3-container">
+                      <h2>Circular Buttons</h2>
+                      <button class="w3-button w3-xlarge w3-circle w3-black">+</button>
+                      <button class="w3-button w3-xlarge w3-circle w3-teal">+</button>
+                      <button class="w3-button w3-xlarge w3-circle w3-red w3-card-4">+</button>
+                    </div> -->
+
+
+                </div><br>
+                
+            </ion-item-divider>
+            <br><br>
+
+            <h1>Total: R {{myevents.price*this.tickets}}.00
+
+            </h1>
+            <br><br><br>
+            <ion-button style="margin-left: 4%;margin-right: 4%;margin-bottom: 4%;" routerLink="/tabs/done" shape="round" expand="block" (click)="BookEvent(tickets,price)"><b>Book now</b></ion-button>
+        </ion-card>
+    </body>
+
+</ion-content>

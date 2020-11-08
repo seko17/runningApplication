@@ -1,0 +1,56 @@
+<ion-content class="body">
+   
+      
+      <div class="div2"  *ngFor="let myclub of club" [ngStyle]="{'background-image':'url('+myclub.photoURL+')'}">
+          <!-- <img src="/assets/images/rep.jpg">      -->
+          <div class="backbutton">
+            <ion-fab  horizontal="start" slot="start">
+
+              <ion-fab-button color="light" routerLink="/tabs/home">
+                <ion-icon color="dark"  name="arrow-back"></ion-icon> 
+              </ion-fab-button>
+
+            </ion-fab>
+
+            
+        </div>
+
+      </div>
+      <div class="div1"   *ngFor="let myclub of club">
+          <div class="div3" >
+        <ion-list  >
+            <ion-item lines="none">
+              <ion-label >Name: {{myclub.name}}</ion-label>
+          </ion-item>
+          <ion-item lines="none">
+              <ion-label>Location: {{myclub.address}} </ion-label>
+              
+          </ion-item>
+          <ion-item lines="none">
+            <ion-label>Operating Hours: {{myclub.openingHours}} To {{myclub.closingHours}}</ion-label>
+        </ion-item>
+          </ion-list>
+          <br>
+          <ion-button style="margin-left: 4%;margin-right: 4%;" *ngIf="!saved" (click)="getAClubsEvents(myclub)" shape="round"  expand="full" color="primary" fill="outline">View Events</ion-button>
+          <ion-button *ngIf="saved" (click)="clearEvents()" shape="round"  expand="full" color="primary" fill="outline"><ion-icon name="close"></ion-icon></ion-button>
+             </div>  
+   
+    <div *ngIf="saved">
+    <div   *ngFor="let ev of events" class="div3">
+      <ion-item  routerLink="/book-event" (click)="booking(ev)" >
+        <ion-icon name="calendar"></ion-icon>     Event Name: {{ev.name}}<br/>
+        Date: {{ev.date}}
+        
+    </ion-item>   
+
+    </div>
+  </div>
+
+
+  <div class="div3" *ngIf="!saved">
+       <p>---None Load Events---</p>
+
+  </div>
+      </div>
+     
+  </ion-content>

@@ -1,0 +1,69 @@
+<ion-content class="body" *ngFor="let myclubs of clubs">
+
+<div class="topTing">
+   
+        
+        <ion-buttons  slot="start"  routerLink="/tabs/add">
+            <ion-icon  color="light" name="arrow-back" style="zoom:1.5;margin-top: 4%;"></ion-icon>
+        </ion-buttons>
+   
+
+    <div >
+       
+        <h1 class="h">
+            <ion-avatar style="width:100px;height:100px;margin-left: 30%;border: 3px solid #fff;"> <img src="{{photoURL}}"></ion-avatar> 
+            <h1 class="title">
+               {{clubName}}
+            </h1>
+        </h1>
+    </div>
+    <!-- end -->
+       
+       
+<!-- middle -->
+<div class="bottomTing" >
+        <ion-item>
+          
+                    <ion-button style="margin-left: 7.5%;margin-right: 2%;width:80%;" (click)="currentClub(myclubs)" routerLink="/tabs/add-event"  color="primary" shape="round"  expand="full">
+                        <ion-icon name="add-circle"></ion-icon> Create Event</ion-button>
+              
+        </ion-item>
+<!-- middle -->
+        <br/>
+        <br/>
+        <!-- bottom -->
+    
+        <h1 class="subtitle">
+            Events
+        </h1>
+        <br/>
+
+        <ion-list lines="none" *ngFor="let myevents of events">
+            <ion-item class="eventCard" class="item" *ngIf="hasAEvent">
+                <ion-card>
+                    <img class="ecardimg" src="{{myevents.photoURL}}" />
+                    <ion-card-header>
+                        <ion-card-subtitle>
+                            <ion-icon color="primary" name="pin"></ion-icon> {{myevents.address}} </ion-card-subtitle>
+                        <ion-card-title>{{myevents.name}}</ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <ion-icon name="alarm"></ion-icon> Opening Hours: {{myevents.openingHours}} <br/>
+                        <ion-icon name="alarm"></ion-icon> Closing Hours: {{myevents.closingHours}} <br/>
+                        <ion-icon name="cash"></ion-icon> Price: R{{myevents.price}} <br/>
+                    </ion-card-content>
+                </ion-card>
+
+            </ion-item>
+        </ion-list>
+        <div class="noClubs" *ngIf="!hasAEvent">
+            <br/>
+            <br/>
+            <p text-center color="medium" class="sadname"> No Events Are Scheduled ! </p>
+            <br/>
+
+        </div>
+    </div>
+</div>
+
+</ion-content>

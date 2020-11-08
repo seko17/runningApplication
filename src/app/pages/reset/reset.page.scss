@@ -1,0 +1,56 @@
+$bgcolor: #11C2D4;
+$textcolor: #11C2D4;
+$fontsize: 18px;
+body {
+    font-size: $fontsize;
+    $mywidth: 100%;
+    width: $mywidth;
+    $myheight: 100%;
+    height: $myheight;
+    text-align: center;
+    // overflow: scroll;
+    #bg {
+        // background-color: #11C2D4;
+        $mywidth: 100%;
+        width: $mywidth;
+        $myheight: 100%;
+        height: $myheight;
+        $myposition: absolute;
+        position: $myposition;
+        $z-index: -1;
+        z-index: $z-index;
+    }
+    #div2 {
+        $background-color: #fff;
+        background-color: $background-color;
+        $mywidth: 100%;
+        width: $mywidth;
+        height:70%;
+        $margin-left: 0%;
+        margin-left: $margin-left;
+        $margin-bottom: 0%;
+        margin-bottom: $margin-bottom;
+        $order-top-right-radius: 8%;
+        border-top-left-radius: 8%;
+    }
+    #img {
+        $myheight: 60%;
+        height: $myheight;
+    }
+    #item {
+        $textcolor: #11C2D4;
+        color: $textcolor;
+    }
+    #div1 {
+        $background-color: #11C2D4;
+        background-color: $background-color;
+        $myheight: 30%;
+        height: $myheight;
+    }
+    #buts {
+        margin-left: 85px;
+    }
+    .imgC {
+        width: 37%;
+    }
+}

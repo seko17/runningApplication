@@ -1,0 +1,126 @@
+<ion-content>
+
+
+    <body>
+
+        <div id="bg">
+
+            <ion-grid>
+                <ion-row color="primary" justify-content-center>
+
+                    <ion-col align-self-center size-md="12" size-lg="11" size-xs="12">
+
+
+                        <div class="div1">
+
+                            <br><br><br>
+                            <img src="assets/images/logo.png" alt="Avatar" class="imgC">
+
+                            <br><br><br>
+                            <div class="div2">
+
+                                <div class="">
+
+                                    <!-- <form #form="ngForm" (ngSubmit)="login(form)"> -->
+                                    <form [formGroup]="loginForm">
+                                        <br>
+                                        <div padding>
+                                            <div text-center>
+                                                <h3>Welcome </h3>
+                                            </div>
+                                            <br><br>
+                                            <ion-label color="primary" position="floating">Email</ion-label>
+                                            <ion-item id="item" lines="none">
+                                                
+                                                <ion-input type="email" formControlName="email"></ion-input>
+                                            </ion-item>
+                                            <div class="error" *ngIf="loginForm.get('email').hasError('required') && loginForm.get('email').touched">
+                                                Please input your email
+                                            </div>
+                                            <div class="error" *ngIf="loginForm.get('email').hasError('pattern') && loginForm.get('email').touched">
+                                                Email address invalid
+                                            </div>
+                                            <ion-label color="primary" position="floating">Password</ion-label>
+                                            <ion-item id="item" lines="none">
+                                                
+                                                <ion-input  type="password" formControlName="password"></ion-input>
+                                            </ion-item>
+                                            <div class="error" *ngIf="loginForm.get('password').hasError('required') && loginForm.get('password').touched">
+                                                Please input your password
+                                            </div>
+                                            <div class="error" *ngIf="loginForm.get('password').hasError('minlength') && loginForm.get('password').touched">
+                                                Minimum 6 characters
+                                            </div>
+                                            <div class="error" *ngIf="loginForm.get('password').hasError('maxlength') && loginForm.get('password').touched">
+                                                Maximum 12 characters
+                                            </div>
+
+                                        </div>
+                                        <!-- <ion-item lines="none">
+                                            <div id="h">
+                                                <h2>Login</h2>
+                                            </div>
+
+                                            <div id="but">
+                                                <ion-fab-button [disabled]="!loginForm.valid" (click)="login()" color="primary" size="small">
+                                                    <ion-icon name="arrow-forward"></ion-icon>
+                                                </ion-fab-button>
+
+                                            </div>
+                                        </ion-item> -->
+                                        <br>
+                                        <ion-col>
+                                            <ion-button style="width: 95%;" shape="round" expand="full" color="primary" [disabled]="!loginForm.valid" (click)="login()">Login</ion-button>
+                                        </ion-col>
+                                        <br>
+                                        <!-- <div class="centered">
+                                            <ion-item lines="none">
+                                                No account yet? <a routerLink='/signup'>Create an account.</a>
+                                            </ion-item>
+                                            <ion-item lines="none">
+
+                                                <a routerLink='/reset'>Forgot password?</a>
+                                            </ion-item>
+                                        </div> -->
+                                        <a class="forgett" routerLink='/tabs/reset'>Forgot Password</a><br><br>
+                                        <a routerLink='/tabs/signup'> No account yet? Create an account.</a>
+
+                                        <br><br><br>
+
+
+
+
+                                    </form>
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+                        <!-- <ion-fab-button color="primary" (click)="addproduct()" size="small">
+                          <ion-icon name="arrow-forward"></ion-icon>
+                      </ion-fab-button> -->
+                        <!-- <div id="button">
+                                  <ion-button color="warning" size="small" type="submit" [disabled]="form.invalid" expand="block">Login</ion-button>
+                              </div> -->
+
+                    </ion-col>
+
+                </ion-row>
+            </ion-grid>
+            <!-- 
+                  <ion-row>
+                      <div id="cen">
+                          If you don't have an account, please <a id="lol" routerLink='/singup'>
+            signup</a> first!
+                      </div>
+                  </ion-row> -->
+
+
+        </div>
+
+
+    </body>
+
+</ion-content>

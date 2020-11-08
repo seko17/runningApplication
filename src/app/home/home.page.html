@@ -1,0 +1,120 @@
+<ion-content class="body">
+    <!-- <div *ngFor="let event of myEvents">
+    <h1>
+        {{event.address}}
+    </h1>
+    <h1>
+        {{event.date}}
+    </h1>
+</div> -->
+    <!-- <body> -->
+        <div class="topTing">
+    <div *ngFor="let user of theUser ">
+        <br>
+        <div *ngIf="defaultpic">
+            <img class="img" src="{{user.photoURL}}">
+        </div>
+        <div *ngIf="!defaultpic">
+            <img class="img" src="\assets\images\profile-user.png">
+        </div>
+    </div>
+    <br/>
+    <br/>
+    
+    <ion-grid class="grid">
+        <ion-row>
+            <ion-col class="col">
+                <h2>50</h2>
+            </ion-col>
+            <ion-col class="col">
+                <h2>584</h2>
+            </ion-col>
+            <ion-col>
+                <h2>789</h2>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col class="col">
+                <h6>Runs</h6>
+            </ion-col>
+            <ion-col class="col">
+           <h6>Kilos</h6>
+            </ion-col>
+            <ion-col>
+                <h6>Hours</h6>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</div>
+   <br>
+    <div class="bottomTing">
+    <h2 text-center class="cent"> Events You Going To
+        <ion-icon class="iconSize" name="compass"></ion-icon>
+    </h2>
+    <br>
+
+      
+       <div class="sly"  *ngIf="hasATicket">
+        <div *ngIf="isSlide">
+            <ion-slides startAutoplay [options]="slideOptsT">
+               
+                <ion-slide *ngFor="let event of tickets">
+                    
+                        <ion-card class="booked">
+                            <ion-card-title class="wordsCard"><ion-icon name="information-circle"></ion-icon> {{event.name}}</ion-card-title> <br/>   
+                            <ion-card-content  class="wordsCard">
+                                
+                             Time: {{event.openingHours}}  <br>
+                             Date: {{event.date}}
+                            </ion-card-content>
+                        </ion-card>
+                          
+                   
+                </ion-slide>
+            </ion-slides>
+        </div>
+        
+        </div>
+    
+    <div class="noClubs" *ngIf="!hasATicket">
+        <br/>
+        <br/>
+        <p text-center color="medium" class="sadname"> You Don't Have Any Tickets Yet ! </p>
+        <br/>
+
+    </div>
+
+    <br>
+
+    <div *ngIf="isSlide">
+        <h2 text-center class="cent"> Running Clubs
+            <ion-icon class="iconSize" name="people"></ion-icon>
+        </h2>
+        <div *ngIf="hasAClub" >
+        <br>
+       
+        <ion-slides class="slick-slide" startAutoplay [options]="slideOpts" >
+            <ion-slide *ngFor="let clubss of clubs">
+                <ion-card class="slideCards" [ngStyle]="{'background-image':'url('+clubss.photoURL+')'}" routerLink="/tabs/club-home" (click)="chooseClub(clubss)">
+                    <ion-card-content>
+                        <h2 class="cName">{{clubss.name}}</h2>
+                    </ion-card-content>
+                </ion-card>
+
+            </ion-slide>
+        </ion-slides>
+
+    </div>
+</div>
+
+    <div class="noClubs" *ngIf="!hasAClub">
+        <br/>
+        <br/>
+        <p text-center color="medium" class="sadname"> There Are No Clubs To View Yet ! </p>
+        <br/>
+
+    </div>
+</div>
+    <!-- </body> -->
+
+</ion-content>

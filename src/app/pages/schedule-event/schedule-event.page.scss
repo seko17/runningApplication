@@ -1,0 +1,142 @@
+/* Define standard variables and values for website */
+
+// $bgcolor: #a2b9bc;
+// $bgcolor: linear-gradient(180deg, rgba(200, 116, 152, 0.969) 0%, rgba(196, 135, 161, 0.969) 39.74%, rgb(99, 57, 75) 100%);
+// // $bgcolor: linear-gradient(#34e89e, #0f3443);
+// $bgcolor: #11C2D4;
+// $textcolor: #11C2D4;
+$fontsize: 18px;
+
+/* Use the variables */
+
+body {
+    // background: $bgcolor;
+    // color: $textcolor;
+    font-size: $fontsize;
+    $mywidth: 100%;
+    width: $mywidth;
+    $myheight: 100%;
+    height: $myheight;
+    text-align: center;
+    overflow: scroll;
+    #bg {
+        // background-color: #11C2D4;
+        width: 106% !important;
+        margin: 0px -50% 0px -3% !important;
+        padding: 10px 0px 0px 0px !important;
+        // $mywidth: 100%;
+        // width: $mywidth;
+        $myheight: 100%;
+        height: $myheight;
+        $myposition: absolute;
+        position: $myposition;
+        $z-index: -1;
+        z-index: $z-index;
+        // left: -10px;
+        // margin-left: 10%;
+        // right: 10px;
+        top: -20px;
+    }
+    #bd {
+        // -webkit-text-fill-color: aliceblue;
+        $mywidth: 100%;
+        width: $mywidth;
+        $myheight: 100%;
+        height: $myheight;
+        $myborder-radius: 10px;
+        border-radius: $myborder-radius;
+        $mybackground: rgba(0, 0, 0, 0.6);
+        background: $mybackground;
+    }
+    h2 {
+        $fontsize: 25px;
+        font-size: $fontsize;
+       // $font-family: "Comic Sans MS";
+       // font-family: $font-family;
+        $textcolor: #ffff;
+        color: $textcolor;
+        // $padding: 0px 280px 50px 0px;
+        // padding: $padding;
+    }
+    p {
+        $textcolor: #11C2D4;
+        color: $textcolor;
+        $font-size: inherit;
+        font-size: $font-size;
+    }
+    #item {
+        $textcolor: #ffff;
+        color: $textcolor;
+    }
+    #cen {
+        $margin: 5px 20px 5px 300px;
+        margin: $margin;
+    }
+    #heading {
+        $fontsize: 25px;
+        font-size: $fontsize;
+       // $font-family: "Comic Sans MS";
+       // font-family: $font-family;
+        $textcolor: #11C2D4;
+        color: $textcolor;
+    }
+    #lol {
+        $textcolor: #11C2D4;
+        color: $textcolor;
+    }
+    #button {
+        $padding: 10px;
+        padding: $padding;
+        $border-radius: 50px 20px;
+        border-radius: $border-radius;
+    }
+    #but {
+        ion-fab-button {
+            margin-left: 0%;
+        }
+        $margin-left: 55%;
+        margin-left: $margin-left;
+    }
+    .div2 {
+        $background-color: #11C2D4;
+        background-color: $background-color;
+        $mywidth: 100%;
+        width: $mywidth;
+        $margin-left: 0%;
+        margin-left: $margin-left;
+        $myheight: 650px;
+        height: $myheight;
+        $margin-bottom: 0%;
+        margin-bottom: $margin-bottom;
+        $order-top-right-radius: 13%;
+        border-top-left-radius: 13%;
+        padding-left: 15px;
+    }
+    #img {
+        $myheight: 60%;
+        height: $myheight;
+    }
+    #out {
+        text-align: start;
+    }
+    #for {
+        $margin-left: 62%;
+        margin-left: $margin-left;
+    }
+    a {
+        color: #11C2D4;
+        text-decoration: none;
+    }
+    .div1 {
+        $background-color: #ffff;
+        background-color: $background-color;
+        $myheight: 100%;
+        height: $myheight;
+        border-bottom-right-radius: 20%;
+        border-bottom-left-radius: 20%;
+        padding: 10px 0px 0px 0px !important;
+    }
+    ion-button {
+        width: 250px;
+    }
+}

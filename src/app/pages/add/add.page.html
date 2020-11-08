@@ -1,0 +1,40 @@
+<ion-content class="body">
+   
+    <h1 class="title">
+        Clubs
+    </h1>
+    <br/>
+
+    <ion-item>
+       
+                <ion-button style="margin-left: 6%;margin-right: 2%;width:85%;" routerLink="/tabs/add-club" class="actButtons" color="primary" shape="round">
+                    <ion-icon name="add-circle"></ion-icon> Create</ion-button>
+         
+    </ion-item>
+    <br/>
+    <br/>
+
+    <h1 class="subtitle">
+        Your Clubs
+    </h1>
+    <br/>
+
+    <ion-list lines="none" *ngFor="let myclubs of clubs">
+        <ion-item routerDirection="forward" class="item" *ngIf="hasAClub" (click)="getAClubsEvents(myclubs)">
+
+            <ion-avatar> <img src="{{myclubs.photoURL}}"></ion-avatar>
+            <p class="clubname"> {{myclubs.name}}</p>
+        </ion-item>
+
+    </ion-list>
+    <div class="noClubs" *ngIf="!hasAClub">
+        <br/>
+        <br/>
+        <p text-center color="medium" class="sadname"> You Don't Have Any Clubs Yet ! </p>
+        <br/>
+
+    </div>
+    <!-- <body> -->
+
+    <!-- </body> -->
+</ion-content>
