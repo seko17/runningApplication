@@ -15,7 +15,7 @@
 
 $bgcolor: #11C2D4;
 $textcolor: #11C2D4;
-$fontsize: 18px;
+$fontsize: 14px;
 
 /* Use the variables */
 
@@ -86,10 +86,10 @@ body {
     }
     #item {
       
-            border: 2px solid #11C2D4;
+            border: 1px solid #11C2D4;
           padding: 0px;
           border-radius: 25px;
-        
+          margin-top: 10px;
     }
     #cen {
         $margin: 5px 20px 5px 300px;
@@ -122,7 +122,7 @@ body {
         margin-bottom: $margin-bottom;
         $order-top-right-radius: 20%;
         border-top-left-radius: 20%;
-        padding-left: 10px;
+        padding-left: 0px;
     }
     #img {
         $myheight: 60%;
@@ -144,23 +144,43 @@ body {
     a {
         color: #11C2D4;
         text-decoration: none;
-        margin-left: 10%;
+        // margin-left: 10%;
     }
     .centered {
         text-align: center;
     }
-    .forgett {
-        color: black;
-        margin-left: 30%;
-        // margin-right: auto;
-      
+    .forgotWrapper {
+        width: 100%;
+        text-align: center;
+        .forgett {
+            color: black;
+            // margin-left: 30%;
+            // margin-right: auto;
+          
+        }
     }
+
     .imgC {
         display: block;
         margin-left: auto;
         margin-right: auto;
         width: 150px;
         height: 150px;
+    }
+    .error {
+        background: rgba(255, 0, 0, 0.068);
+        color: red;
+        padding: 10px;
+        border-radius: 8px;
+        margin-top: 5px;
+    }
+    ion-label {
+        padding: 10px !important;
+    }
+    .passFab{
+        position: absolute;
+        right: -6px;
+        z-index: 30;
     }
     // .form {
     //     width: 100%;

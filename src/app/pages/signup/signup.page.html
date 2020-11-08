@@ -2,9 +2,9 @@
   <form [formGroup]="signupForm">
     <body>
       <div id="bg">
-        <ion-grid>
-          <ion-row justify-content-center>
-            <ion-col align-self-center size-md="12" size-lg="11" size-xs="12">
+        <ion-grid style="padding: 0px !important">
+          <ion-row style="padding: 0px !important" justify-content-center>
+            <ion-col  style="padding: 0px !important" align-self-center size-md="12" size-lg="11" size-xs="12">
               <div class="div1">
                 <br /><br /><br />
                 <img src="assets/images/logo.png" alt="Avatar" class="imgC" />
@@ -13,7 +13,7 @@
                 <div class="div2">
                   <br />
 
-                  <div padding>
+                  <div>
                     <div text-center>
                       <h3>Tell us about yourself</h3>
                     </div>
@@ -51,7 +51,7 @@
                       <div class="passFab">
                         <ion-button
                           shape="round"
-                          color="light"
+                          fill="clear"
                           (click)="showPasswordToggle()"
                         >
                           <ion-icon
@@ -233,7 +233,10 @@
                   </ion-col>
                   <br />
 
-                  <a routerLink="/tabs/login">Already have account? Sign In</a>
+                  <a routerLink="login"></a>
+                  <ion-button (click)="toSignin()" expand="block" fill="clear" shape="round">
+                    Already have account? Sign In
+                </ion-button>
                 </div>
               </div>
             </ion-col>

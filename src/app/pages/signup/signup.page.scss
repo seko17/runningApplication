@@ -22,6 +22,9 @@ body {
   //  $font-family: "Microsoft Sans Serif";
   //  font-family: $font-family;
     // 
+    form {
+       
+    }
     #bg {
         overflow-y: auto;
         // background-color: #11C2D4;
@@ -35,7 +38,7 @@ body {
         position: $myposition;
         $z-index: -1;
         z-index: $z-index;
-        top: -20px;
+        top: 0px;
     }
     // #bd {
     //     -webkit-text-fill-color: aliceblue;
@@ -100,18 +103,12 @@ body {
         margin-left: $margin-left;
     }
     .div2 {
-        $background-color: #fff;
-        background-color: $background-color;
-        $mywidth: 100%;
-        width: $mywidth;
-        $margin-left: 0%;
-        margin-left: $margin-left;
-        $myheight: 500px;
-        height: $myheight;
-        $margin-bottom: 0%;
-        margin-bottom: $margin-bottom;
-        $order-top-right-radius: 20%;
-        border-top-left-radius: 20%;
+        background-color: #fff;
+        width: 100vw;
+        height: auto;
+        border-top-left-radius: 63px;
+        margin: auto;
+        padding: 0px 20px;
     }
     #img {
         $myheight: 60%;
@@ -154,8 +151,4 @@ body {
         z-index: 30;
     }
 
-}
-.select-icon {
-    position: absolute !important;
-    right: 22px !important;
 }
