@@ -5,7 +5,7 @@
 // $bgcolor: linear-gradient(#34e89e, #0f3443);
 $bgcolor: #11C2D4;
 $textcolor: #11C2D4;
-$fontsize: 18px;
+$fontsize: 14px;
 
 /* Use the variables */
 
@@ -73,10 +73,10 @@ body {
     }
     #item {
     
-            border: 2px solid #11C2D4;
+            border: 1px solid #11C2D4;
           padding: 0px;
           border-radius: 25px;
-        
+        margin-top: 10px;
     }
     #cen {
         $margin: 5px 20px 5px 300px;
@@ -138,4 +138,24 @@ body {
         text-decoration: none;
         margin-left: 15%;
     }
+    .error {
+        background: rgba(255, 0, 0, 0.068);
+        color: red;
+        padding: 10px;
+        border-radius: 8px;
+        margin-top: 5px;
+    }
+    ion-label {
+        padding: 10px !important;
+    }
+    .passFab{
+        position: absolute;
+        right: -6px;
+        z-index: 30;
+    }
+
+}
+.select-icon {
+    position: absolute !important;
+    right: 22px !important;
 }

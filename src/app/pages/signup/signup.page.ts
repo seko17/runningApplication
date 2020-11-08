@@ -15,7 +15,7 @@ import { MapboxService,Feature } from 'src/app/services/mapbox.service';
 })
 export class SignupPage implements OnInit {
   user = {} as User;
-  public signupForm: FormGroup;
+  signupForm: FormGroup;
   list:any;
   addresses:string[]=[];
   selectedAddress=null;
@@ -23,7 +23,7 @@ export class SignupPage implements OnInit {
   lat;
   lng;
   userr : any;
-
+  passwordToggle = false
   constructor(private authService: AuthService,
     private router: Router,
     private fb: FormBuilder,
@@ -49,7 +49,7 @@ search(event: any) {
     this.addresses = [];
   }
 }
-onSelect(address:string,i){
+onSelect(address: string, i) {
   this.selectedAddress=address;
    //  selectedcoodinates=
    console.log("lng:" + JSON.stringify(this.list[i].geometry.coordinates[0]))
@@ -64,16 +64,15 @@ onSelect(address:string,i){
    this.addresses = [];
   // this.addresses=[];
 }
+
 //address
   ngOnInit() {
     
     this.signupForm = this.fb.group({
-
-      username: ['', Validators.compose([Validators.pattern('[a-zA-Z ]*'), Validators.minLength(4), Validators.maxLength(30), Validators.required])],
       // surname: ['', Validators.compose([Validators.pattern('[a-zA-Z ]*'), Validators.minLength(4), Validators.maxLength(30),Validators.required])],
       address: ['', Validators.required],
       gender: ['', Validators.required],
-      age: ['', Validators.required],
+      age: ['', Validators.compose([Validators.required, Validators.min(12), Validators.max(70)])],
       email: ['', Validators.compose([Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'), Validators.required])],
       password: ['', Validators.compose([Validators.minLength(6), Validators.maxLength(12), Validators.required])],
       // cpassword: ['', Validators.required]
@@ -85,7 +84,9 @@ onSelect(address:string,i){
     );
   }
 
-
+  showPasswordToggle() {
+    this.passwordToggle = !this.passwordToggle;
+  }
   tryRegister(){
     this.authService.signup(this.signupForm.value.email, this.signupForm.value.password).then(() => {
       this.afs.collection('users').doc(this.afAuth.auth.currentUser.uid).set({
