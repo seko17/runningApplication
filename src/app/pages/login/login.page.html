@@ -116,9 +116,12 @@
                                             </ion-item>
                                         </div> -->
                     <div class="forgotWrapper">
-                        <a class="forgett" routerLink="/tabs/reset"
-                      >Forgot Password</a
-                    >
+                        <!-- <a class="forgett" routerLink="reset"
+                      ></a
+                    > -->
+                    <ion-button (click)="resetPassword()" expand="block" fill="clear" shape="round" color="dark">
+                        Forgot Password
+                    </ion-button>
                     </div>
                     <br /><br />
                     <!-- <a routerLink='signup'></a> -->

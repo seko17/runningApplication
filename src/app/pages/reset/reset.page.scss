@@ -1,14 +1,15 @@
 $bgcolor: #11C2D4;
 $textcolor: #11C2D4;
-$fontsize: 18px;
+$fontsize: 14px;
 body {
     font-size: $fontsize;
     $mywidth: 100%;
     width: $mywidth;
     $myheight: 100%;
     height: $myheight;
-    text-align: center;
+    // text-align: center;
     // overflow: scroll;
+    background-color: #11C2D4;
     #bg {
         // background-color: #11C2D4;
         $mywidth: 100%;
@@ -21,26 +22,28 @@ body {
         z-index: $z-index;
     }
     #div2 {
-        $background-color: #fff;
-        background-color: $background-color;
-        $mywidth: 100%;
-        width: $mywidth;
-        height:70%;
-        $margin-left: 0%;
-        margin-left: $margin-left;
-        $margin-bottom: 0%;
-        margin-bottom: $margin-bottom;
-        $order-top-right-radius: 8%;
-        border-top-left-radius: 8%;
+        position: absolute;
+        bottom: 0;
+        height: 70vh;
+        background-color: #fff;
+        width: 100vw;
+        // height: auto;
+        border-top-left-radius: 63px;
+        margin: auto;
+        padding: 0px 20px;
+        padding-top: 20px;
     }
     #img {
         $myheight: 60%;
         height: $myheight;
     }
     #item {
-        $textcolor: #11C2D4;
-        color: $textcolor;
-    }
+      
+        border: 1px solid #11C2D4;
+      padding: 0px;
+      border-radius: 25px;
+      margin-top: 10px;
+}
     #div1 {
         $background-color: #11C2D4;
         background-color: $background-color;
@@ -52,5 +55,19 @@ body {
     }
     .imgC {
         width: 37%;
+        margin-left: 50%;
+        transform: translateX(-50%);
     }
+    .error {
+        background: rgba(255, 0, 0, 0.068);
+        color: red;
+        padding: 10px;
+        border-radius: 8px;
+        margin-top: 5px;
+    }
+    ion-label {
+        padding: 10px !important;
+        margin-top: 20px;
+    }
+    
 }

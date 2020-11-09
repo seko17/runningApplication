@@ -24,7 +24,7 @@ export class ResetPage implements OnInit {
     this.isForgotPassword = false;
   }
   Cancel() {
-    this.navCtrl.navigateRoot("/tabs/login");
+    this.navCtrl.navigateRoot("login");
   }
   reset() {
     this.authService.sendPasswordResetEmail(this.forgotpasswordForm.value.email)
@@ -45,7 +45,7 @@ export class ResetPage implements OnInit {
         }).then(
           alert => alert.present()
         );
-      })
+      });
   }
   ngOnInit() {
   }

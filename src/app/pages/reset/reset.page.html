@@ -13,8 +13,11 @@
                             <br>
                             <div id="div2">
                                 <form [formGroup]="forgotpasswordForm" *ngIf="!isForgotPassword">
-                                    <ion-item id="item" color="transparent">
-                                        <ion-label position="floating">Enter Email</ion-label>
+                                    <ion-label color="primary" position="floating"
+                      >Email</ion-label
+                    >
+                                    <ion-item lines="none" id="item" color="transparent">
+                                        <!-- <ion-label position="floating">Enter Email</ion-label> -->
                                         <ion-input type="email" formControlName="email"></ion-input>
                                     </ion-item>
                                     <div class="error" *ngIf="forgotpasswordForm.get('email').hasError('required') && forgotpasswordForm.get('email').touched">
@@ -34,8 +37,8 @@
                                                     <ion-icon name="close-circle-outline"></ion-icon>
                                                 </ion-fab-button>
                                             </div> -->
-                                            <ion-button shape="round" color="primary" (click)="Cancel()">
-                                                <ion-icon name="close"></ion-icon>
+                                            <ion-button shape="round" fill="clear" color="danger" (click)="Cancel()">
+                                                Cancel
                                             </ion-button>
                                         </ion-col>
                                         <ion-col>
@@ -46,7 +49,7 @@
                                                 </ion-fab-button>
                                             </div> -->
                                             <ion-button shape="round" color="primary" [disabled]="!forgotpasswordForm.valid" (click)="reset()">
-                                                <ion-icon name="refresh"></ion-icon>
+                                                Submit
                                             </ion-button>
                                         </ion-col>
                                     </ion-row>

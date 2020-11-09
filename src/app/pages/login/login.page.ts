@@ -111,4 +111,7 @@ export class LoginPage implements OnInit {
   toSignup() {
     this.router.navigate(["signup"]);
   }
+  resetPassword(){
+    this.router.navigate(["reset"]);
+  }
 }

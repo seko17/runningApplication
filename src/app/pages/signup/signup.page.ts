@@ -117,7 +117,6 @@ export class SignupPage implements OnInit {
           .collection("users")
           .doc(this.afAuth.auth.currentUser.uid)
           .set({
-            displayName: this.signupForm.value.username,
             uid: this.afAuth.auth.currentUser.uid,
             Timestamp: Date.now(),
             Email: this.signupForm.value.email,

@@ -24,6 +24,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./pages/signup/signup.module").then((m) => m.SignupPageModule),
   },
+  {
+    path: "reset",
+    loadChildren: () =>
+      import("./pages/reset/reset.module").then((m) => m.ResetPageModule),
+  },
 
   // {
   //   path: 'list',
