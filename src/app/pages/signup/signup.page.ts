@@ -127,7 +127,7 @@ export class SignupPage implements OnInit {
             Registered: "no",
           })
           .then(() => {
-            this.navCtrl.navigateRoot("/tabs/login");
+            this.navCtrl.navigateRoot("login");
           })
           .catch((err) => {
             alert(err.message);
@@ -136,7 +136,7 @@ export class SignupPage implements OnInit {
   }
 
   goLoginPage() {
-    this.navCtrl.navigateForward("/tabs/login");
+    this.navCtrl.navigateForward("login");
   }
 
   //getting selected type of gender
