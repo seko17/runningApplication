@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { RunningService } from "src/app/services/running.service";
 import { Router } from "@angular/router";
 import { LoadingController } from "@ionic/angular";
-import moment from "moment";
+// import moment from "moment";
 @Component({
   selector: "app-events",
   templateUrl: "./events.page.html",
