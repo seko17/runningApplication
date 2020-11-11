@@ -1,116 +1,108 @@
-<ion-content class="theBody">
+<ion-content>
+  <body>
+    <div *ngFor="let user of tusr ">
+      <div id="bg">
+        <ion-grid style="padding: 0px !important">
+          <ion-row color="primary" justify-content-center>
+            <ion-col
+              style="padding: 0px !important"
+              align-self-center
+              size-md="12"
+              size-lg="11"
+              size-xs="12"
+            >
+              <div class="div1">
+                <h2 id="heading" text-center>My Profile</h2>
 
-    <body>
-        <div *ngFor="let user of theUser ">
-            <div id="bg">
-                <ion-grid>
-                    <ion-row color="primary" justify-content-center>
-                        <br>
-                        <ion-col align-self-center size-md="12" size-lg="11" size-xs="12">
-
-                            <div class="div1">
-                                <h2 id="heading" text-center>My Profile</h2>
-
-                                <ion-label (click)="nameUpdate(user)" id="name" text-center>{{user.name}}
-                                    <ion-icon name="create"></ion-icon>
-                                </ion-label>
-                                <br>
-
-                                <div class="profile-image">
-                                    <div *ngIf="defaultpic">
-                                        <img src="{{photoURL}}">
-                                    </div>
-                                    <div *ngIf="!defaultpic">
-                                        <img src="\assets\images\profile-user.png">
-                                    </div>
-
-                                    <div class="image-upload">
-                                        <ion-fab horizontal="center" vertical="top" class="fab">
-                                            <ion-fab-button color="primary" size="small">
-                                                <ion-icon name="camera" class="input"> </ion-icon>
-                                            </ion-fab-button>
+                <ion-label (click)="nameUpdate(user)" id="name" text-center
+                  >{{user.name}}
+                  <ion-icon name="create"></ion-icon>
+                </ion-label>
 
 
-
-                                            <ion-fab-list side="end">
-                                                <ion-fab-button color="primary" >
-                                                    <label for="file-input2">
-                                                                    <ion-icon name="document" class="document"> </ion-icon> 
-                                                            </label>
-                                                </ion-fab-button>
-                                            </ion-fab-list>
-                                        </ion-fab>
-
-
-                                        <input id="file-input2" class="input" type="file" (change)="uploadProfilePic($event)" />
-                                    </div>
-                                </div>
-                                <br>
-
-                                <div class="div2">
-                                    <br><br><br>
-                                    <br><br><br>
-                                    <ion-list lines="none">
-                                        <ion-item detail-push>
-
-                                            <ion-label>
-                                                <Nav>{{user.email}}</Nav>
-                                            </ion-label>
-
-                                            <ion-icon name="mail" color="primary" slot="start"></ion-icon>
-                                            <!-- <ion-icon name="create" color="dark" slot="end" (click)=" NameUpdate(user)"></ion-icon> -->
-                                        </ion-item>
-                                        <br><br>
-                                    
-                                        <ion-item>
-
-                                            <ion-label >{{user.address}}
-                                                
-                                            </ion-label>
-
-                                            <ion-icon name="navigate" color="primary" slot="start"></ion-icon>
-                                            
-                                            <ion-icon name="create" (click)="AddressUpdate(user)"></ion-icon>
-                                        </ion-item>
-                                        <br>
-                                        <ion-item >
-
-                                            <ion-label>
-                                                <Nav>{{user.age}}</Nav>
-                                            </ion-label>
-
-                                            <ion-icon name="calendar" color="primary" slot="start"></ion-icon>
-                                            <!-- <ion-icon name="create" color="dark" slot="end" (click)=" AddressUpdate(user)"></ion-icon> -->
-                                            <ion-icon name="create" (click)="AgeUpdate(user)"></ion-icon>
-                                        </ion-item>
-                                        <br>
-                                        <ion-item>
-
-                                            <ion-label>{{user.gender}}</ion-label>
-
-                                            <ion-icon name="person" color="primary" slot="start"></ion-icon>
-                                            <!-- <ion-icon name="create" color="dark" slot="end" (click)=" GenderUpdate(user)"></ion-icon> -->
-                                        </ion-item>
-
-
-                                    </ion-list>
-
-
-
-
-                                </div>
-                               
-                            </div>
-                        </ion-col>
-
-                    </ion-row>
-                </ion-grid>
-
-
-            </div>
-      
-
+                <br />
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+    </div>
+  </body>
+  <div *ngFor="let user of tusr " class="div2">
+    <div class="profile-image">
+        <div *ngIf="defaultpic">
+          <img src="{{user.photoURL}}" />
         </div>
-    </body>
+        <div *ngIf="!defaultpic">
+          <img src="\assets\images\profile-user.png" />
+        </div>
 
+        <div class="image-upload">
+          <ion-fab horizontal="center" vertical="top" class="fab">
+            <ion-fab-button color="primary" size="small">
+              <ion-icon name="camera" class="input"> </ion-icon>
+            </ion-fab-button>
+
+            <ion-fab-list side="end">
+              <ion-fab-button color="primary">
+                <label for="file-input2">
+                  <ion-icon name="document" class="document">
+                  </ion-icon>
+                </label>
+              </ion-fab-button>
+            </ion-fab-list>
+          </ion-fab>
+
+          <input
+            id="file-input2"
+            class="input"
+            type="file"
+            (change)="uploadProfilePic($event)"
+          />
+        </div>
+      </div>
+    <ion-list style="background: none !important" lines="none">
+      <ion-item detail-push>
+        <ion-label>
+          <nav>{{user.email}}</nav>
+        </ion-label>
+
+        <ion-icon name="mail" color="primary" slot="start"></ion-icon>
+        <!-- <ion-icon name="create" color="dark" slot="end" (click)=" NameUpdate(user)"></ion-icon> -->
+      </ion-item>
+
+      <ion-item>
+        <ion-label>{{user.address}} </ion-label>
+
+        <ion-icon name="navigate" color="primary" slot="start"></ion-icon>
+
+        <ion-icon
+          size="small"
+          name="create"
+          (click)="AddressUpdate(user)"
+        ></ion-icon>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>
+          <nav>{{user.age}}</nav>
+        </ion-label>
+
+        <ion-icon name="calendar" color="primary" slot="start"></ion-icon>
+        <!-- <ion-icon name="create" color="dark" slot="end" (click)=" AddressUpdate(user)"></ion-icon> -->
+        <ion-icon
+          size="small"
+          name="create"
+          (click)="AgeUpdate(user)"
+        ></ion-icon>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>{{user.gender}}</ion-label>
+
+        <ion-icon name="person" color="primary" slot="start"></ion-icon>
+        <!-- <ion-icon name="create" color="dark" slot="end" (click)=" GenderUpdate(user)"></ion-icon> -->
+      </ion-item>
+    </ion-list>
+  </div>
 </ion-content>

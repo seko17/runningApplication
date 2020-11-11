@@ -1,73 +1,80 @@
+<ion-toolbar color="primary">
+  <ion-title class="toolwords">Event Feed</ion-title>
+</ion-toolbar>
 
-        <ion-toolbar color="primary">
-                <ion-title class="toolwords" >Event Feed</ion-title>
-      </ion-toolbar>
- 
-<ion-content class="body" >
-        <div >
-                <h1 class="title" >
-                        Sponsored*
-                </h1>       
-                      
-          <br/>
-          
-       <ion-item>
-       <ion-slides startAutoplay [options]="slideOpts" autoplay="3000" loop="true" speed="1" pager="true" >
-            <ion-slide >
-                    <ion-card class="eventCard1" href="https://www.sprint.com">
-                         
-                           
-                     </ion-card>
-             </ion-slide>
-             <ion-slide >
-                    <ion-card class="eventCard2" href="https://www.herbalife.com">
-                         
-                           
-                     </ion-card>
-             </ion-slide>
-             <ion-slide >
-                    <ion-card class="eventCard3" href="https://www.wish.com">
-                         
-                           
-                     </ion-card>
-             </ion-slide>
-        </ion-slides>
-      </ion-item>
-          
-            <br/>  
-            <br/>
-             <h1 class="subtitle">
-             Event
-             </h1>
-            <br/>
-       
-          <ion-list lines="none" *ngFor="let myevents of events">
-            <ion-item  class="eventCard" class="item" *ngIf="hasAEvent" >
-               <ion-card>
-                   <img class="ecardimg" src="{{myevents.photoURL}}">
-                    <ion-card-header>
-                      <ion-card-subtitle><ion-icon color="primary" name="pin"></ion-icon> {{myevents.address}} </ion-card-subtitle>
-                      <ion-card-title>{{myevents.name}}</ion-card-title>
-                    </ion-card-header>
-                    <ion-card-content>
-                        <ion-icon name="alarm"></ion-icon>  Opening Hours: {{myevents.openingHours}} <br/>
-                        <ion-icon name="alarm"></ion-icon>  Closing Hours: {{myevents.closingHours}} <br/>
-                        <ion-icon name="cash"></ion-icon>   Price: R{{myevents.price}} <br/>
-                    </ion-card-content>
-                    <ion-button style="margin-left: 6%;margin-bottom: 4%;width:30%" routerLink="/tabs/book-event" (click)="booking(myevents)" shape="round" fill="outline" >Book Now</ion-button>
-                </ion-card>
-           </ion-item>
-         </ion-list>
+<ion-content class="body">
 
-          <div class="noClubs" *ngIf="!hasAEvent" >
-                <br/>
-                <br/>
-            <p text-center color="medium" class="sadname">  No Events Available ! </p>
-             <br/>
-            
+<div class="topSection">
+  <h1 class="title">Sponsored*</h1>
+  <ion-slides
+    startAutoplay
+    [options]="slideOpts"
+    autoplay="3000"
+    loop="true"
+    speed="1"
+    pager="true"
+  >
+    <ion-slide style="height: 100% !important;" *ngFor="let s of sponsors">
+      <ion-card class="eventCard1" href="{{s.url}}">
+        <img style="width: 100%;height: 100%;object-fit: cover;" src="{{s.image}}" alt="">
+      </ion-card>
+    </ion-slide>
+  </ion-slides>
+</div>
+<div class="secondSection">
+      <h1 class="subtitle">Event</h1>
+    <ion-list lines="none">
+      
+        <ion-card  *ngFor="let myevents of events" style="width: 100% !important">
+          <div class="ecardimg">
+            <img *ngIf="myevents.photoURL" src="{{myevents.photoURL}}" />
+            <img
+              *ngIf="!myevents.photoURL"
+              class="ecardimg"
+              src="https://sisterhoodofstyle.com/wp-content/uploads/2018/02/no-image-1.jpg"
+              alt="No Image"
+            />
           </div>
-          <!-- <body> -->
-        
-        <!-- </body> -->
-      </div>
-      </ion-content>
+
+          <ion-card-header>
+            <ion-card-subtitle
+              ><ion-icon color="primary" name="pin"></ion-icon>
+              {{myevents.address}}
+            </ion-card-subtitle>
+            <ion-card-title style="text-transform: uppercase;">{{myevents.name}}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-item>
+              <ion-icon name="time" slot="start"></ion-icon>
+              <ion-label
+                >Operating Hours: {{myevents.openingHours}} -
+                {{myevents.closingHours}}
+              </ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-icon name="cash" slot="start"></ion-icon>
+              <ion-label>Price: R{{myevents.price}} {{myevents.mojs}}</ion-label>
+            </ion-item>
+            <div class="cButton">
+              <ion-button
+                routerLink="/tabs/book-event"
+                (click)="booking(myevents)"
+                fill="solid"
+                expand="full"
+                >Book Now</ion-button
+              >
+            </div>
+            <div class="spacer"></div>
+          </ion-card-content>
+        </ion-card>
+      
+    </ion-list>
+
+    <div class="noClubs" *ngIf="!hasAEvent">
+      <br />
+      <br />
+      <p text-center color="medium" class="sadname">No Events Available !</p>
+      <br />
+    </div>
+</div>
+</ion-content>
