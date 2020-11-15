@@ -2,15 +2,17 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { RunningService } from "../services/running.service";
 import { LoadingController } from "@ionic/angular";
+import * as firebase from 'firebase';
 @Component({
   selector: "app-home",
   templateUrl: "home.page.html",
   styleUrls: ["home.page.scss"],
 })
 export class HomePage implements OnInit {
+  db = firebase.firestore();
   clubs = [];
   tickets = [];
-  theUser = [];
+  theUser = '';
   hasATicket = false;
   hasAClub = false;
   defaultpic = true;
@@ -43,23 +45,19 @@ export class HomePage implements OnInit {
   ) {
     this.tickets = [];
     this.clubs = [];
-    this.theUser = [];
     this.getdata();
     this.getUser();
     this.getTickets();
     this.presentLoading();
   }
-  ngOnDestroy() {
-    console.log("foo destroy");
-  }
+  ngOnDestroy() {  }
   ionViewDidEnter() {
     this.getdata();
   }
   ionViewDidLeave() {
     this.tickets = [];
     this.clubs = [];
-    this.theUser = [];
-    console.log("k");
+
   }
   ngOnInit() {
     //  this.getBooked();
@@ -127,34 +125,9 @@ export class HomePage implements OnInit {
   }
 
   getUser() {
-    return new Promise((resolve, reject) => {
-      this.theUser = [];
-      this.runn.rtUsers().then((data) => {
-        console.log(data.length);
-        for (let x = 0; x < data.length; x++) {
-          console.log(x);
-
-          this.theUser.push({
-            userKey: data[x].userKey,
-            name: data[x].name,
-            age: data[x].age,
-            email: data[x].email,
-            gender: data[x].gender,
-            photoURL: data[x].photoURL,
-          });
-          // userKey: doc.id,
-          //    name: doc.data().displayName,
-          //    age: doc.data().Age,
-          //    Email: doc.data().Email,
-          //    gender: doc.data().gender,
-          //    photoURL: doc.data().photoURL
-        }
-        console.log(this.theUser, "the LAST ONE vele");
-        if (this.theUser[0].photoURL == null) {
-          this.defaultpic = false;
-        }
-      });
-    });
+  this.db.collection('users').doc(firebase.auth().currentUser.uid).get().then(doc => {
+    this.theUser = doc.data().photoURL;
+  });
   }
   slideChanged() {
     this.slides.startAutoplay();

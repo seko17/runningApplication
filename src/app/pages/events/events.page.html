@@ -1,31 +1,37 @@
-<ion-toolbar color="primary">
-  <ion-title class="toolwords">Event Feed</ion-title>
-</ion-toolbar>
-
-<ion-content class="body">
-
-<div class="topSection">
-  <h1 class="title">Sponsored*</h1>
-  <ion-slides
-    startAutoplay
-    [options]="slideOpts"
-    autoplay="3000"
-    loop="true"
-    speed="1"
-    pager="true"
-  >
-    <ion-slide style="height: 100% !important;" *ngFor="let s of sponsors">
-      <ion-card class="eventCard1" href="{{s.url}}">
-        <img style="width: 100%;height: 100%;object-fit: cover;" src="{{s.image}}" alt="">
-      </ion-card>
-    </ion-slide>
-  </ion-slides>
-</div>
-<div class="secondSection">
-      <h1 class="subtitle">Event</h1>
-    <ion-list lines="none">
-      
-        <ion-card  *ngFor="let myevents of events" >
+<ion-content>
+  <div class="body">
+    <div class="mainTitle">
+      <p>Event Feed</p>
+    </div>
+    <div class="topSection">
+      <p class="title">Sponsored*</p>
+      <ion-slides
+        startAutoplay
+        [options]="slideOpts"
+        autoplay="3000"
+        loop="true"
+        speed="1"
+        pager="false"
+      >
+        <ion-slide style="height: 100% !important" *ngFor="let s of sponsors">
+          <ion-card class="eventCard1" href="{{s.url}}">
+            <div class="imgWrapper">
+              <img
+              style="width: 100%; height: 100%; object-fit: cover"
+              src="{{s.image}}"
+              alt=""
+            />
+            </div>
+          </ion-card>
+        </ion-slide>
+      </ion-slides>
+    </div>
+    <div class="secondSection">
+      <div class="subtitle">
+        <p>Event</p>
+      </div>
+      <ion-list lines="none">
+        <ion-card *ngFor="let myevents of events">
           <div class="ecardimg">
             <img *ngIf="myevents.photoURL" src="{{myevents.photoURL}}" />
             <img
@@ -41,19 +47,23 @@
               ><ion-icon color="primary" name="pin"></ion-icon>
               {{myevents.address}}
             </ion-card-subtitle>
-            <ion-card-title style="text-transform: uppercase;">{{myevents.name}}</ion-card-title>
+            <ion-card-title style="text-transform: uppercase"
+              >{{myevents.name}}</ion-card-title
+            >
           </ion-card-header>
-          <ion-card-content>
+          <ion-card-content style="padding-top: 0px !important;">
             <ion-item>
-              <ion-icon name="time" slot="start"></ion-icon>
+              <ion-icon size="small" name="time" slot="start"></ion-icon>
               <ion-label
                 >Operating Hours: {{myevents.openingHours}} -
                 {{myevents.closingHours}}
               </ion-label>
             </ion-item>
             <ion-item>
-              <ion-icon name="cash" slot="start"></ion-icon>
-              <ion-label>Price: R{{myevents.price}} {{myevents.mojs}}</ion-label>
+              <ion-icon name="cash" size="small" slot="start"></ion-icon>
+              <ion-label
+                >Price: R{{myevents.price}} {{myevents.mojs}}</ion-label
+              >
             </ion-item>
             <div class="cButton">
               <ion-button
@@ -67,14 +77,10 @@
             <div class="spacer"></div>
           </ion-card-content>
         </ion-card>
-      
-    </ion-list>
-
-    <div class="noClubs" *ngIf="!hasAEvent">
-      <br />
-      <br />
-      <p text-center color="medium" class="sadname">No Events Available !</p>
-      <br />
+        <div class="noClubs" *ngIf="!hasAEvent">
+          <p text-center color="medium" class="sadname">No Events Available !</p>
+        </div>
+      </ion-list>
     </div>
-</div>
+  </div>
 </ion-content>

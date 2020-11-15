@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import {
   AngularFirestoreDocument,
   AngularFirestore,
@@ -11,12 +11,17 @@ import { RunningService } from 'src/app/services/running.service';
 import { MapboxService, Feature } from 'src/app/services/mapbox.service';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { finalize } from 'rxjs/operators';
+import * as firebase from 'firebase';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage implements OnInit {
+  db = firebase.firestore();
+  storageRef = firebase.storage().ref();
+  firebaseUser = firebase.auth().currentUser;
+  minTime = '';
   objectA = {
     name: '',
     email: '',
@@ -26,19 +31,20 @@ export class ProfilePage implements OnInit {
   };
   users: any;
   defaultpic = true;
-  theUser =[]
-  tusr = [
-    {
-      address: 'Jamestown, New York 14701, United States',
-      age: '25',
-      email: 'tefo@gmail.com',
-      gender: 'Male',
-      name: 'TefoJoy',
-      photoURL:
-        'https://firebasestorage.googleapis.com/v0/b/runningclub-46ede.appspot.com/o/PICundefined?alt=media&token=e018a348-1c79-418f-a86a-870a5eb2570b',
-      userKey: 'z8smEXuBR7hBKHIsnMhGdkjeVfj2',
-    },
-  ];
+  theUser = [];
+  tusr = [];
+  loggedInUser = {
+    Age: '',
+    Email: '',
+    Registered: '',
+    Timestamp: null,
+    address: '',
+    displayName: '',
+    gender: '',
+    photoURL: '',
+    uid: '',
+  };
+
   currentuser: string;
   private MUsers: AngularFirestoreDocument;
   sub;
@@ -63,6 +69,8 @@ export class ProfilePage implements OnInit {
   uniqkey: string;
   fileRef: any;
   task: any;
+  uploading = false;
+  progress = 0;
   urlPath: any;
   aname;
 
@@ -75,7 +83,8 @@ export class ProfilePage implements OnInit {
     private router: Router,
     public runn: RunningService,
     public loadingController: LoadingController,
-    private mapboxService: MapboxService
+    private mapboxService: MapboxService,
+    private zone: NgZone
   ) {
     // this.theUser = [];
     this.getdata();
@@ -117,29 +126,55 @@ export class ProfilePage implements OnInit {
   //address
 
   uploadProfilePic(event) {
-    this.runn.uploadProfilePic(event);
-    //
-    this.file = event.target.files[0];
+    const file = event.target.files[0];
 
-    this.uniqkey = this.aname + 'Logo';
-    const filePath = this.uniqkey;
-    this.fileRef = this.storage.ref(filePath);
-    this.task = this.storage.upload(filePath, this.file);
-    this.task
-      .snapshotChanges()
-      .pipe(
-        finalize(() => {
-          this.downloadU = this.fileRef
-            .getDownloadURL()
-            .subscribe((urlPath) => {
-              console.log(urlPath);
+    // File or Blob named mountains.jpg
 
-              this.photoURL = urlPath;
-              console.log(this.urlPath, 'fighter');
-            });
-        })
-      )
-      .subscribe();
+    // Create the file metadata
+    const metadata = {
+      contentType: 'image/jpeg',
+    };
+
+    // Upload file and metadata to the object 'images/mountains.jpg'
+    const uploadTask = this.storageRef
+      .child('images/' + file.name)
+      .put(file, metadata);
+
+    // Listen for state changes, errors, and completion of the upload.
+    uploadTask.on(
+      firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+      (snapshot) => {
+        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        if (this.progress < 90) {
+          this.progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        }
+      },
+      (error) => {
+        // A full list of error codes is available at
+        // https://firebase.google.com/docs/storage/web/handle-errors
+        // switch (error.code) {
+        //   case 'storage/unauthorized':
+        //     // User doesn't have permission to access the object
+        //     break;
+        //   case 'storage/canceled':
+        //     // User canceled the upload
+        //     break;
+        //   case 'storage/unknown':
+        //     // Unknown error occurred, inspect error.serverResponse
+        //     break;
+        // }
+      },
+      () => {
+        // Upload completed successfully, now we can get the download URL
+        uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+          this.urlPath = downloadURL;
+          this.uploading = false;
+          this.progress = 0;
+          console.log('File available at', downloadURL);
+        });
+      }
+    );
   }
   file(filePath: any, file: any): any {
     throw new Error('Method not implemented.');
@@ -147,33 +182,33 @@ export class ProfilePage implements OnInit {
     //  this.filepresentLoading();
   }
 
-  getdata() {
-    return new Promise((resolve, reject) => {
-      this.runn.rtUsers().then((data) => {
-        console.log(data.length);
-        for (let x = 0; x < data.length; x++) {
-          console.log(x);
-
-          this.uid = data[0].userKey;
-
-          this.theUser.push({
-            userKey: data[x].userKey,
-            name: data[x].name,
-            address: data[x].address,
-            age: data[x].age,
-            email: data[x].email,
-            gender: data[x].gender,
-            photoURL: data[x].photoURL,
-          });
-        }
-        this.aname = this.theUser[0].name;
-        this.email = this.theUser[0].Email;
-        this.photoURL = this.theUser[0].photoURL;
-        console.log(this.theUser, 'the LAST ONE vele');
-        if (this.theUser[0].photoURL == null) {
-          this.defaultpic = false;
-        }
+  async getdata() {
+    this.zone.run(async () => {
+      const loader = await this.loadingController.create({
+        message: 'Getting Profile. Please wait...',
       });
+      await loader.present();
+      this.db
+        .collection('users')
+        .doc(firebase.auth().currentUser.uid)
+        .get()
+        .then(async (doc) => {
+          this.loggedInUser = {
+            Age: doc.data().Age,
+            Email: doc.data().Email,
+            Registered: doc.data().Registered,
+            Timestamp: doc.data().Timestamp,
+            address: doc.data().address,
+            displayName: doc.data().displayName,
+            gender: doc.data().gender,
+            photoURL: doc.data().photoURL,
+            uid: doc.data().url,
+          };
+          this.loggedInUser = this.loggedInUser;
+          setTimeout(async () => {
+            await loader.dismiss();
+          }, 1000);
+        });
     });
   }
   async nameUpdate(user) {
@@ -201,7 +236,7 @@ export class ProfilePage implements OnInit {
 
             // this.tempUser=this.theUser[0]
             console.log(this.nn + 'ddfdddfdfdd', user);
-            this.runn.updateName(this.uid, this.nn);
+            this.runn.updateName(this.firebaseUser.uid, this.nn);
             this.presentLoading();
           },
         },
@@ -237,7 +272,7 @@ export class ProfilePage implements OnInit {
 
             // this.tempUser=this.theUser[0]
             console.log(this.nn + 'ddfdddfdfdd', user);
-            this.runn.updateAge(this.uid, this.nn);
+            this.runn.updateAge(this.firebaseUser.uid, this.nn);
             this.presentLoading();
           },
         },
@@ -273,7 +308,7 @@ export class ProfilePage implements OnInit {
 
             // this.tempUser=this.theUser[0]
             console.log(this.nn + 'ddfdddfdfdd', user);
-            this.runn.updateAddress(this.uid, this.nn);
+            this.runn.updateAddress(this.firebaseUser.uid, this.nn);
             this.presentLoading();
           },
         },

@@ -9,12 +9,12 @@
 </div> -->
   <!-- <body> -->
   <div class="topTing">
-    <div class="imageWrapper" *ngFor="let user of theUser ">
-        <div *ngIf="defaultpic">
-            <img class="img" src="{{user.photoURL}}" />
+    <div class="imageWrapper">
+        <div *ngIf="theUser">
+            <img class="img" src="{{theUser}}" />
           </div>
-          <div *ngIf="!defaultpic">
-            <img class="img" src="\assets\images\profile-user.png" />
+          <div *ngIf="!theUser">
+            <img class="img" src="../../assets/images/logo.png" />
           </div>
     </div>
 

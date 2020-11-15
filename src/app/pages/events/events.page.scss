@@ -1,34 +1,59 @@
 .body {
+  width: 100%;
+  height: 100%;
+  background-color: #11c2d4;
+  .mainTitle {
+    width: 100%;
+    padding: 18px 20px;
+    color: white;
+    p {
+      font-size: 20px;
+      margin: 0;
+      padding: 0;
+      font-weight: bold;
+    }
+  }
+  .topSection {
+    background: white;
+    border-radius: 30px 30px 0px 0px;
+  }
   .h {
     top: 2%;
     left: 2%;
     zoom: 1.3;
   }
   .title {
-    font-size: 15px;
-    //  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    // font-weight: bold;
-    margin-left: 2%;
-    top: 12px;
+    padding: 20px 0px 0px 20px;
+    margin: 0;
+    font-size: 14px;
   }
   .secondSection {
-    background: #11C2D4;
+    background: #11c2d4;
   }
   .subtitle {
-    font-size: 30px;
-    //  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-weight: bold;
-    margin-left: 2%;
+    width: 100%;
+    padding: 10px 20px;
+    color: rgb(24, 24, 24);
+    background: white;
+    box-shadow: 0px 0px 11px #00000017;
+    p {
+      font-weight: bold;
+      font-size: 20px;
+      margin: 0;
+      padding: 0;
+    }
   }
   .eventCard1 {
-    width: 250px;
+    width: 100%;
     height: 150px;
-    background-image: url("/assets/images/sprint.jpg");
+    background: white;
     background-size: cover;
-    zoom: 1.2;
+    // zoom: 1.2;
     z-index: 10;
-    // background: black;
-    //  opacity: 0.8;
+    .imgWrapper {
+      width: 100%;
+      height: 150px;
+    }
   }
   .eventCard {
     width: 80%;
@@ -77,7 +102,15 @@
     font-size: 15px;
   }
   .noClubs {
-    left: 10px;
+    background: white;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5px;
+    .sadname {
+      color: rgba(190, 186, 186, 0.993);
+    }
   }
   .item {
     border-top: 0px;
@@ -85,11 +118,7 @@
     border-right: 0px;
     border-bottom: 0px;
   }
-  .sadname {
-    zoom: 1.5;
-    left: 20px;
-    color: rgba(190, 186, 186, 0.993);
-  }
+
   .sadicon {
     zoom: 7;
     left: 20px;

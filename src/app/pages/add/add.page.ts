@@ -2,13 +2,14 @@ import { Component, OnInit } from "@angular/core";
 import { RunningService } from "src/app/services/running.service";
 import { Router } from "@angular/router";
 import { LoadingController } from "@ionic/angular";
-
+import * as firebase from "firebase";
 @Component({
   selector: "app-add",
   templateUrl: "./add.page.html",
   styleUrls: ["./add.page.scss"],
 })
 export class AddPage implements OnInit {
+  db = firebase.firestore();
   myclubs;
   clubs = [];
   hasAClub = false;
@@ -30,43 +31,41 @@ export class AddPage implements OnInit {
     public loadingController: LoadingController
   ) {
     this.clubs = [];
-    //  this.getdata()
+  }
+  ngOnInit() {}
+  ionViewDidEnter() {
+    this.getdata();
   }
   slideChanged() {
     this.slides.startAutoplay();
   }
   getdata() {
-    return new Promise((resolve, reject) => {
-      this.runn.rtMyClubs().then((data) => {
-        console.log(data.length);
-        for (let x = 0; x < data.length; x++) {
-          console.log(x);
-
+    console.log("Getting clubs");
+    this.db
+      .collection("clubs")
+      .where("userID", "==", firebase.auth().currentUser.uid)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
           this.clubs.push({
-            clubKey: data[x].clubKey,
-            name: data[x].name,
-            openingHours: data[x].openingHours,
-            closingHours: data[x].closingHours,
-            userID: data[x].userID,
-            photoURL: data[x].photoURL,
+            clubKey: doc.id,
+            name: doc.data().name,
+            openingHours: doc.data().openingHours,
+            closingHours: doc.data().closingHours,
+            userID: doc.data().userID,
+            photoURL: doc.data().photoURL,
           });
-        }
-        console.log(this.clubs, "LAST ONE");
-
-        if (this.clubs != null) {
-          this.hasAClub = true;
-        }
+        });
+        console.log("Clubs >>> ", this.clubs);
       });
-      this.presentLoading();
-    });
   }
-  ngOnInit() {}
+
   ngOnDestroy() {
     console.log("foo destroy");
   }
-  ionViewDidEnter() {
-    this.getdata();
-  }
+  // ionViewDidEnter() {
+  //   this.getdata();
+  // }
   ionViewDidLeave() {
     this.clubs = [];
     console.log("k");

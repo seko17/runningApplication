@@ -99,7 +99,11 @@ export class AuthService {
       });
   }
   who() {
-    return this.theUser;
+    let user = firebase.auth();
+    console.log('[RUNNING SERVICE WHO] >>> ', user);
+    
+    return user;
+    // return this.theUser;
   }
   async login(email: string, password: string) {
     //
@@ -108,9 +112,7 @@ export class AuthService {
       .signInWithEmailAndPassword(email, password)
       .then((success) => {
         this.setCurrentSession(firebase.auth());
-
         this.theUser = firebase.auth();
-        console.log("success", this.theUser);
         this.navCtrl.navigateRoot("tabs/home");
         return this.theUser;
       })

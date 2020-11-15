@@ -1,6 +1,6 @@
 <ion-content>
   <body>
-    <div *ngFor="let user of tusr ">
+    <div>
       <div id="bg">
         <ion-grid style="padding: 0px !important">
           <ion-row color="primary" justify-content-center>
@@ -14,12 +14,13 @@
               <div class="div1">
                 <h2 id="heading" text-center>My Profile</h2>
 
-                <ion-label (click)="nameUpdate(user)" id="name" text-center
-                  >{{user.name}}
+                <ion-label
+                  (click)="nameUpdate(loggedInUser)"
+                  id="name"
+                  text-center
+                  >{{loggedInUser.displayName}}
                   <ion-icon name="create"></ion-icon>
                 </ion-label>
-
-
                 <br />
               </div>
             </ion-col>
@@ -28,43 +29,42 @@
       </div>
     </div>
   </body>
-  <div *ngFor="let user of tusr " class="div2">
+  <div class="div2">
     <div class="profile-image">
-        <div *ngIf="defaultpic">
-          <img src="{{user.photoURL}}" />
-        </div>
-        <div *ngIf="!defaultpic">
-          <img src="\assets\images\profile-user.png" />
-        </div>
-
-        <div class="image-upload">
-          <ion-fab horizontal="center" vertical="top" class="fab">
-            <ion-fab-button color="primary" size="small">
-              <ion-icon name="camera" class="input"> </ion-icon>
-            </ion-fab-button>
-
-            <ion-fab-list side="end">
-              <ion-fab-button color="primary">
-                <label for="file-input2">
-                  <ion-icon name="document" class="document">
-                  </ion-icon>
-                </label>
-              </ion-fab-button>
-            </ion-fab-list>
-          </ion-fab>
-
-          <input
-            id="file-input2"
-            class="input"
-            type="file"
-            (change)="uploadProfilePic($event)"
-          />
-        </div>
+      <div *ngIf="loggedInUser.photoURL">
+        <img src="{{loggedInUser.photoURL}}" />
       </div>
+      <div *ngIf="!loggedInUser.photoURL">
+        <img src="\assets\images\profile-user.png" />
+      </div>
+
+      <div class="image-upload">
+        <ion-fab horizontal="center" vertical="top" class="fab">
+          <ion-fab-button color="primary" size="small">
+            <ion-icon name="camera" class="input"> </ion-icon>
+          </ion-fab-button>
+
+          <ion-fab-list side="end">
+            <ion-fab-button color="primary">
+              <label for="file-input2">
+                <ion-icon name="document" class="document"> </ion-icon>
+              </label>
+            </ion-fab-button>
+          </ion-fab-list>
+        </ion-fab>
+
+        <input
+          id="file-input2"
+          class="input"
+          type="file"
+          (change)="uploadProfilePic($event)"
+        />
+      </div>
+    </div>
     <ion-list style="background: none !important" lines="none">
       <ion-item detail-push>
         <ion-label>
-          <nav>{{user.email}}</nav>
+          <nav>{{loggedInUser.Email}}</nav>
         </ion-label>
 
         <ion-icon name="mail" color="primary" slot="start"></ion-icon>
@@ -72,20 +72,20 @@
       </ion-item>
 
       <ion-item>
-        <ion-label>{{user.address}} </ion-label>
+        <ion-label>{{loggedInUser.address}} </ion-label>
 
         <ion-icon name="navigate" color="primary" slot="start"></ion-icon>
 
         <ion-icon
           size="small"
           name="create"
-          (click)="AddressUpdate(user)"
+          (click)="AddressUpdate(loggedInUser)"
         ></ion-icon>
       </ion-item>
 
       <ion-item>
         <ion-label>
-          <nav>{{user.age}}</nav>
+          <nav>{{loggedInUser.Age}}</nav>
         </ion-label>
 
         <ion-icon name="calendar" color="primary" slot="start"></ion-icon>
@@ -93,12 +93,12 @@
         <ion-icon
           size="small"
           name="create"
-          (click)="AgeUpdate(user)"
+          (click)="AgeUpdate(loggedInUser)"
         ></ion-icon>
       </ion-item>
 
       <ion-item>
-        <ion-label>{{user.gender}}</ion-label>
+        <ion-label>{{loggedInUser.gender}}</ion-label>
 
         <ion-icon name="person" color="primary" slot="start"></ion-icon>
         <!-- <ion-icon name="create" color="dark" slot="end" (click)=" GenderUpdate(user)"></ion-icon> -->

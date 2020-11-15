@@ -1,149 +1,207 @@
 <ion-content>
-    <form [formGroup]="clubForm">
+  <form [formGroup]="clubForm" (ngSubmit)="addClub(clubForm.value)">
+    <body>
+      <div id="bg">
+        <ion-grid>
+          <ion-row color="primary" justify-content-center>
+            <br />
 
-        <body>
+            <ion-col align-self-center size-md="6" size-lg="11" size-xs="12">
+              <div class="div1">
+                <ion-buttons slot="start">
+                  <ion-icon
+                    routerLink="/tabs/add"
+                    color="light"
+                    name="arrow-back"
+                    style="zoom: 1.5"
+                  ></ion-icon>
+                </ion-buttons>
 
-            <div id="bg">
-              
-                <ion-grid>
-                    
-                    <ion-row color="primary" justify-content-center>
-                        <br>
-                        
-                        <ion-col align-self-center size-md="6" size-lg="11" size-xs="12">
-
-                            <div class="div1">
-                                <ion-buttons slot="start">
-                                    <ion-icon   routerLink="/tabs/add" color="light" name="arrow-back" style="zoom:1.5"></ion-icon>
-                                </ion-buttons> 
-                                
-                                  
-
-                                <!-- <ion-avatar class="avatar">
+                <!-- <ion-avatar class="avatar">
                              
                               <img src="assets/images/rep.jpg" alt="Avatar" class="img">
                           </ion-avatar> -->
-                                <div class="profile-image">
-                                    <div *ngIf="urlPath =='' ">
-                                        <img src="\assets\images\profile-user.png" class="x">
-                                    </div>
+                <div class="profile-image">
+                  <div *ngIf="uploading" class="uploading">
+                    <p>Uploading {{progress.toFixed(0)}}%</p>
+                  </div>
+                  <div *ngIf="!urlPath.photoURL">
+                    <img src="\assets\images\profile-user.png" class="x" />
+                  </div>
 
-                                    <div *ngIf="urlPath !='' ">
-                                        <img data-src="{{urlPath}}">
-                                    </div>
+                  <div *ngIf="urlPath.photoURL">
+                    <img data-src="{{urlPath.photoURL}}" />
+                  </div>
 
-                                    <div class="image-upload">
-                                        <ion-fab horizontal="center" vertical="top" class="fab">
-                                            <ion-fab-button color="primary" size="small">
-                                                <ion-icon name="camera" class="input"> </ion-icon>
-                                            </ion-fab-button>
+                  <div class="image-upload">
+                    <ion-fab horizontal="center" vertical="top" class="fab">
+                      <ion-fab-button color="primary" size="small">
+                        <ion-icon name="camera" class="input"> </ion-icon>
+                      </ion-fab-button>
 
+                      <ion-fab-list side="end">
+                        <ion-fab-button color="primary">
+                          <label for="file-input2">
+                            <ion-icon name="document" class="document">
+                            </ion-icon>
+                          </label>
+                        </ion-fab-button>
+                      </ion-fab-list>
+                    </ion-fab>
 
-                                            <ion-fab-list side="end">
-                                                <ion-fab-button color="primary">
-                                                    <label for="file-input2">
-                                                            <ion-icon name="document" class="document"> </ion-icon> 
-                                                    </label>
-                                                </ion-fab-button>
-                                            </ion-fab-list>
-                                        </ion-fab>
+                    <input
+                      id="file-input2"
+                      class="input"
+                      type="file"
+                      (change)="uploadClubPic($event)"
+                    />
+                  </div>
+                </div>
+                <br /><br /><br />
+              </div>
 
+              <div class="div2">
+                <br /><br /><br /><br />
+                <ion-item id="item" color="transparent">
+                  <ion-label position="floating">Club name</ion-label>
+                  <ion-input type="text" formControlName="name"></ion-input>
+                </ion-item>
+                <div
+                  class="error"
+                  *ngIf="clubForm.get('name').hasError('required') && clubForm.get('name').touched"
+                >
+                  Please input your club
+                </div>
+                <div
+                  class="error"
+                  *ngIf="clubForm.get('name').hasError('minlength') && clubForm.get('name').touched"
+                >
+                  Minimum 4 characters
+                </div>
+                <div
+                  class="error"
+                  *ngIf="clubForm.get('name').hasError('maxlength') && clubForm.get('name').touched"
+                >
+                  Maximum 30 characters
+                </div>
+                <!-- address search -->
+                <ion-item id="item" color="transparent">
+                  <ion-label position="floating">Address</ion-label>
+                  <ion-input
+                    type="text"
+                    [(ngModel)]="newAddress"
+                    formControlName="address"
+                    (ionInput)="search($event)"
+                    [value]="selectedAddress"
+                    clearInput
+                  ></ion-input>
+                </ion-item>
+                <div
+                  style="
+                    position: absolute;
+                    max-width: 90%;
+                    min-width: 90%;
+                    z-index: 999;
+                  "
+                  class="search"
+                >
+                  <ion-list
+                    lines="none"
+                    *ngIf="addresses.length > 0"
+                    color="lightb"
+                    style="
+                      background: var(
+                        --ion-item-background,
+                        var(--ion-background-color, black)
+                      );
+                    "
+                  >
+                    <ion-item
+                      *ngFor="let address of addresses ; let i=index"
+                      (click)="onSelect(address, i)"
+                      color="dark"
+                    >
+                      <ion-icon name="pin"></ion-icon>
+                      <p class="searchv">{{address}}</p>
+                    </ion-item>
+                  </ion-list>
+                </div>
+                <!-- address search -->
 
-                                        <input id="file-input2" class="input"  type="file" (change)="uploadClubPic($event)" />
-                                    </div>
-                                </div>
-                                <br><br><br>
-                            </div>
-
-
-                            <div class="div2">
-                                <br><br><br><br>
-                                <ion-item id="item" color="transparent">
-                                    <ion-label position="floating">Club name</ion-label>
-                                    <ion-input type="text" formControlName="newName"></ion-input>
-                                </ion-item>
-                                <div class="error" *ngIf="clubForm.get('newName').hasError('required') && clubForm.get('newName').touched">
-                                    Please input your club
-                                </div>
-                                <div class="error" *ngIf="clubForm.get('newName').hasError('minlength') && clubForm.get('newName').touched">
-                                    Minimum 4 characters
-                                </div>
-                                <div class="error" *ngIf="clubForm.get('newName').hasError('maxlength') && clubForm.get('newName').touched">
-                                    Maximum 30 characters
-                                </div>
-<!-- address search -->
-<ion-item id="item" color="transparent">
-    <ion-label position="floating">Address</ion-label>
-    <ion-input type="text" [(ngModel)]="newAddress" formControlName="newAddress" (ionInput)="search($event)"  [value]="selectedAddress" clearInput></ion-input>
-</ion-item>
-<div style="position: absolute; max-width: 90%; min-width: 90%; z-index: 999; " class="search">
-    <ion-list lines="none" *ngIf="addresses.length > 0" color="lightb" style="background: var(--ion-item-background,var(--ion-background-color, black)); ">
-        <ion-item *ngFor="let address of addresses ; let i=index" (click)="onSelect(address, i)" color="dark">
-            <ion-icon name="pin"></ion-icon>
-            <p class="searchv">{{address}}</p>
-        </ion-item>
-    </ion-list>
-</div>
-<!-- address search -->
- 
-
-                                <div *ngIf="clubForm.controls.newAddress.invalid && clubForm.controls.newAddress.dirty">
-                                </div>
-                                <div class="error" *ngIf="clubForm.get('newAddress').hasError('required') && clubForm.get('newAddress').touched">
-                                    Please input your Address
-                            </div>
-                                <!--  -->
-                                <ion-grid>
-                                    <ion-row>
-                                        <ion-col>
-                                            <ion-item id="item" color="transparent">
-                                                <ion-label position="floating">Open Time</ion-label>
-                                                <ion-datetime formControlName="newOpeningHours" displayFormat="H:mm a"></ion-datetime>
-                                            </ion-item>
-                                            <div *ngIf="clubForm.controls.newOpeningHours.invalid && clubForm.controls.newOpeningHours.dirty">
-                                            </div>
-                                            <div class="error" *ngIf="clubForm.get('newOpeningHours').hasError('required') && clubForm.get('newOpeningHours').touched">
-                                                Please input your Open Hour
-                                            </div>
-                                        </ion-col>
-                                        <ion-col>
-                                            <ion-item id="item" color="transparent">
-                                                <ion-label position="floating">Close Time</ion-label>
-                                                <ion-datetime formControlName="newClosingHours" displayFormat="H:mm a"></ion-datetime>
-                                            </ion-item>
-                                            <!-- <div *ngIf="clubForm.controls.newClosingHours.invalid && clubForm.controls.Hours.newClosingHours">
+                <div
+                  *ngIf="clubForm.controls.address.invalid && clubForm.controls.address.dirty"
+                ></div>
+                <div
+                  class="error"
+                  *ngIf="clubForm.get('address').hasError('required') && clubForm.get('address').touched"
+                >
+                  Please input your Address
+                </div>
+                <!--  -->
+                <ion-grid>
+                  <ion-row>
+                    <ion-col>
+                      <ion-item id="item" color="transparent">
+                        <ion-label position="floating">Open Time</ion-label>
+                        <ion-datetime
+                          formControlName="openingHours"
+                          displayFormat="H:mm a"
+                        ></ion-datetime>
+                      </ion-item>
+                      <div
+                        *ngIf="clubForm.controls.openingHours.invalid && clubForm.controls.openingHours.dirty"
+                      ></div>
+                      <div
+                        class="error"
+                        *ngIf="clubForm.get('openingHours').hasError('required') && clubForm.get('openingHours').touched"
+                      >
+                        Please input your Open Hour
+                      </div>
+                    </ion-col>
+                    <ion-col>
+                      <ion-item id="item" color="transparent">
+                        <ion-label position="floating">Close Time</ion-label>
+                        <ion-datetime
+                          formControlName="closingHours"
+                          displayFormat="H:mm a"
+                        ></ion-datetime>
+                      </ion-item>
+                      <!-- <div *ngIf="clubForm.controls.closingHours.invalid && clubForm.controls.Hours.closingHours">
                                             </div> -->
-                                            <div class="error" *ngIf="clubForm.get('newClosingHours').hasError('required') && clubForm.get('newClosingHours').touched">
-                                                Please input your Close Hour
-                                            </div>
-                                        </ion-col>
-                                    </ion-row>
-                                </ion-grid>
-
-
-
-                                <br>
-                               
-                                <ion-col>
-                                    <ion-button style="margin-right: 8%;margin-left: 4%;" shape="round" routerLink="/tabs/add" expand="full" color="primary" (click)="addClub(newName, newAddress, newOpeningHours, newClosingHours) " [disabled]="!clubForm.valid">Submit</ion-button>
-                                </ion-col>
-
-
-                            </div>
-
-
-                        </ion-col>
-
-                    </ion-row>
+                      <div
+                        class="error"
+                        *ngIf="clubForm.get('closingHours').hasError('required') && clubForm.get('closingHours').touched"
+                      >
+                        Please input your Close Hour
+                      </div>
+                    </ion-col>
+                  </ion-row>
                 </ion-grid>
 
-
-
-
-
-
-            </div>
-
-        </body>
-    </form>
+                <br />
+                <!-- (click)="addClub(newName, address, openingHours, closingHours) " routerLink="/tabs/add" -->
+                <ion-col>
+                  <ion-button
+                    shape="round"
+                    expand="full"
+                    color="primary"
+                    type="submit"
+                    *ngIf="clubForm.valid&&urlPath.photoURL"
+                    >Submit</ion-button>
+                    <ion-button
+                    shape="round"
+                    expand="full"
+                    color="primary"
+                    type="submit"
+                    disabled="true"
+                    *ngIf="!clubForm.valid&&!urlPath.photoURL"
+                    >Submit</ion-button>
+                </ion-col>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+    </body>
+  </form>
 </ion-content>

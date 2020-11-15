@@ -1,16 +1,16 @@
-import { AngularFireAuth } from "@angular/fire/auth";
-import { Router } from "@angular/router";
-import { Component, OnInit } from "@angular/core";
-import { AuthService } from "src/app/services/auth.service";
-import { AlertController, NavController } from "@ionic/angular";
+import { AngularFireAuth } from '@angular/fire/auth';
+import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
+import { AlertController, NavController } from '@ionic/angular';
 
 @Component({
-  selector: "app-tabs",
-  templateUrl: "./tabs.page.html",
-  styleUrls: ["./tabs.page.scss"],
+  selector: 'app-tabs',
+  templateUrl: './tabs.page.html',
+  styleUrls: ['./tabs.page.scss'],
 })
 export class TabsPage implements OnInit {
-  urls = "";
+  urls = '';
   constructor(
     private route: Router,
     private authService: AuthService,
@@ -21,19 +21,19 @@ export class TabsPage implements OnInit {
   // /tabs/login
   ngOnInit() {}
   async logout() {
-    let alerter = await this.alertCtrl.create({
-      header: "Sign Out",
-      message: "This will sign you out of the app, Continue?",
+    const alerter = await this.alertCtrl.create({
+      header: 'Sign Out',
+      message: 'This will sign you out of the app, Continue?',
       buttons: [
           {
-          text: "Continue",
+          text: 'Continue',
           handler: async () => {
             await this.afAuth.auth
               .signOut()
               .then((success) => {
                 console.log(success);
-                console.log("success");
-                this.navCtrl.navigateRoot("login");
+                console.log('success');
+                this.navCtrl.navigateRoot('login');
               })
               .catch((error) => {
                 console.log(error);
@@ -41,8 +41,8 @@ export class TabsPage implements OnInit {
           },
         },
         {
-          text: "Cancel",
-          cssClass: "danger",
+          text: 'Cancel',
+          cssClass: 'danger',
         },
       ],
     });

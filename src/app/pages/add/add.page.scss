@@ -1,68 +1,97 @@
+.container {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  .item-native {
+    padding: 0px !important;
+  }
+  .topHalf {
+    width: 100%;
+    height: 20vh;
+  }
+  .bottomHalf {
+    width: 100%;
+    height: calc(80vh - 51px);
+  }
+  .title {
+    color: white;
+    padding: 0px 20px;
+    display: flex;
+    align-items: center;
+    background-color: #11c2d4;
+    height: 79%;
+    border-radius: 0px 0px 30px 30px;
+    h1 {
+      margin: 0;
+      font-size: 30px;
+    }
+  }
+  .create {
+    width: 85%;
+    margin: auto;
+  }
+  .subtitle {
+    height: 10%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0px 20px;
+    p {
+      font-weight: bold;
+      margin: 0px;
+    }
+  }
+  .lister {
+    width: 100%;
+    height: 90%;
+    overflow-y: auto;
+  }
+  .actButtons {
+    left: 10px;
 
-.body{
-    .title{
-
-        font-size: 50px;
-    //    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-        font-weight: bold;
-        margin-left: 2%;
+    font-size: 65%;
+    width: 100%;
+  }
+  .noClubs {
+    height: 100%;
+    width: 100%;
+    color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // background: rgb(0, 255, 128);
+    p {
+      margin: 0;
+      font-size: 14px;
     }
-    .subtitle{
-        font-size: 30px;
-      //  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-        font-weight: bold;
-        margin-left: 2%;
-
-    }
-
-    .actButtons
-    {
-        left: 10px;
-        
-        font-size: 65%;
-       width:100%;
-     
-    }
-    .noClubs
-    {
-        left: 10px;
-        
-    }
-    .item
-    {
-        border-top: 0px;
-        border-left: 0px;
-        border-right: 0px;
-        border-bottom: 0px;
-
-    }
-    .sadname
-    {
-        zoom:1.5;
-        left: 20px;
-        color: rgba(190, 186, 186, 0.993);
-    }
-    .sadicon
-    {
-        zoom:7;
-        left: 20px;
-        text-align:center;
-    }
-    .clubname{
-        font-size: 20px;
-      //  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        font-weight: bold;
-       // left: 10px;
-
-    }
-.icons{
+  }
+  .item {
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    border-bottom: 0px;
+  }
+  .sadname {
     zoom: 1.5;
-}
-.tabIcons
-{
-    width:16px;
+    left: 20px;
+    color: rgba(190, 186, 186, 0.993);
+  }
+  .sadicon {
+    zoom: 7;
+    left: 20px;
+    text-align: center;
+  }
+  .clubname {
+    font-size: 20px;
+    //  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    // left: 10px;
+  }
+  .icons {
+    zoom: 1.5;
+  }
+  .tabIcons {
+    width: 16px;
     height: 16px;
-
-
-}
+  }
 }

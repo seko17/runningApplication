@@ -1,10 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 
-import { Platform, LoadingController } from "@ionic/angular";
+import { Platform, LoadingController, NavController } from "@ionic/angular";
 import { SplashScreen } from "@ionic-native/splash-screen/ngx";
 import { StatusBar } from "@ionic-native/status-bar/ngx";
 import { AuthService } from "./services/auth.service";
-
+import * as firebase from 'firebase';
 @Component({
   selector: "app-root",
   templateUrl: "app.component.html",
@@ -52,7 +52,8 @@ export class AppComponent implements OnInit {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private authService: AuthService,
-    public loadingController: LoadingController
+    public loadingController: LoadingController,
+    private navCtrl: NavController
   ) {}
 
   initializeApp() {
@@ -65,6 +66,15 @@ export class AppComponent implements OnInit {
     // this.authService.logout();
   }
   ngOnInit() {
+    firebase.auth().onAuthStateChanged(user => {
+      console.log('{USER LOGGED IN >>> ', user);
+      
+      if (user) {
+        this.navCtrl.navigateRoot('tabs/home');
+      } else {
+        this.navCtrl.navigateRoot('login');
+      }
+    })
     this.initializeApp();
     this.presentLoading();
   }
