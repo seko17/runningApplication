@@ -1,108 +1,69 @@
 <ion-content>
-  <body>
-    <div>
-      <div id="bg">
-        <ion-grid style="padding: 0px !important">
-          <ion-row color="primary" justify-content-center>
-            <ion-col
-              style="padding: 0px !important"
-              align-self-center
-              size-md="12"
-              size-lg="11"
-              size-xs="12"
-            >
-              <div class="div1">
-                <h2 id="heading" text-center>My Profile</h2>
-
-                <ion-label
-                  (click)="nameUpdate(loggedInUser)"
-                  id="name"
-                  text-center
-                  >{{loggedInUser.displayName}}
-                  <ion-icon name="create"></ion-icon>
-                </ion-label>
-                <br />
-              </div>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
+  <div
+    class="container"
+    [ngStyle]="{'background-image': 'url('+ loggedInUser.photoURL +')'}"
+  >
+    <div class="profile">
+      <div class="imageUpdate">
+<div class="imageCont">
+  <div class="dummybutton">
+    <ion-fab-button>
+      <ion-icon name="camera"></ion-icon>
+    </ion-fab-button>
+  </div>
+  <div class="input">
+    <input
+    id="file-input2"
+    class="input"
+    type="file"
+    (change)="uploadProfilePic($event)"
+  />
+  </div>
+</div>
+      </div>
+      <div *ngIf="!loggedInUser.Timestamp" class="skeleltonName">
+        <ion-skeleton-text
+          animated
+          style="width: 100%; height: 31px"
+        ></ion-skeleton-text>
+      </div>
+      <div class="displayName">
+        <h1 *ngIf="loggedInUser.Timestamp">{{loggedInUser.displayName}}</h1>
+        <ion-button (click)="nameUpdate(loggedInUser)" size="small" fill="clear" shape="round">
+          <ion-icon size="small" slot="icon-only" name="create"></ion-icon>
+        </ion-button>
+      </div>
+      <div class="profileData">
+        <div class="sk">
+          <div *ngIf="!loggedInUser.Timestamp">
+            <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+          </div>
+          <div *ngIf="!loggedInUser.Timestamp">
+            <ion-skeleton-text animated style="width: 10%"></ion-skeleton-text>
+          </div>
+          <div *ngIf="!loggedInUser.Timestamp">
+            <ion-skeleton-text animated style="width: 90%"></ion-skeleton-text>
+          </div>
+        </div>
+        <ion-item *ngIf="loggedInUser.Timestamp" lines="none">
+          <ion-label>{{loggedInUser.Email}}</ion-label>
+          <ion-button (click)="emailUpdate()" slot="end" fill="clear">
+            <ion-icon size="small" slot="icon-only" name="create"></ion-icon>
+          </ion-button>
+        </ion-item>
+        <ion-item *ngIf="loggedInUser.Timestamp" lines="none">
+          <ion-label>{{loggedInUser.Age}}</ion-label>
+          <ion-button (click)="AgeUpdate(loggedInUser)" slot="end" fill="clear">
+            <ion-icon size="small" slot="icon-only" name="create"></ion-icon>
+          </ion-button>
+        </ion-item>
+        <ion-item *ngIf="loggedInUser.Timestamp" lines="none">
+          <ion-label>{{loggedInUser.address}}</ion-label>
+          <ion-button (click)="AddressUpdate(loggedInUser)" slot="end" fill="clear">
+            <ion-icon size="small" slot="icon-only" name="create"></ion-icon>
+          </ion-button>
+        </ion-item>
       </div>
     </div>
-  </body>
-  <div class="div2">
-    <div class="profile-image">
-      <div *ngIf="loggedInUser.photoURL">
-        <img src="{{loggedInUser.photoURL}}" />
-      </div>
-      <div *ngIf="!loggedInUser.photoURL">
-        <img src="\assets\images\profile-user.png" />
-      </div>
-
-      <div class="image-upload">
-        <ion-fab horizontal="center" vertical="top" class="fab">
-          <ion-fab-button color="primary" size="small">
-            <ion-icon name="camera" class="input"> </ion-icon>
-          </ion-fab-button>
-
-          <ion-fab-list side="end">
-            <ion-fab-button color="primary">
-              <label for="file-input2">
-                <ion-icon name="document" class="document"> </ion-icon>
-              </label>
-            </ion-fab-button>
-          </ion-fab-list>
-        </ion-fab>
-
-        <input
-          id="file-input2"
-          class="input"
-          type="file"
-          (change)="uploadProfilePic($event)"
-        />
-      </div>
-    </div>
-    <ion-list style="background: none !important" lines="none">
-      <ion-item detail-push>
-        <ion-label>
-          <nav>{{loggedInUser.Email}}</nav>
-        </ion-label>
-
-        <ion-icon name="mail" color="primary" slot="start"></ion-icon>
-        <!-- <ion-icon name="create" color="dark" slot="end" (click)=" NameUpdate(user)"></ion-icon> -->
-      </ion-item>
-
-      <ion-item>
-        <ion-label>{{loggedInUser.address}} </ion-label>
-
-        <ion-icon name="navigate" color="primary" slot="start"></ion-icon>
-
-        <ion-icon
-          size="small"
-          name="create"
-          (click)="AddressUpdate(loggedInUser)"
-        ></ion-icon>
-      </ion-item>
-
-      <ion-item>
-        <ion-label>
-          <nav>{{loggedInUser.Age}}</nav>
-        </ion-label>
-
-        <ion-icon name="calendar" color="primary" slot="start"></ion-icon>
-        <!-- <ion-icon name="create" color="dark" slot="end" (click)=" AddressUpdate(user)"></ion-icon> -->
-        <ion-icon
-          size="small"
-          name="create"
-          (click)="AgeUpdate(loggedInUser)"
-        ></ion-icon>
-      </ion-item>
-
-      <ion-item>
-        <ion-label>{{loggedInUser.gender}}</ion-label>
-
-        <ion-icon name="person" color="primary" slot="start"></ion-icon>
-        <!-- <ion-icon name="create" color="dark" slot="end" (click)=" GenderUpdate(user)"></ion-icon> -->
-      </ion-item>
-    </ion-list>
   </div>
 </ion-content>

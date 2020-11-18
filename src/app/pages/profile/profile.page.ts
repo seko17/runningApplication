@@ -1,48 +1,52 @@
-import { Component, NgZone, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from "@angular/core";
 import {
   AngularFirestoreDocument,
   AngularFirestore,
-} from '@angular/fire/firestore';
-import { AuthService } from 'src/app/services/auth.service';
-import { AlertController, LoadingController } from '@ionic/angular';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { Router } from '@angular/router';
-import { RunningService } from 'src/app/services/running.service';
-import { MapboxService, Feature } from 'src/app/services/mapbox.service';
-import { AngularFireStorage } from '@angular/fire/storage';
-import { finalize } from 'rxjs/operators';
-import * as firebase from 'firebase';
+} from "@angular/fire/firestore";
+import { AuthService } from "src/app/services/auth.service";
+import {
+  AlertController,
+  LoadingController,
+  ToastController,
+} from "@ionic/angular";
+import { AngularFireAuth } from "@angular/fire/auth";
+import { Router } from "@angular/router";
+import { RunningService } from "src/app/services/running.service";
+import { MapboxService, Feature } from "src/app/services/mapbox.service";
+import { AngularFireStorage } from "@angular/fire/storage";
+import { finalize } from "rxjs/operators";
+import * as firebase from "firebase";
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.page.html',
-  styleUrls: ['./profile.page.scss'],
+  selector: "app-profile",
+  templateUrl: "./profile.page.html",
+  styleUrls: ["./profile.page.scss"],
 })
 export class ProfilePage implements OnInit {
   db = firebase.firestore();
   storageRef = firebase.storage().ref();
   firebaseUser = firebase.auth().currentUser;
-  minTime = '';
+  minTime = "";
   objectA = {
-    name: '',
-    email: '',
-    price: '',
-    type: '',
-    key: '',
+    name: "",
+    email: "",
+    price: "",
+    type: "",
+    key: "",
   };
   users: any;
   defaultpic = true;
   theUser = [];
   tusr = [];
   loggedInUser = {
-    Age: '',
-    Email: '',
-    Registered: '',
+    Age: "",
+    Email: "",
+    Registered: "",
     Timestamp: null,
-    address: '',
-    displayName: '',
-    gender: '',
-    photoURL: '',
-    uid: '',
+    address: "",
+    displayName: "",
+    gender: "",
+    photoURL: "",
+    uid: "",
   };
 
   currentuser: string;
@@ -55,8 +59,8 @@ export class ProfilePage implements OnInit {
   theKey;
   theEmail;
   email;
-  nn: string = '';
-  tempUser: string = '';
+  nn: string = "";
+  tempUser: string = "";
   addresses: string[] = [];
   selectedAddress = null;
   coordinates;
@@ -84,7 +88,8 @@ export class ProfilePage implements OnInit {
     public runn: RunningService,
     public loadingController: LoadingController,
     private mapboxService: MapboxService,
-    private zone: NgZone
+    private zone: NgZone,
+    private toastCtrl: ToastController
   ) {
     // this.theUser = [];
     this.getdata();
@@ -111,12 +116,12 @@ export class ProfilePage implements OnInit {
   onSelect(address: string, i) {
     this.selectedAddress = address;
     //  selectedcoodinates=
-    console.log('lng:' + JSON.stringify(this.list[i].geometry.coordinates[0]));
-    console.log('lat:' + JSON.stringify(this.list[i].geometry.coordinates[1]));
+    console.log("lng:" + JSON.stringify(this.list[i].geometry.coordinates[0]));
+    console.log("lat:" + JSON.stringify(this.list[i].geometry.coordinates[1]));
     this.lng = JSON.stringify(this.list[i].geometry.coordinates[0]);
     this.lat = JSON.stringify(this.list[i].geometry.coordinates[1]);
     //  this.user.coords = [this.lng,this.lat];
-    console.log('index =' + i);
+    console.log("index =" + i);
     console.log(this.selectedAddress);
     this.user = this.selectedAddress;
     console.log(this.user);
@@ -127,17 +132,18 @@ export class ProfilePage implements OnInit {
 
   uploadProfilePic(event) {
     const file = event.target.files[0];
+    console.log(file);
 
     // File or Blob named mountains.jpg
 
     // Create the file metadata
     const metadata = {
-      contentType: 'image/jpeg',
+      contentType: "image/jpeg",
     };
 
     // Upload file and metadata to the object 'images/mountains.jpg'
     const uploadTask = this.storageRef
-      .child('images/' + file.name)
+      .child("images/" + file.name)
       .put(file, metadata);
 
     // Listen for state changes, errors, and completion of the upload.
@@ -145,39 +151,44 @@ export class ProfilePage implements OnInit {
       firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
       (snapshot) => {
         // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        this.progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log(this.progress);
+        
         if (this.progress < 90) {
-          this.progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          this.progress = 90;
         }
       },
-      (error) => {
-        // A full list of error codes is available at
-        // https://firebase.google.com/docs/storage/web/handle-errors
-        // switch (error.code) {
-        //   case 'storage/unauthorized':
-        //     // User doesn't have permission to access the object
-        //     break;
-        //   case 'storage/canceled':
-        //     // User canceled the upload
-        //     break;
-        //   case 'storage/unknown':
-        //     // Unknown error occurred, inspect error.serverResponse
-        //     break;
-        // }
-      },
+      (error) => {},
       () => {
         // Upload completed successfully, now we can get the download URL
         uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+          this.progress = 100;
           this.urlPath = downloadURL;
-          this.uploading = false;
-          this.progress = 0;
-          console.log('File available at', downloadURL);
+          this.db
+            .collection("users")
+            .doc(firebase.auth().currentUser.uid)
+            .update({
+              photoURL: downloadURL,
+            })
+            .then(() => {
+              this.uploading = false;
+              this.progress = 0;
+            })
+            .catch(async (err) => {
+              let alerter = await this.altctrl.create({
+                header: "Image Upload Error",
+                message: "Something went wrong with uploading an image",
+                buttons: ["Okay"],
+              });
+              await alerter.present();
+            });
         });
       }
     );
   }
+
   file(filePath: any, file: any): any {
-    throw new Error('Method not implemented.');
+    throw new Error("Method not implemented.");
     //
     //  this.filepresentLoading();
   }
@@ -185,11 +196,11 @@ export class ProfilePage implements OnInit {
   async getdata() {
     this.zone.run(async () => {
       const loader = await this.loadingController.create({
-        message: 'Getting Profile. Please wait...',
+        message: "Getting Profile. Please wait...",
       });
       await loader.present();
       this.db
-        .collection('users')
+        .collection("users")
         .doc(firebase.auth().currentUser.uid)
         .get()
         .then(async (doc) => {
@@ -213,29 +224,29 @@ export class ProfilePage implements OnInit {
   }
   async nameUpdate(user) {
     const alert = await this.altctrl.create({
-      subHeader: 'Add/Edit Name',
+      header: "Update Display Name",
       inputs: [
         {
-          name: 'displayName',
-          type: 'text',
+          name: "displayName",
+          type: "text",
           // value: this.theUser[0].displayName,
-          placeholder: 'displayName',
+          placeholder: "displayName",
         },
       ],
       buttons: [
         {
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'secondary',
+          text: "Cancel",
+          role: "cancel",
+          cssClass: "secondary",
           handler: () => {},
         },
         {
-          text: 'Ok',
+          text: "Ok",
           handler: (inputData) => {
             this.nn = inputData.displayName;
 
             // this.tempUser=this.theUser[0]
-            console.log(this.nn + 'ddfdddfdfdd', user);
+            console.log(this.nn + "ddfdddfdfdd", user);
             this.runn.updateName(this.firebaseUser.uid, this.nn);
             this.presentLoading();
           },
@@ -249,29 +260,29 @@ export class ProfilePage implements OnInit {
   //
   async AgeUpdate(user) {
     const alert = await this.altctrl.create({
-      subHeader: 'Add/Edit Name',
+      header: "Update Age",
       inputs: [
         {
-          name: 'displayName',
-          type: 'number',
+          name: "age",
+          type: "number",
           // value: this.theUser[0].displayName,
-          placeholder: 'Age',
+          placeholder: "Age",
         },
       ],
       buttons: [
         {
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'secondary',
+          text: "Cancel",
+          role: "cancel",
+          cssClass: "secondary",
           handler: () => {},
         },
         {
-          text: 'Ok',
+          text: "Ok",
           handler: (inputData) => {
-            this.nn = inputData.displayName;
+            this.nn = inputData.age;
 
             // this.tempUser=this.theUser[0]
-            console.log(this.nn + 'ddfdddfdfdd', user);
+            console.log(this.nn + "ddfdddfdfdd", user);
             this.runn.updateAge(this.firebaseUser.uid, this.nn);
             this.presentLoading();
           },
@@ -281,33 +292,71 @@ export class ProfilePage implements OnInit {
     await alert.present();
     let result = await alert.onDidDismiss();
   }
-
-  //
-  async AddressUpdate(user) {
-    const alert = await this.altctrl.create({
-      subHeader: 'Add/Edit Name',
+  async emailUpdate() {
+    let alerter = await this.altctrl.create({
+      header: "Update Email",
       inputs: [
         {
-          name: 'displayName',
-          type: 'text',
-          // value: this.theUser[0].displayName,
-          placeholder: 'Address',
+          placeholder: "New Email",
+          type: "email",
+          name: "email",
         },
       ],
       buttons: [
         {
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'secondary',
+          text: "Cancel",
+          role: "cancel",
+        },
+        {
+          text: "Update",
+          handler: (data) => {
+            this.presentLoading();
+            this.db
+              .collection("users")
+              .doc(firebase.auth().currentUser.uid)
+              .update({
+                Email: data.email,
+              })
+              .then(async (res) => {
+                await this.loadingController.dismiss();
+                const toaster = await this.toastCtrl.create({
+                  message: "Update Successful.",
+                  duration: 3000,
+                });
+                await toaster.present();
+              });
+          },
+        },
+      ],
+    });
+    await alerter.present();
+  }
+  //
+  async AddressUpdate(user) {
+    const alert = await this.altctrl.create({
+      subHeader: "Add/Edit Name",
+      inputs: [
+        {
+          name: "displayName",
+          type: "text",
+          // value: this.theUser[0].displayName,
+          placeholder: "Address",
+        },
+      ],
+      buttons: [
+        {
+          text: "Cancel",
+          role: "cancel",
+          cssClass: "secondary",
           handler: () => {},
         },
         {
-          text: 'Ok',
+          text: "Ok",
           handler: (inputData) => {
             this.nn = inputData.displayName;
 
             // this.tempUser=this.theUser[0]
-            console.log(this.nn + 'ddfdddfdfdd', user);
+            console.log(this.nn + "ddfdddfdfdd", user);
             this.runn.updateAddress(this.firebaseUser.uid, this.nn);
             this.presentLoading();
           },
@@ -319,7 +368,7 @@ export class ProfilePage implements OnInit {
   }
   async presentLoading() {
     const loading = await this.loadingController.create({
-      message: 'loading...',
+      message: "Please Wait...",
       duration: 4000,
     });
     await loading.present();
@@ -329,7 +378,7 @@ export class ProfilePage implements OnInit {
 
   async filepresentLoading() {
     const loading = await this.loadingController.create({
-      message: 'loading...',
+      message: "loading...",
       duration: 15000,
     });
     await loading.present();
