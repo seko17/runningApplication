@@ -2,10 +2,12 @@ import { Component, OnInit } from "@angular/core";
 import { AuthService } from "src/app/services/auth.service";
 import { Router } from "@angular/router";
 import { FormBuilder, Validators, FormGroup } from "@angular/forms";
-import {
+import * as firebase from 'firebase';
+import { 
   LoadingController,
   MenuController,
   AlertController,
+  ToastController,
 } from "@ionic/angular";
 
 @Component({
@@ -14,6 +16,7 @@ import {
   styleUrls: ["./login.page.scss"],
 })
 export class LoginPage implements OnInit {
+  auth = firebase.auth();
   public loginForm: FormGroup;
   public forgotpasswordForm: FormGroup;
   isForgotPassword: boolean = true;
@@ -27,7 +30,8 @@ export class LoginPage implements OnInit {
     public fb: FormBuilder,
     private alertCtrl: AlertController,
     public menuCtrl: MenuController,
-    public loadingCtrl: LoadingController
+    public loadingCtrl: LoadingController,
+    public toastCtrl: ToastController
   ) {}
 
   ngOnInit() {
@@ -76,8 +80,38 @@ export class LoginPage implements OnInit {
   registerPage() {
     this.router.navigateByUrl("signup");
   }
-  forgotpassword() {
-    this.isForgotPassword = false;
+  async forgotpassword() {
+    const alerter = await this.alertCtrl.create({
+      header: 'Reset Password',
+      message: 'Please provide the email to send the password reset link to.',
+      inputs: [{
+        name: 'email',
+        placeholder: 'Email'
+      }],
+      buttons: [{
+        text: 'Cancel',
+        role: 'cancel'
+      }, {
+        text: 'Send Link',
+        handler: (data) => {
+          this.auth.sendPasswordResetEmail(data.email).then(async (res) => {
+
+            const toaster = await this.toastCtrl.create({
+              message: `Link Send to ${data.email}. Check Email.`,
+              duration: 3000
+            });
+            await toaster.present();
+          }).catch(async err => {
+            const toaster = await this.toastCtrl.create({
+              message: `An error occurred, could not send email. Try again Later.`,
+              duration: 3000
+            });
+            await toaster.present();
+          })
+        }
+      }]
+    });
+    await alerter.present();
   }
   Cancel() {
     this.isForgotPassword = true;

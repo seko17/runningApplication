@@ -4,7 +4,13 @@
       <div id="bg">
         <ion-grid style="padding: 0px !important">
           <ion-row style="padding: 0px !important" justify-content-center>
-            <ion-col  style="padding: 0px !important" align-self-center size-md="12" size-lg="11" size-xs="12">
+            <ion-col
+              style="padding: 0px !important"
+              align-self-center
+              size-md="12"
+              size-lg="11"
+              size-xs="12"
+            >
               <div class="div1">
                 <br /><br /><br />
                 <img src="assets/images/logo.png" alt="Avatar" class="imgC" />
@@ -81,9 +87,14 @@
                     >
                       Maximum 12 characters
                     </div>
-                    <!-- address search -->
-                    <br />
-                    <hr>
+                    <hr
+                      style="
+                        background: #17171724;
+                        height: 1px;
+                        width: 100%;
+                        margin: 13px 0px;
+                      "
+                    />
                     <ion-label color="primary" position="floating"
                       >Address</ion-label
                     >
@@ -133,24 +144,6 @@
                     >
                       Please input your address
                     </div>
-                    <!-- address search -->
-                    <!-- <ion-item id="item" color="transparent">
-                                        <ion-label position="floating">Password again</ion-label>
-                                        <ion-input type="password" formControlName="cpassword"></ion-input>
-                                    </ion-item>
-                                    <div class="error" *ngIf="signupForm.get('cpassword').hasError('required') && signupForm.get('cpassword').touched">
-                                        please confirm you passowrd
-                                    </div>
-
-                                    <div class="error" *ngIf="signupForm.get('cpassword').hasError('minlength') && signupForm.get('cpassword').touched">
-                                        Minimum 6 characters
-                                    </div>
-
-                                    <div class="error" *ngIf="signupForm.get('cpassword').hasError('maxlength') && signupForm.get('cpassword').touched">
-                                        Maximum 12 characters
-                                    </div>
-
-                                    <div class="error" *ngIf="signupForm.get('cpassword').hasError('mustMatch') ">Passwords must match</div> -->
                     <br />
                     <ion-label
                       class="customLabel"
@@ -178,15 +171,6 @@
                     >
                       Please please select gender
                     </div>
-                    <!-- <ion-item id="item" color="transparent">
-                                            <ion-label position="floating">Age</ion-label>
-                                            <ion-select formControlName="age">
-                                                <ion-select-option value="10-21">10-21</ion-select-option>
-                                                <ion-select-option value="21-26">21-26</ion-select-option>
-                                                <ion-select-option value="26-31">31-38</ion-select-option>
-                                                <ion-select-option value="38-45">38-45</ion-select-option>
-                                            </ion-select>
-                                        </ion-item> -->
                     <br />
                     <ion-label color="primary" position="floating"
                       >Age</ion-label
@@ -207,22 +191,8 @@
                     </div>
                   </div>
 
-                  <!-- <ion-item lines="none">
-                                    <div id="h">
-                                        <h2>Signup</h2>
-                                    </div>
-                                   
-                                    <div id="but">
-                                        <ion-fab-button [disabled]="!signupForm.valid" (click)="tryRegister()" color="primary" size="small">
-                                            <ion-icon name="arrow-forward"></ion-icon>
-                                        </ion-fab-button>
-
-                                    </div>
-                                  </ion-item> -->
                   <ion-col>
-                
                     <ion-button
-                      style="margin-right: 4%; margin-left: 4%"
                       shape="round"
                       expand="full"
                       color="primary"
@@ -231,12 +201,15 @@
                       >Signup</ion-button
                     >
                   </ion-col>
-                  <br />
-
                   <a routerLink="login"></a>
-                  <ion-button (click)="toSignin()" expand="block" fill="clear" shape="round">
+                  <ion-button
+                    (click)="toSignin()"
+                    expand="block"
+                    fill="clear"
+                    shape="round"
+                  >
                     Already have account? Sign In
-                </ion-button>
+                  </ion-button>
                 </div>
               </div>
             </ion-col>

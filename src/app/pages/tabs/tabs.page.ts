@@ -1,6 +1,6 @@
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { AlertController, NavController } from '@ionic/angular';
 
@@ -10,16 +10,23 @@ import { AlertController, NavController } from '@ionic/angular';
   styleUrls: ['./tabs.page.scss'],
 })
 export class TabsPage implements OnInit {
-  urls = '';
+  url = 'home';
+
   constructor(
     private route: Router,
     private authService: AuthService,
     private afAuth: AngularFireAuth,
     private navCtrl: NavController,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private ngZone: NgZone
   ) {}
   // /tabs/login
   ngOnInit() {}
+  setUrl(page) {
+    this.ngZone.run(() => {
+      this.url = page;
+    })
+  }
   async logout() {
     const alerter = await this.alertCtrl.create({
       header: 'Sign Out',

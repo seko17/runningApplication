@@ -230,7 +230,7 @@ export class ProfilePage implements OnInit {
           name: "displayName",
           type: "text",
           // value: this.theUser[0].displayName,
-          placeholder: "displayName",
+          placeholder: "Display Name",
         },
       ],
       buttons: [
@@ -334,13 +334,13 @@ export class ProfilePage implements OnInit {
   //
   async AddressUpdate(user) {
     const alert = await this.altctrl.create({
-      subHeader: "Add/Edit Name",
+      header: "Update Address",
       inputs: [
         {
           name: "displayName",
           type: "text",
           // value: this.theUser[0].displayName,
-          placeholder: "Address",
+          placeholder: "New Address",
         },
       ],
       buttons: [

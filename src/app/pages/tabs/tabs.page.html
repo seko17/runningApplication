@@ -1,23 +1,50 @@
 <ion-tabs>
-  <ion-tab-bar slot="bottom">
-    <ion-tab-button tab="home">
-      <ion-icon name="home"></ion-icon>
+  <ion-tab-bar
+    style="
+      border: none;
+      position: absolute;
+      bottom: 0px;
+      left: 0px;
+      right: 0px;
+      background: linear-gradient(30deg, #11c2d4, #1186d4);
+      border-radius: 20px 20px 0px 0px;
+      border: none;
+    "
+    slot="bottom"
+  >
+    <ion-tab-button (click)="setUrl('home')" style="background: none" tab="home">
+      <ion-icon color="light" name="home"></ion-icon>
+      <div [ngClass]="{'showLabel': url == 'home', 'hideLabel': url != 'home'}" >
+        <ion-label color="light">Home</ion-label>
+      </div>
     </ion-tab-button>
 
-    <ion-tab-button tab="profile">
-      <ion-icon name="person"></ion-icon>
+    <ion-tab-button (click)="setUrl('profile')" style="background: none" tab="profile">
+      <ion-icon color="light" name="person"></ion-icon>
+      <div [ngClass]="{'showLabel': url == 'profile', 'hideLabel': url != 'profile'}" >
+        <ion-label color="light">Profile</ion-label>
+      </div>
     </ion-tab-button>
 
-    <ion-tab-button tab="events">
-      <ion-icon name="calendar"></ion-icon>
+    <ion-tab-button (click)="setUrl('events')"  style="background: none" tab="events">
+      <ion-icon color="light" name="calendar"></ion-icon>
+      <div [ngClass]="{'showLabel': url == 'events', 'hideLabel': url != 'events'}" >
+        <ion-label color="light">Events</ion-label>
+      </div>
     </ion-tab-button>
 
-    <ion-tab-button tab="add">
-      <ion-icon name="flag"></ion-icon>
+    <ion-tab-button (click)="setUrl('add')"  style="background: none" tab="add">
+      <ion-icon color="light" name="flag"></ion-icon>
+      <div [ngClass]="{'showLabel': url == 'add', 'hideLabel': url != 'add'}" >
+        <ion-label color="light">Clubs</ion-label>
+      </div>
     </ion-tab-button>
-    <ion-tab-button (click)="logout()">
+    <ion-tab-button
+      style="background: #FF6347;"
+      (click)="logout()"
+    >
       <!-- <ion-icon name="flag"></ion-icon> -->
-      <ion-icon color="danger" name="log-out"></ion-icon>
+      <ion-icon color="light" name="log-out"></ion-icon>
     </ion-tab-button>
   </ion-tab-bar>
 </ion-tabs>

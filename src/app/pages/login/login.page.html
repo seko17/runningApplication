@@ -81,19 +81,6 @@
                         Maximum 12 characters
                       </div>
                     </div>
-                    <!-- <ion-item lines="none">
-                                            <div id="h">
-                                                <h2>Login</h2>
-                                            </div>
-
-                                            <div id="but">
-                                                <ion-fab-button [disabled]="!loginForm.valid" (click)="login()" color="primary" size="small">
-                                                    <ion-icon name="arrow-forward"></ion-icon>
-                                                </ion-fab-button>
-
-                                            </div>
-                                        </ion-item> -->
-                    <br />
                     <div padding>
                       <ion-button
                         style="width: 100%"
@@ -105,26 +92,18 @@
                         >Login</ion-button
                       >
                     </div>
-                    <br />
-                    <!-- <div class="centered">
-                                            <ion-item lines="none">
-                                                No account yet? <a routerLink='/signup'>Create an account.</a>
-                                            </ion-item>
-                                            <ion-item lines="none">
-
-                                                <a routerLink='/reset'>Forgot password?</a>
-                                            </ion-item>
-                                        </div> -->
                     <div class="forgotWrapper">
-                        <!-- <a class="forgett" routerLink="reset"
-                      ></a
-                    > -->
-                    <ion-button (click)="resetPassword()" expand="block" fill="clear" shape="round" color="dark">
+                      <ion-button
+                        (click)="forgotpassword()"
+                        expand="block"
+                        fill="clear"
+                        shape="round"
+                        color="dark"
+                      >
                         Forgot Password
-                    </ion-button>
+                      </ion-button>
                     </div>
-                    <br /><br />
-                    <!-- <a routerLink='signup'></a> -->
+
                     <ion-button
                       (click)="toSignup()"
                       expand="block"
@@ -133,28 +112,13 @@
                     >
                       No account yet? Create an account.
                     </ion-button>
-
-                    <br /><br /><br />
                   </form>
                 </div>
               </div>
             </div>
-            <!-- <ion-fab-button color="primary" (click)="addproduct()" size="small">
-                          <ion-icon name="arrow-forward"></ion-icon>
-                      </ion-fab-button> -->
-            <!-- <div id="button">
-                                  <ion-button color="warning" size="small" type="submit" [disabled]="form.invalid" expand="block">Login</ion-button>
-                              </div> -->
           </ion-col>
         </ion-row>
       </ion-grid>
-      <!-- 
-                  <ion-row>
-                      <div id="cen">
-                          If you don't have an account, please <a id="lol" routerLink='/singup'>
-            signup</a> first!
-                      </div>
-                  </ion-row> -->
     </div>
   </body>
 </ion-content>

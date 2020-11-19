@@ -18,8 +18,10 @@
     padding: 0px 20px;
     display: flex;
     align-items: center;
-    background-color: #11c2d4;
+    background:  url('../../../assets/images/svg/pattern.svg'),linear-gradient(#11C2D4,#11c0d4);
     height: 79%;
+    background-size: cover;
+    background-repeat: no-repeat;
     border-radius: 0px 0px 30px 30px;
     h1 {
       margin: 0;

@@ -1,9 +1,19 @@
 .theBody{
 
 .icons {
-    zoom: 1.5;
+    // zoom: 1.5;
 }
 .tabIcons {
     width: 26px;
     height: 26px;
 }}
+.hideLabel {
+    height: 0px;
+    overflow: hidden;
+    transition: 0.4s;
+}
+.showLabel{
+    height: 13px;
+    overflow: hidden;
+    transition: 0.4s;
+}
