@@ -1,56 +1,65 @@
-<ion-content class="body">
-   
-      
-      <div class="div2"  *ngFor="let myclub of club" [ngStyle]="{'background-image':'url('+myclub.photoURL+')'}">
-          <!-- <img src="/assets/images/rep.jpg">      -->
-          <div class="backbutton">
-            <ion-fab  horizontal="start" slot="start">
+<ion-content>
 
-              <ion-fab-button color="light" routerLink="/tabs/home">
-                <ion-icon color="dark"  name="arrow-back"></ion-icon> 
-              </ion-fab-button>
+  <div
+    class="container"
+  >
+  <div class="back">
+    <ion-button (click)="onClick()" size="small" color="light">
+      <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+    </ion-button>
+  </div>
+  <div class="image">
+    <img *ngIf="club.photoURL" src="{{club.photoURL}}" alt="">
+    <img *ngIf="!club.photoURL" src="../../../assets/images/giphys.gif" alt="">
+  </div>
 
-            </ion-fab>
-
-            
-        </div>
-
+    <div class="profile">
+      <div class="imageUpdate">
       </div>
-      <div class="div1"   *ngFor="let myclub of club">
-          <div class="div3" >
-        <ion-list  >
-            <ion-item lines="none">
-              <ion-label >Name: {{myclub.name}}</ion-label>
-          </ion-item>
-          <ion-item lines="none">
-              <ion-label>Location: {{myclub.address}} </ion-label>
-              
-          </ion-item>
-          <ion-item lines="none">
-            <ion-label>Operating Hours: {{myclub.openingHours}} To {{myclub.closingHours}}</ion-label>
+      <div *ngIf="!club.name" class="skeleltonName">
+        <ion-skeleton-text
+          animated
+          style="width: 100%; height: 31px"
+        ></ion-skeleton-text>
+      </div>
+      <div class="displayName">
+        <h1 *ngIf="club.name">{{club.name}}</h1>
+        <div class="editDisplayName">
+        </div>
+      </div>
+      <div class="profileData">
+        <div class="sk">
+          <div *ngIf="!club.name">
+            <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+          </div>
+          <div *ngIf="!club.name">
+            <ion-skeleton-text animated style="width: 10%"></ion-skeleton-text>
+          </div>
+          <div *ngIf="!club.name">
+            <ion-skeleton-text animated style="width: 90%"></ion-skeleton-text>
+          </div>
+        </div>
+        <ion-item *ngIf="club.address" lines="none">
+          <ion-label>{{club.address}}</ion-label>
         </ion-item>
-          </ion-list>
-          <br>
-          <ion-button style="margin-left: 4%;margin-right: 4%;" *ngIf="!saved" (click)="getAClubsEvents(myclub)" shape="round"  expand="full" color="primary" fill="outline">View Events</ion-button>
-          <ion-button *ngIf="saved" (click)="clearEvents()" shape="round"  expand="full" color="primary" fill="outline"><ion-icon name="close"></ion-icon></ion-button>
-             </div>  
-   
-    <div *ngIf="saved">
-    <div   *ngFor="let ev of events" class="div3">
-      <ion-item  routerLink="/book-event" (click)="booking(ev)" >
-        <ion-icon name="calendar"></ion-icon>     Event Name: {{ev.name}}<br/>
-        Date: {{ev.date}}
-        
-    </ion-item>   
-
+        <ion-item *ngIf="club.openingHours" lines="none">
+          <ion-label>Open {{club.openingHours | date:'shortTime'}}</ion-label>
+        </ion-item>
+        <ion-item *ngIf="club.closingHours" lines="none">
+          <ion-label>Closed {{club.closingHours | date:'shortTime'}}</ion-label>
+        </ion-item>
+        <ion-button (click)="willFunction()" expand="full" shape="round">
+          Events
+        </ion-button>
+      </div>
+    </div>
+    <div class="eventsCont">
+      <ion-card *ngFor="let item of tempEvents">
+        <ion-card-header>
+          <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+          <ion-card-title>Card Title</ion-card-title>
+        </ion-card-header>
+      </ion-card>
     </div>
   </div>
-
-
-  <div class="div3" *ngIf="!saved">
-       <p>---None Load Events---</p>
-
-  </div>
-      </div>
-     
-  </ion-content>
+</ion-content>

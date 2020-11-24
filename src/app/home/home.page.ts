@@ -1,15 +1,30 @@
-import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
-import { RunningService } from "../services/running.service";
-import { LoadingController } from "@ionic/angular";
+import { Component, NgZone, OnInit } from '@angular/core';
+import { NavigationExtras, Router } from '@angular/router';
+import { RunningService } from '../services/running.service';
+import { LoadingController } from '@ionic/angular';
 import * as firebase from 'firebase';
 @Component({
-  selector: "app-home",
-  templateUrl: "home.page.html",
-  styleUrls: ["home.page.scss"],
+  selector: 'app-home',
+  templateUrl: 'home.page.html',
+  styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
+  constructor(
+    private router: Router,
+    public runn: RunningService,
+    public loadingController: LoadingController,
+    private zone: NgZone
+  ) {
+    this.tickets = [];
+    this.clubs = [];
+    this.getUser();
+    this.getTickets();
+    this.presentLoading();
+  }
   db = firebase.firestore();
+  tempCards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+  clubsExpanded = false;
+  clubHeight = 0;
   clubs = [];
   tickets = [];
   theUser = '';
@@ -38,38 +53,32 @@ export class HomePage implements OnInit {
       slideShadows: true,
     },
   };
-  constructor(
-    private router: Router,
-    public runn: RunningService,
-    public loadingController: LoadingController
-  ) {
-    this.tickets = [];
-    this.clubs = [];
-    this.getdata();
-    this.getUser();
-    this.getTickets();
-    this.presentLoading();
-  }
-  ngOnDestroy() {  }
+  myEvents;
+  closingHours;
+  openingHours;
+  address;
+  date;
+  name;
+  ngOnDestroy() {}
   ionViewDidEnter() {
     this.getdata();
   }
   ionViewDidLeave() {
     this.tickets = [];
     this.clubs = [];
-
   }
-  ngOnInit() {
-    //  this.getBooked();
+  ngOnInit() {}
+  expandClass() {
+    this.zone.run(() => {
+      this.clubsExpanded = !this.clubsExpanded;
+    });
   }
   getTickets() {
     return new Promise((resolve, reject) => {
       this.tickets = [];
       this.runn.rtTickets().then((data) => {
-        console.log(data.length);
+        // tslint:disable-next-line: prefer-for-of
         for (let x = 0; x < data.length; x++) {
-          console.log(x);
-
           this.tickets.push({
             bookingID: data[x].bookingID,
             eventKey: data[x].eventKey,
@@ -86,7 +95,6 @@ export class HomePage implements OnInit {
             approved: data[x].approved,
             deposited: data[x].deposited,
           });
-          console.log(this.tickets, "LAST ONE");
         }
 
         if (this.tickets.length != 0 && this.tickets != null) {
@@ -98,72 +106,56 @@ export class HomePage implements OnInit {
 
   getdata() {
     this.clubs = [];
-    return new Promise((resolve, reject) => {
-      this.clubs = [];
-      this.runn.rtClubs().then((data) => {
-        console.log(data.length);
-        for (let x = 0; x < data.length; x++) {
-          console.log(x);
-
-          this.clubs.push({
-            clubKey: data[x].clubKey,
-            name: data[x].name,
-            openingHours: data[x].openingHours,
-            address: data[x].address,
-            closingHours: data[x].closingHours,
-            userID: data[x].userID,
-            photoURL: data[x].photoURL,
-          });
-        }
-        console.log(this.clubs, "LAST ONE");
-
-        if (this.clubs.length != 0 && this.clubs != null) {
-          this.hasAClub = true;
-        }
+    this.db
+      .collection('clubs')
+      .get()
+      .then((res) => {
+        res.forEach((doc) => {
+          this.clubs.push({clubKey: doc.id, ...doc.data()});
+        });
+        console.log(this.clubs);
+        
       });
-    });
   }
 
   getUser() {
-  this.db.collection('users').doc(firebase.auth().currentUser.uid).get().then(doc => {
-    this.theUser = doc.data().photoURL;
-  });
+    this.db
+      .collection('users')
+      .doc(firebase.auth().currentUser.uid)
+      .get()
+      .then((doc) => {
+        this.theUser = doc.data().photoURL;
+      });
   }
   slideChanged() {
     this.slides.startAutoplay();
   }
   go() {
-    this.router.navigateByUrl("book-event");
+    this.router.navigateByUrl('book-event');
   }
   goHome() {
-    this.router.navigateByUrl("home");
+    this.router.navigateByUrl('home');
   }
   gotoProfile() {
-    this.router.navigateByUrl("profile");
+    this.router.navigateByUrl('profile');
   }
-  myEvents;
-  closingHours;
-  openingHours;
-  address;
-  date;
-  name;
   getBooked() {
     this.runn.getBooked().subscribe((data) => {
       this.myEvents = data.map((e) => {
         return {
           key: e.payload.doc.id,
-          closingHours: e.payload.doc.data()["closingHours"],
-          openingHours: e.payload.doc.data()["openingHours"],
-          address: e.payload.doc.data()["address"],
-          name: e.payload.doc.data()["name"],
-          date: e.payload.doc.data()["date"],
-          approved: e.payload.doc.data()["approved"],
+          closingHours: e.payload.doc.data()['closingHours'],
+          openingHours: e.payload.doc.data()['openingHours'],
+          address: e.payload.doc.data()['address'],
+          name: e.payload.doc.data()['name'],
+          date: e.payload.doc.data()['date'],
+          approved: e.payload.doc.data()['approved'],
         } as Events; // the Item is the class name in the item.ts
       });
       console.log(this.myEvents);
 
       for (let r = 0; r < this.myEvents.length; r++) {
-        console.log(this.myEvents[r].approved, "&&&&&&");
+        console.log(this.myEvents[r].approved, '&&&&&&');
         if (this.myEvents[r].approved === true) {
           this.tickets.push({
             key: this.myEvents[r].key,
@@ -184,7 +176,7 @@ export class HomePage implements OnInit {
   }
   async presentLoading() {
     const loading = await this.loadingController.create({
-      message: "loading...",
+      message: 'loading...',
       duration: 4000,
     });
     await loading.present();
@@ -192,6 +184,12 @@ export class HomePage implements OnInit {
     loading.dismiss();
   }
   chooseClub(myclubs) {
+    let nav: NavigationExtras = {
+      state: {
+        nav: myclubs.clubKey,
+      },
+    };
+    this.router.navigate(['club-home'], nav);
     this.runn.chooseClub(myclubs);
   }
 }

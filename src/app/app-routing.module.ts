@@ -1,99 +1,98 @@
-import { NgModule } from "@angular/core";
-import { PreloadAllModules, RouterModule, Routes } from "@angular/router";
+import { NgModule } from '@angular/core';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 // import { HomePage } from './home/home.page';
-import { TabsPage } from "./pages/tabs/tabs.page";
+import { TabsPage } from './pages/tabs/tabs.page';
 
 const routes: Routes = [
-  { path: "", redirectTo: "landing", pathMatch: "full" },
+  { path: '', redirectTo: 'landing', pathMatch: 'full' },
   {
-    path: "landing",
-    loadChildren: "./pages/landing/landing.module#LandingPageModule",
+    path: 'landing',
+    loadChildren: './pages/landing/landing.module#LandingPageModule',
   },
   {
-    path: "",
-    redirectTo: "home",
-    pathMatch: "full",
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full',
   },
   {
-    path: "login",
+    path: 'login',
     loadChildren: () =>
-      import("./pages/login/login.module").then((m) => m.LoginPageModule),
+      import('./pages/login/login.module').then((m) => m.LoginPageModule),
   },
   {
-    path: "signup",
+    path: 'signup',
     loadChildren: () =>
-      import("./pages/signup/signup.module").then((m) => m.SignupPageModule),
+      import('./pages/signup/signup.module').then((m) => m.SignupPageModule),
   },
   {
-    path: "reset",
+    path: 'reset',
     loadChildren: () =>
-      import("./pages/reset/reset.module").then((m) => m.ResetPageModule),
+      import('./pages/reset/reset.module').then((m) => m.ResetPageModule),
   },
-
+  {
+    path: 'club-home',
+    loadChildren: () =>
+      import('./pages/club-home/club-home.module').then(
+        (m) => m.ClubHomePageModule
+      ),
+  },
   // {
   //   path: 'list',
   //   loadChildren: () => import('./list/list.module').then(m => m.ListPageModule)
   // },
 
   {
-    path: "tabs",
+    path: 'tabs',
     component: TabsPage,
     children: [
       {
-        path: "home",
+        path: 'home',
         loadChildren: () =>
-          import("./home/home.module").then((m) => m.HomePageModule),
+          import('./home/home.module').then((m) => m.HomePageModule),
       },
 
       {
-        path: "profile",
+        path: 'profile',
         loadChildren: () =>
-          import("./pages/profile/profile.module").then(
+          import('./pages/profile/profile.module').then(
             (m) => m.ProfilePageModule
           ),
       },
       {
-        path: "add",
+        path: 'add',
         loadChildren: () =>
-          import("./pages/add/add.module").then((m) => m.AddPageModule),
+          import('./pages/add/add.module').then((m) => m.AddPageModule),
       },
       {
-        path: "events",
+        path: 'events',
         loadChildren: () =>
-          import("./pages/events/events.module").then(
+          import('./pages/events/events.module').then(
             (m) => m.EventsPageModule
           ),
       },
       {
-        path: "landing",
+        path: 'landing',
         loadChildren: () =>
-          import("./pages/landing/landing.module").then(
+          import('./pages/landing/landing.module').then(
             (m) => m.LandingPageModule
           ),
       },
       {
-        path: "login",
+        path: 'login',
         loadChildren: () =>
-          import("./pages/login/login.module").then((m) => m.LoginPageModule),
+          import('./pages/login/login.module').then((m) => m.LoginPageModule),
       },
       {
-        path: "signup",
+        path: 'signup',
         loadChildren: () =>
-          import("./pages/signup/signup.module").then(
+          import('./pages/signup/signup.module').then(
             (m) => m.SignupPageModule
           ),
       },
       {
-        path: "reset",
+        path: 'reset',
         loadChildren: () =>
-          import("./pages/reset/reset.module").then((m) => m.ResetPageModule),
-      },
-      {
-        path: "club-home",
-        loadChildren: () =>
-          import("./pages/club-home/club-home.module").then(
-            (m) => m.ClubHomePageModule
-          ),
+          import('./pages/reset/reset.module').then((m) => m.ResetPageModule),
       },
       // {
       //   path: 'profile',
@@ -105,67 +104,67 @@ const routes: Routes = [
       //   loadChildren: () => import('./pages/payments/payments.module').then( m => m.PaymentsPageModule)
       // },
       {
-        path: "payments",
+        path: 'payments',
         loadChildren: () =>
-          import("./pages/payments/payments.module").then(
+          import('./pages/payments/payments.module').then(
             (m) => m.PaymentsPageModule
           ),
       },
       {
-        path: "add-club",
+        path: 'add-club',
         loadChildren: () =>
-          import("./pages/add-club/add-club.module").then(
+          import('./pages/add-club/add-club.module').then(
             (m) => m.AddClubPageModule
           ),
       },
       {
-        path: "add-event",
+        path: 'add-event',
         loadChildren: () =>
-          import("./pages/add-event/add-event.module").then(
+          import('./pages/add-event/add-event.module').then(
             (m) => m.AddEventPageModule
           ),
       },
       {
-        path: "book-event",
+        path: 'book-event',
         loadChildren: () =>
-          import("./pages/book-event/book-event.module").then(
+          import('./pages/book-event/book-event.module').then(
             (m) => m.BookEventPageModule
           ),
       },
       {
-        path: "schedule-event",
+        path: 'schedule-event',
         loadChildren: () =>
-          import("./pages/schedule-event/schedule-event.module").then(
+          import('./pages/schedule-event/schedule-event.module').then(
             (m) => m.ScheduleEventPageModule
           ),
       },
       {
-        path: "map",
+        path: 'map',
         loadChildren: () =>
-          import("./pages/map/map.module").then((m) => m.MapPageModule),
+          import('./pages/map/map.module').then((m) => m.MapPageModule),
       },
 
       {
-        path: "club-profile",
+        path: 'club-profile',
         loadChildren: () =>
-          import("./club-profile/club-profile.module").then(
+          import('./club-profile/club-profile.module').then(
             (m) => m.ClubProfilePageModule
           ),
       },
       {
-        path: "done",
+        path: 'done',
         loadChildren: () =>
-          import("./pages/done/done.module").then((m) => m.DonePageModule),
+          import('./pages/done/done.module').then((m) => m.DonePageModule),
       },
       {
-        path: "map",
+        path: 'map',
         loadChildren: () =>
-          import("./pages/map/map.module").then((m) => m.MapPageModule),
+          import('./pages/map/map.module').then((m) => m.MapPageModule),
       },
       {
-        path: "complete",
+        path: 'complete',
         loadChildren: () =>
-          import("./pages/complete/complete.module").then(
+          import('./pages/complete/complete.module').then(
             (m) => m.CompletePageModule
           ),
       },

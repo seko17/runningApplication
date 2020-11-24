@@ -1,23 +1,55 @@
-import { Component, OnInit } from "@angular/core";
-import { RunningService } from "src/app/services/running.service";
-
+import { Router } from '@angular/router';
+import { Component, NgZone, OnInit } from '@angular/core';
+import { RunningService } from 'src/app/services/running.service';
+import * as firebase from 'firebase';
 @Component({
-  selector: "app-club-home",
-  templateUrl: "./club-home.page.html",
-  styleUrls: ["./club-home.page.scss"],
+  selector: 'app-club-home',
+  templateUrl: './club-home.page.html',
+  styleUrls: ['./club-home.page.scss'],
 })
 export class ClubHomePage implements OnInit {
-  club = [];
+  db = firebase.firestore();
+  club = {
+    address: null,
+    closingHours: null,
+    openingHours: null,
+    name: null,
+    photoURL: null,
+    id: null,
+  };
   saved = false;
   events = [];
   hasAEvent = false;
-  constructor(public runn: RunningService) {
+  constructor(
+    public runn: RunningService,
+    private route: Router,
+    private zone: NgZone
+  ) {
     this.club = [];
     this.events = [];
-    this.getdata();
   }
-
-  ngOnInit() {}
+  tempEvents = [1, 2, 3, 4, 5, 6, 7, 8, 9, 9];
+  ngOnInit() {
+    this.zone.run(() => {
+      console.log('Club home');
+      const clubKey = this.route.getCurrentNavigation().extras.state;
+      this.db
+        .collection('clubs')
+        .doc(clubKey.nav)
+        .get()
+        .then((res) => {
+          console.log();
+          this.club = {
+            address: res.data().address,
+            closingHours: res.data().closingHours,
+            openingHours: res.data().openingHours,
+            name: res.data().name,
+            photoURL: res.data().photoURL,
+            id: res.data().userID,
+          };
+        });
+    });
+  }
 
   getdata() {
     this.club = [];
@@ -26,7 +58,7 @@ export class ClubHomePage implements OnInit {
       this.runn.rtAClubs().then((data) => {
         console.log(data.length);
 
-        console.log(data[0].myclubs[0].myclubs.clubKey, "flower child");
+        console.log(data[0].myclubs[0].myclubs.clubKey, 'flower child');
 
         this.club.push({
           clubKey: data[0].myclubs[0].myclubs.clubKey,
@@ -38,7 +70,7 @@ export class ClubHomePage implements OnInit {
           photoURL: data[0].myclubs[0].myclubs.photoURL,
         });
 
-        console.log(this.club, "LAST ONE ts");
+        console.log(this.club, 'LAST ONE ts');
       });
     });
   }
@@ -73,7 +105,7 @@ export class ClubHomePage implements OnInit {
           this.saved = true;
         }
 
-        console.log(this.events, "LAST ONE");
+        console.log(this.events, 'LAST ONE');
       });
     });
   }
@@ -83,5 +115,8 @@ export class ClubHomePage implements OnInit {
   clearEvents() {
     this.events = [];
     this.saved = false;
+  }
+  onClick() {
+    this.route.navigate(['tabs/home']);
   }
 }
