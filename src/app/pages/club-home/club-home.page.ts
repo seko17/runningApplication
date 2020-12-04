@@ -51,29 +51,29 @@ export class ClubHomePage implements OnInit {
     });
   }
 
-  getdata() {
-    this.club = [];
-    return new Promise((resolve, reject) => {
-      this.club = [];
-      this.runn.rtAClubs().then((data) => {
-        console.log(data.length);
+  // getdata() {
+  //   this.club = [];
+  //   return new Promise((resolve, reject) => {
+  //     this.club = [];
+  //     this.runn.rtAClubs().then((data) => {
+  //       console.log(data.length);
 
-        console.log(data[0].myclubs[0].myclubs.clubKey, 'flower child');
+  //       console.log(data[0].myclubs[0].myclubs.clubKey, 'flower child');
 
-        this.club.push({
-          clubKey: data[0].myclubs[0].myclubs.clubKey,
-          name: data[0].myclubs[0].myclubs.name,
-          address: data[0].myclubs[0].myclubs.address,
-          openingHours: data[0].myclubs[0].myclubs.openingHours,
-          closingHours: data[0].myclubs[0].myclubs.closingHours,
-          userID: data[0].myclubs[0].myclubs.userID,
-          photoURL: data[0].myclubs[0].myclubs.photoURL,
-        });
+  //       this.club.push({
+  //         clubKey: data[0].myclubs[0].myclubs.clubKey,
+  //         name: data[0].myclubs[0].myclubs.name,
+  //         address: data[0].myclubs[0].myclubs.address,
+  //         openingHours: data[0].myclubs[0].myclubs.openingHours,
+  //         closingHours: data[0].myclubs[0].myclubs.closingHours,
+  //         userID: data[0].myclubs[0].myclubs.userID,
+  //         photoURL: data[0].myclubs[0].myclubs.photoURL,
+  //       });
 
-        console.log(this.club, 'LAST ONE ts');
-      });
-    });
-  }
+  //       console.log(this.club, 'LAST ONE ts');
+  //     });
+  //   });
+  // }
 
   getAClubsEvents(myclub) {
     //  this.runn.getAClubsEvents(myclub)

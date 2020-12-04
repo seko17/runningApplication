@@ -85,6 +85,35 @@ export class RunningService {
     private alertCtrl: AlertController,
     private toastCtrl: ToastController
   ) {}
+
+  /**
+    @param event The event data including its id
+  */
+  setBooking(event) {
+    this.dbfire
+      .collection("users")
+      .doc(event.id)
+      .set(event)
+      .then((res) => {})
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+  /**
+    @param event The event data including its id
+    @param status The status (pending, paid, cancelled) to update the event to indicate whether the deposit is made or not: String
+  */
+  updateBookingStatus(event, status) {
+    // tslint:disable-next-line: object-literal-shorthand
+    this.dbfire
+      .collection('users')
+      .doc(event.id)
+      .update({ status: status })
+      .then((res) => {})
+      .catch((err) => {
+        console.log(err);
+      });
+  }
   currentClub(myclubs) {
     this.currClub = [];
     this.currClub.push({
@@ -207,7 +236,6 @@ export class RunningService {
           this.downloadU = this.fileRef
             .getDownloadURL()
             .subscribe((urlPath) => {
-         
               this.dbfire
                 .collection("clubs")
                 .add({
@@ -219,7 +247,6 @@ export class RunningService {
                   photoURL: urlPath,
                 })
                 .then((data) => {
-              
                   this.navCtrl.navigateRoot("/tabs/add");
                 })
                 .catch((error) => {
@@ -241,45 +268,29 @@ export class RunningService {
       .collection("clubs")
       .doc(clubs.clubKey)
       .update("name", editName)
-      .then((data) => {
-      
-      })
-      .catch(function (error) {
-        
-      });
+      .then((data) => {})
+      .catch(function (error) {});
     // address
     this.dbfire
       .collection("clubs")
       .doc(clubs.clubKey)
       .update("address", editAddress)
-      .then((data) => {
-     
-      })
-      .catch(function (error) {
-      
-      });
+      .then((data) => {})
+      .catch(function (error) {});
     // opening hours
     this.dbfire
       .collection("clubs")
       .doc(clubs.clubKey)
       .update("address", editOpeningHours)
-      .then((data) => {
-        
-      })
-      .catch(function (error) {
-        
-      });
+      .then((data) => {})
+      .catch(function (error) {});
     // closing hours
     this.dbfire
       .collection("clubs")
       .doc(clubs.clubKey)
       .update("address", editClosingHours)
-      .then((data) => {
-       
-      })
-      .catch(function (error) {
-        
-      });
+      .then((data) => {})
+      .catch(function (error) {});
   }
   // retrieve a club
   async rtTodo() {
@@ -309,7 +320,7 @@ export class RunningService {
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
             // ans.push(doc.data())
-         
+
             this.clubsTemp.push({
               clubKey: doc.id,
               name: doc.data().name,
@@ -319,20 +330,17 @@ export class RunningService {
               userID: doc.data().userID,
               photoURL: doc.data().photoURL,
             });
-         
+
             //  this.todoTemp.push()
           });
-    
+
           // tslint:disable-next-line: prefer-for-of
           for (let x = 0; x < this.clubsTemp.length; x++) {
-       
-
             if (this.clubsTemp[x].clubKey === userID) {
               this.clubs.push(this.clubsTemp[x]);
             }
           }
           resolve(this.clubsTemp);
-       
         });
     });
   }
@@ -377,7 +385,7 @@ export class RunningService {
     const userID = user.uid;
 
     this.file = event.target.files[0];
- 
+
     // let user = this.readCurrentSession()
     // let userID = user['uid']
     // console.log("the user", userID);
@@ -408,28 +416,22 @@ export class RunningService {
       .collection("todos")
       .doc(clubs.todoKey)
       .delete()
-      .then((data) => {
-        
-      })
-      .catch(function (error) {
-        
-      });
+      .then((data) => {})
+      .catch(function (error) {});
   }
   //
   who() {
     this.user = this.auths.who();
-    let user = firebase.auth().currentUser;
+    const user = firebase.auth().currentUser;
     this.setCurrentSession(user);
-   
   }
   /// set user session start
   setCurrentSession(user) {
-    
     let uid;
     if (user !== null) {
       uid = user.uid;
       this.user = user;
-   
+
       const userRoot = firebase.database().ref("Users").child(uid);
       userRoot.once("value", (snap) => {
         // console.log(userRoot);
@@ -443,20 +445,17 @@ export class RunningService {
       });
     }
     this.currentSessionId = uid;
-
   }
   /// set user session end
   destroyUserData() {
     this.userProfile.pop();
-  
   }
   readCurrentSession() {
     this.who();
- 
+
     return this.user;
   }
   returnUserProfile() {
- 
     return this.userProfile;
   }
 
@@ -470,8 +469,6 @@ export class RunningService {
     newDistance,
     newDate
   ) {
-
-
     const styt = newOpeningHours.substring(11, 16);
     const etyt = newClosingHours.substring(11, 16);
 
@@ -490,7 +487,6 @@ export class RunningService {
           this.downloadU = this.fileRef
             .getDownloadURL()
             .subscribe((urlPath) => {
-   
               this.dbfire
                 .collection("events")
                 .add({
@@ -506,7 +502,6 @@ export class RunningService {
                   photoURL: urlPath,
                 })
                 .then((data) => {
-         
                   this.presentLoading();
                   this.navCtrl.navigateRoot("/tabs/club-profile");
                 })
@@ -550,7 +545,7 @@ export class RunningService {
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
             // ans.push(doc.data())
-    
+
             this.usersTemp.push({
               userKey: doc.id,
               name: doc.data().displayName,
@@ -560,23 +555,18 @@ export class RunningService {
               gender: doc.data().gender,
               photoURL: doc.data().photoURL,
             });
-        
 
-          
             //  this.todoTemp.push()
           });
-        
 
           for (let x = 0; x < this.usersTemp.length; x++) {
             if (this.usersTemp[x].userKey === userID) {
-     
               this.users.push(this.usersTemp[x]);
             }
           }
           resolve(this.users);
         });
     });
-
   }
   /// get tickets
   getTickets() {
@@ -593,7 +583,7 @@ export class RunningService {
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
             // ans.push(doc.data())
- 
+
             this.ticketsTemp.push({
               bookingID: doc.id,
               eventKey: doc.data().eventKey,
@@ -612,19 +602,15 @@ export class RunningService {
               approved: doc.data().approved,
               deposited: doc.data().deposited,
             });
-        
           });
           for (let t = 0; t < this.ticketsTemp.length; t++) {
-        
             if (
               this.ticketsTemp[t].userID === userID &&
               this.ticketsTemp[t].approved == true
             ) {
-    
             }
           }
 
-  
           resolve(this.tickets);
         });
     });
@@ -656,7 +642,6 @@ export class RunningService {
 
     return new Promise((resolve, reject) => {
       this.booking(this.currentBook).then((data) => {
-
         this.dbfire
           .collection("bookedEvents")
           .add({
@@ -678,7 +663,6 @@ export class RunningService {
           .then((data) => {
             resolve(data);
 
-     
             this.bookingID = data.id;
           })
           .catch((error) => {
@@ -707,14 +691,10 @@ export class RunningService {
         total: totalPrice,
       })
       .then((data) => {
-       
         //  this.route.navigate(['/edit'],{queryParams:{name: item.name,price:item.price,type:item.type,key:item.key}})
-
         // this.navCtrl.navigateRoot("/done");
       })
-      .catch((error) => {
-      
-      });
+      .catch((error) => {});
   }
   update(objectA, key) {
     this.itemDoc = this.afs.doc<Item>("users/" + key);
@@ -727,12 +707,11 @@ export class RunningService {
   }
   booking(myevents) {
     this.currentBook = [];
- 
+
     return new Promise((resolve, reject) => {
       this.currentBook.push({
         myevents,
       });
-
 
       resolve(this.currentBook);
     });
@@ -746,14 +725,13 @@ export class RunningService {
   uploadEventPic(event) {
     const user = this.readCurrentSession();
     const userID = user.uid;
-    
+
     this.file = event.target.files[0];
-  
   }
   uploadProfilePic(event) {
     const user = this.readCurrentSession();
     const userID = user.uid;
-    
+
     const file = event.target.files[0];
     this.uniqkey = "PIC" + this.dateTime;
     const filePath = this.uniqkey;
@@ -765,8 +743,6 @@ export class RunningService {
       .pipe(
         finalize(() => {
           this.downloadU = fileRef.getDownloadURL().subscribe((urlPath) => {
-       
-
             this.afs.doc("users/" + userID).update({
               photoURL: urlPath,
             });
@@ -856,7 +832,7 @@ export class RunningService {
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
             // ans.push(doc.data())
-          
+
             this.eventsTemp.push({
               eventKey: doc.id,
               name: doc.data().name,
@@ -868,7 +844,6 @@ export class RunningService {
               date: doc.data().date.toDate,
               clubKey: doc.data().clubID,
             });
-          
           });
 
           resolve(this.eventsTemp);
@@ -899,14 +874,12 @@ export class RunningService {
   }
   updateDeposit() {
     const dep = true;
- 
+
     this.dbfire
       .collection("bookedEvents")
       .doc(this.bookingID)
       .update("deposited", dep)
-      .then((data) => {
-    
-      })
+      .then((data) => {})
       .catch(function (error) {
         console.error("Error updating document: ", error);
       });

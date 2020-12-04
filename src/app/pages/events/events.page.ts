@@ -1,7 +1,8 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, NgZone, OnInit } from "@angular/core";
 import { RunningService } from "src/app/services/running.service";
-import { Router } from "@angular/router";
+import { NavigationExtras, Router } from "@angular/router";
 import { LoadingController } from "@ionic/angular";
+import * as firebase from "firebase";
 // import moment from "moment";
 @Component({
   selector: "app-events",
@@ -9,11 +10,12 @@ import { LoadingController } from "@ionic/angular";
   styleUrls: ["./events.page.scss"],
 })
 export class EventsPage implements OnInit {
+  db = firebase.firestore();
   hasAEvent = false;
   events = [];
   slideOpts = {
     slidesPerView: 1.5,
-   };
+  };
   sponsors = [
     {
       url: "https://www.herbalife.com",
@@ -34,45 +36,32 @@ export class EventsPage implements OnInit {
   constructor(
     public runn: RunningService,
     public route: Router,
-    public loadingController: LoadingController
+    public loadingController: LoadingController,
+    public zone: NgZone
   ) {
-    this.events = [];
     this.getdata();
   }
   // tslint:disable-next-line: use-lifecycle-interface
   ngOnDestroy() {
     console.log("foo destroy");
   }
-  ionViewDidEnter() {
-    this.getdata();
-  }
-  ionViewDidLeave() {
-    this.events = [];
-    console.log("k");
-  }
 
   //  date1;
   getdata() {
-    console.log(this.runn.rtEvents());
-    this.runn.getEvent().subscribe((eventList) => {
-      for (let x = 0; x < eventList.length; x++) {
-        this.events.push({
-          eventKey: eventList[x].id,
-          name: eventList[x].name,
-          address: eventList[x].address,
-          openingHours: eventList[x].openingHours,
-          closingHours: eventList[x].closingHours,
-          price: eventList[x].price,
-          clubKey: eventList[x].clubKey,
-          date: eventList[x].date,
-          photoURL: eventList[x].photoURL,
-        });
-        console.log("<<<<<", this.events[x]);
-      }
-      if (this.events.length != 0 && this.events != null) {
-        this.hasAEvent = true;
-      }
+this.zone.run(() => {
+  this.events = [];
+  this.db
+    .collection("events")
+    .get()
+    .then((res) => {
+      res.forEach((doc) => {
+        let event = doc.data();
+        let eventId = {eventId: doc.id,};
+        this.events.push({...event, ...eventId});
+      });
+      console.log(this.events);
     });
+})
   }
   async presentLoading() {
     const loading = await this.loadingController.create({
@@ -87,8 +76,13 @@ export class EventsPage implements OnInit {
   book() {
     this.route.navigate(["/book-event"]);
   }
-  booking(myevents) {
-    this.runn.booking(myevents);
+  booking(e) {
+    const nav: NavigationExtras = {
+      state: {
+        event: e,
+      },
+    };
+    this.route.navigate(['/tabs/book-event'], nav);
   }
   ngOnInit() {}
 }

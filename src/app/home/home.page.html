@@ -55,7 +55,7 @@
       <p>There are no clubs yet.</p>
       </div>
     </div>
-    <ion-card *ngFor="let c of clubs" (click)="chooseClub(c)">
+    <ion-card *ngFor="let c of clubs" >
       <div class="clubImage">
         <img *ngIf="!c.photoURL" style="width: 100%; height: 100%; object-fit: cover;" src="../../assets/images/giphys.gif" alt="">
         <img *ngIf="c.photoURL" style="width: 100%; height: 100%; object-fit: cover;" [src]="c.photoURL" alt="">
@@ -65,7 +65,7 @@
         <ion-card-title>{{c.name}}</ion-card-title>
       </ion-card-header>
     
-      <ion-card-content style="margin-top: 0px">
+      <ion-card-content style="padding-top: 0px">
        {{c.info}}
        <ion-chip color="success">
         <ion-icon name="time"></ion-icon>
@@ -78,6 +78,15 @@
        
       </ion-chip>
       </ion-card-content>
+      <div class="cButton">
+        <ion-button
+          (click)="chooseClub(c)"
+          fill="solid"
+          expand="full"
+          >View</ion-button
+        >
+      </div>
+      <div class="spacer"></div>
     </ion-card>
   </div>
   </div>

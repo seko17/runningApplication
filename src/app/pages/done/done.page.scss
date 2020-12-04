@@ -115,8 +115,9 @@ body {
         height: $myheight;
     }
     .div1 {
-        $background-color: #11C2D4;
-        background-color: $background-color;
+        background: url('../../../assets/images/svg/pattern.svg'),linear-gradient(#11C2D4,#11c0d4);
+        background-size: cover;
+        background-repeat: no-repeat;
         $myheight: 40%;
         height: $myheight;
         border-bottom-right-radius: 20%;

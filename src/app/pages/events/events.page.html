@@ -34,11 +34,11 @@
     </div>
     <div class="secondSection">
       <ion-list style="padding-bottom: 50px !important" lines="none">
-        <ion-card *ngFor="let myevents of events">
+        <ion-card *ngFor="let e of events">
           <div class="ecardimg">
-            <img *ngIf="myevents.photoURL" src="{{myevents.photoURL}}" />
+            <img *ngIf="e.photoURL" src="{{e.photoURL}}" />
             <img
-              *ngIf="!myevents.photoURL"
+              *ngIf="!e.photoURL"
               class="ecardimg"
               src="https://sisterhoodofstyle.com/wp-content/uploads/2018/02/no-image-1.jpg"
               alt="No Image"
@@ -48,33 +48,39 @@
           <ion-card-header>
             <ion-card-subtitle
               ><ion-icon color="primary" name="pin"></ion-icon>
-              {{myevents.address}}
+              {{e.address}}
             </ion-card-subtitle>
             <ion-card-title style="text-transform: uppercase"
-              >{{myevents.name}}</ion-card-title
+              >{{e.name}}</ion-card-title
             >
           </ion-card-header>
           <ion-card-content style="padding-top: 0px !important">
             <ion-item>
               <ion-icon size="small" name="time" slot="start"></ion-icon>
               <ion-label
-                >Operating Hours: {{myevents.openingHours}} -
-                {{myevents.closingHours}}
+                >Operating Hours: {{e.openingHours}} -
+                {{e.closingHours}}
               </ion-label>
             </ion-item>
             <ion-item>
               <ion-icon name="cash" size="small" slot="start"></ion-icon>
               <ion-label
-                >Price: R{{myevents.price}} {{myevents.mojs}}</ion-label
+                >Price: R{{e.price}} {{e.mojs}}</ion-label
               >
             </ion-item>
             <div class="cButton">
               <ion-button
-                routerLink="/tabs/book-event"
-                (click)="booking(myevents)"
+                (click)="booking(e)"
                 fill="solid"
                 expand="full"
                 >Book Now</ion-button
+              >
+              <ion-button
+                disabled="true"
+                fill="solid"
+                color="danger"
+                expand="full"
+                >Event Booked</ion-button
               >
             </div>
             <div class="spacer"></div>

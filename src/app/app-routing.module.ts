@@ -36,6 +36,13 @@ const routes: Routes = [
         (m) => m.ClubHomePageModule
       ),
   },
+  {
+    path: 'complete',
+    loadChildren: () =>
+      import('./pages/complete/complete.module').then(
+        (m) => m.CompletePageModule
+      ),
+  },
   // {
   //   path: 'list',
   //   loadChildren: () => import('./list/list.module').then(m => m.ListPageModule)
@@ -161,13 +168,7 @@ const routes: Routes = [
         loadChildren: () =>
           import('./pages/map/map.module').then((m) => m.MapPageModule),
       },
-      {
-        path: 'complete',
-        loadChildren: () =>
-          import('./pages/complete/complete.module').then(
-            (m) => m.CompletePageModule
-          ),
-      },
+
     ],
   },
 ];

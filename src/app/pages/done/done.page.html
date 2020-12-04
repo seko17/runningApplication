@@ -1,67 +1,67 @@
 <ion-content>
+  <body>
+    <div id="bg">
+      <ion-grid>
+        <ion-row color="primary" justify-content-center>
+          <br />
+          <ion-col align-self-center size-md="6" size-lg="11" size-xs="12">
+            <div class="div1">
+              <ion-buttons color="light" slot="start">
+                <ion-back-button
+                  defaultHref="tabs/book-event"
+                ></ion-back-button>
+              </ion-buttons>
 
+              <ion-card class="card1">
+                <br /><br /><br />
+                <ion-label class="ref">Deposit reference code</ion-label>
+                <ion-input>
+                  <h1 class="cd">{{theName}}</h1>
+                </ion-input>
+                <br /><br />
+              </ion-card>
+            </div>
 
-    <body>
+            <div class="div2" *ngFor="let item of myAccount">
+              <br />
+              <h1 class="blac">Make your deposit</h1>
 
-        <div id="bg">
-
-            <ion-grid>
-                <ion-row color="primary" justify-content-center>
-                    <br>
-                    <ion-col align-self-center size-md="6" size-lg="11" size-xs="12">
-
-                        <div class="div1">
-
-                            <ion-buttons color="light" slot="start">
-                                <ion-back-button defaultHref="tabs/book-event"></ion-back-button>
-                            </ion-buttons>
-
-                            <ion-card class="card1">
-                                <br><br><br>
-                                <ion-label class="ref">Deposit reference code</ion-label>
-                                <ion-input>
-                                    <h1 class="cd">{{theName}}</h1>
-                                </ion-input>
-                                <br><br>
-
-                            </ion-card>
-
-                        </div>
-                        
-
-                        <div class="div2" *ngFor="let item of myAccount">
-                            <br>
-                            <h1 class="blac">Make your deposit</h1>
-
-                            <h6>Sign in to your bank, create a recipient and make &nbsp; a deposit using this information</h6>
-                            <br>
-                            <h6>RECIPIENT NAME</h6>
-                            <ion-label class="label">{{item.recipient}}</ion-label><br>
-                            <h6>BANK NAME</h6>
-                            <ion-label class="label">{{item.bank}}</ion-label><br>
-                            <h6>ACCOUNT NUMBER</h6>
-                            <ion-label class="label">{{item.account}}</ion-label><br>
-                            <h6>BRANCH</h6>
-                            <ion-label class="label">{{item.branch}}</ion-label>
-                            <br>
-                            <h6>REFERENCE</h6>
-                            <ion-label class="label">{{theName}}</ion-label><br>
-                            <h6>AMOUNT</h6>
-                            <ion-label class="label">{{total}}</ion-label><br>
-                            <P>Use payment reference: {{theName}} </P>
-                            <br>
-                            <ion-col>
-                                <ion-button style="margin-right: 5%;" (click)="updateDeposit()" shape="round" routerLink="/tabs/complete" expand="full" color="primary">I've made the deposit</ion-button>
-                            </ion-col>
-                            <br><br>
-
-                        </div>
-
-                    </ion-col>
-
-                </ion-row>
-            </ion-grid>
-        </div>
-    </body>
-
+              <h6>
+                Sign in to your bank, create a recipient and make &nbsp; a
+                deposit using this information
+              </h6>
+              <br />
+              <h6>RECIPIENT NAME</h6>
+              <ion-label class="label">{{item.recipient}}</ion-label><br />
+              <h6>BANK NAME</h6>
+              <ion-label class="label">{{item.bank}}</ion-label><br />
+              <h6>ACCOUNT NUMBER</h6>
+              <ion-label class="label">{{item.account}}</ion-label><br />
+              <h6>BRANCH</h6>
+              <ion-label class="label">{{item.branch}}</ion-label>
+              <br />
+              <h6>REFERENCE</h6>
+              <ion-label class="label">{{theName}}</ion-label><br />
+              <h6>AMOUNT</h6>
+              <ion-label class="label">{{total}}</ion-label><br />
+              <p>Use payment reference: {{theName}}</p>
+              <br />
+              <ion-col>
+                <ion-button
+                  style="margin-right: 5%"
+                  (click)="updateDeposit()"
+                  shape="round"
+                  
+                  expand="full"
+                  color="primary"
+                  >I've made the deposit</ion-button
+                >
+              </ion-col>
+              <br /><br />
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+  </body>
 </ion-content>
