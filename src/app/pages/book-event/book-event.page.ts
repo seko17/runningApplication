@@ -1,11 +1,16 @@
 import { Component, NgZone, OnInit } from '@angular/core';
-import { AlertController, NavController, ToastController } from '@ionic/angular';
+import {
+  AlertController,
+  NavController,
+  ToastController,
+} from '@ionic/angular';
 import { RunningService } from 'src/app/services/running.service';
 import { Directive, HostListener } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 // import { eventNames } from 'cluster';
 import * as firebase from 'firebase';
+import { MainServiceService } from 'src/app/services/main-service.service';
 @Component({
   selector: 'app-book-event',
   templateUrl: './book-event.page.html',
@@ -32,7 +37,8 @@ export class BookEventPage implements OnInit {
     private location: Location,
     public zone: NgZone,
     public alertCtrl: AlertController,
-    public toastCtrl: ToastController
+    public toastCtrl: ToastController,
+    public mainService: MainServiceService
   ) {
     this.events = [];
     // this.bookE();
@@ -43,6 +49,11 @@ export class BookEventPage implements OnInit {
       this.event = this.route.getCurrentNavigation().extras.state.event;
       console.log(this.event);
     });
+  }
+  ionViewDidLeave() {
+    console.log('############# Event Cleard');
+
+    this.event = {};
   }
   backClicked() {
     this.location.back();
@@ -80,7 +91,9 @@ export class BookEventPage implements OnInit {
   }
 
   add(num: number) {
-    if (this.tickets <= 5) { this.tickets = this.tickets + num; }
+    if (this.tickets <= 5) {
+      this.tickets = this.tickets + num;
+    }
   }
   // subtructing tickets
   sub(num: number) {
@@ -93,29 +106,25 @@ export class BookEventPage implements OnInit {
     // this.total=this.price*this.tickets;
   }
   BookEvent() {
-    const p = this.event.price * this.tickets;
-    this.db
-    .collection('bookedEvents')
-    .add({...this.event, ...{
-      tickets: this.tickets,
-      total: p,
-      approved: false,
-      deposited: false}})
-    .then(async (data) => {
-      this.route.navigate(['/tabs/done'], {
-        queryParams: { tickets: this.tickets, price: p, bookingId: data.id},
+    this.zone.run(() => {
+      const p = this.event.price * this.tickets;
+      const data = {
+        personBooked: firebase.auth().currentUser.uid,
+        tickets: this.tickets,
+        total: p,
+        approved: false,
+        deposited: false,
+      };
+      this.mainService.bookEvent(this.event, data).then((res) => {
+        console.log(res);
+        this.route.navigate(['/tabs/done'], {
+          queryParams: {
+            tickets: this.tickets,
+            price: p,
+            bookingId: res,
+          },
+        });
       });
-    })
-    .catch( async (error) => {
-      const alerter = await this.alertCtrl.create({
-        header: 'Process Error',
-        message: 'Something went wrong with the transaction please try again.',
-        buttons: ['Okay']
-      });
-      await alerter.present();
     });
-
-
-    // console.log(tickets,price,"=================",this.tickets,this.price);
   }
 }

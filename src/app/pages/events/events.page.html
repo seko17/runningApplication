@@ -70,12 +70,14 @@
             </ion-item>
             <div class="cButton">
               <ion-button
+              *ngIf="!e.booked"
                 (click)="booking(e)"
                 fill="solid"
                 expand="full"
                 >Book Now</ion-button
               >
               <ion-button
+              *ngIf="e.booked"
                 disabled="true"
                 fill="solid"
                 color="danger"
@@ -86,8 +88,8 @@
             <div class="spacer"></div>
           </ion-card-content>
         </ion-card>
-        <div class="noClubs" *ngIf="!hasAEvent">
-          <p text-center color="medium" class="sadname">
+        <div class="noClubs" *ngIf="events.length==0">
+          <p class="ion-text-center" color="medium" class="sadname">
             No Events Available !
           </p>
         </div>

@@ -3,20 +3,23 @@
   <div id="userProfile" class="userProfile">
     <div class="stats">
       <div class="image">
-        <img src="https://firebasestorage.googleapis.com/v0/b/runningclub-46ede.appspot.com/o/images%2F8772cd635d7238fab171d82142efb46c.jpg?alt=media&token=2cdbc280-6050-4a5e-bfdb-8c981668290b" alt="">
+        <img
+          src="https://firebasestorage.googleapis.com/v0/b/runningclub-46ede.appspot.com/o/images%2F8772cd635d7238fab171d82142efb46c.jpg?alt=media&token=2cdbc280-6050-4a5e-bfdb-8c981668290b"
+          alt=""
+        />
       </div>
       <div class="statValues">
         <p>
-          345 <br/>
+          345 <br />
           <span>Runs</span>
         </p>
         <p>
-          345 <br/>
+          345 <br />
           <span>Kilos</span>
         </p>
         <p>
-          345 <br/>
-        <span>Hours</span>
+          345 <br />
+          <span>Hours</span>
         </p>
       </div>
     </div>
@@ -26,68 +29,91 @@
       </div>
       <!-- Event List -->
       <div class="evList">
-   
-          <ion-card *ngFor="let item of tempCards">
-            <ion-card-header>
-              <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-              <ion-card-title>Card Title</ion-card-title>
-            </ion-card-header>
-          </ion-card>
-      
-      </div>
-    </div>
-  </div>
-  <div [ngClass]="{'runningClubs': !clubsExpanded, 'runningClubs-ex': clubsExpanded}">
-  <div class="header">
-    <h1>Running Clubs</h1>
-    <ion-button (click)="expandClass()" size="small" fill="clear">
-      <div *ngIf="!clubsExpanded" >Expand</div>
-      <div *ngIf="clubsExpanded" >Collapse</div>
-    </ion-button>
-  </div>
-  <div [ngClass]="{'search': !clubsExpanded, 'search-ex': clubsExpanded}">
-    <ion-searchbar placeholder="Search" (ionChange)="onSearchChange($event)" [debounce]="250"></ion-searchbar>
-  </div>
-  <div [ngClass]="{'clubList': !clubsExpanded, 'clubList-ex': clubsExpanded}">
-    <div class="noCards" *ngIf="clubs.length==0">
-      <div>
-        <h1>No Clubs</h1>
-      <p>There are no clubs yet.</p>
-      </div>
-    </div>
-    <ion-card *ngFor="let c of clubs" >
-      <div class="clubImage">
-        <img *ngIf="!c.photoURL" style="width: 100%; height: 100%; object-fit: cover;" src="../../assets/images/giphys.gif" alt="">
-        <img *ngIf="c.photoURL" style="width: 100%; height: 100%; object-fit: cover;" [src]="c.photoURL" alt="">
-      </div>
-      <ion-card-header>
-        <ion-card-subtitle>{{c.address}}</ion-card-subtitle>
-        <ion-card-title>{{c.name}}</ion-card-title>
-      </ion-card-header>
-    
-      <ion-card-content style="padding-top: 0px">
-       {{c.info}}
-       <ion-chip color="success">
-        <ion-icon name="time"></ion-icon>
-        <ion-label>Open : {{c.openingHours | date:'shortTime'}}</ion-label>
-        
-      </ion-chip>
-      <ion-chip color="danger">
-        <ion-icon name="time"></ion-icon>
-        <ion-label>Closes : {{c.closingHours | date:'shortTime'}}</ion-label>
-       
-      </ion-chip>
-      </ion-card-content>
-      <div class="cButton">
-        <ion-button
-          (click)="chooseClub(c)"
-          fill="solid"
-          expand="full"
-          >View</ion-button
+        <div class="noCards" *ngIf="userEvents.length==0">
+          <div>
+            <h1>No Events</h1>
+          </div>
+        </div>
+        <ion-card
+          style="display: flex; align-items: center"
+          *ngFor="let e of userEvents"
         >
+          <ion-card-header>
+            <ion-card-subtitle> {{e.date | date}} </ion-card-subtitle>
+            <ion-card-title>{{e.name}}</ion-card-title>
+          </ion-card-header>
+        </ion-card>
       </div>
-      <div class="spacer"></div>
-    </ion-card>
+    </div>
   </div>
+  <div
+    [ngClass]="{'runningClubs': !clubsExpanded, 'runningClubs-ex': clubsExpanded}"
+  >
+    <div class="header">
+      <h1>Running Clubs</h1>
+      <ion-button (click)="expandClass()" size="small" fill="clear">
+        <div *ngIf="!clubsExpanded">Expand</div>
+        <div *ngIf="clubsExpanded">Collapse</div>
+      </ion-button>
+    </div>
+    <div [ngClass]="{'search': !clubsExpanded, 'search-ex': clubsExpanded}">
+      <ion-searchbar
+        placeholder="Search"
+        (ionChange)="onSearchChange($event)"
+        [debounce]="250"
+      ></ion-searchbar>
+    </div>
+    <div [ngClass]="{'clubList': !clubsExpanded, 'clubList-ex': clubsExpanded}">
+      <div class="noCards" *ngIf="clubs.length==0">
+        <div *ngIf="hasAClub == 'n'">
+          <h1>No Clubs</h1>
+          <p>There are no clubs yet.</p>
+        </div>
+        <div *ngIf="hasAClub == 'c'">
+          <h1>Checking...</h1>
+          <ion-spinner name="circles"></ion-spinner>
+        </div>
+      </div>
+      <ion-card *ngFor="let c of clubs">
+        <div class="clubImage">
+          <img
+            *ngIf="!c.photoURL"
+            style="width: 100%; height: 100%; object-fit: cover"
+            src="../../assets/images/giphys.gif"
+            alt=""
+          />
+          <img
+            *ngIf="c.photoURL"
+            style="width: 100%; height: 100%; object-fit: cover"
+            [src]="c.photoURL"
+            alt=""
+          />
+        </div>
+        <ion-card-header>
+          <ion-card-subtitle>{{c.address}}</ion-card-subtitle>
+          <ion-card-title>{{c.name}}</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content style="padding-top: 0px">
+          {{c.info}}
+          <ion-chip color="success">
+            <ion-icon name="time"></ion-icon>
+            <ion-label>Open : {{c.openingHours | date:'shortTime'}}</ion-label>
+          </ion-chip>
+          <ion-chip color="danger">
+            <ion-icon name="time"></ion-icon>
+            <ion-label
+              >Closes : {{c.closingHours | date:'shortTime'}}</ion-label
+            >
+          </ion-chip>
+        </ion-card-content>
+        <div class="cButton">
+          <ion-button (click)="chooseClub(c)" fill="solid" expand="full"
+            >View</ion-button
+          >
+        </div>
+        <div class="spacer"></div>
+      </ion-card>
+    </div>
   </div>
 </ion-content>

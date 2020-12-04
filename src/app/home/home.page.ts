@@ -1,8 +1,10 @@
+import { map } from 'rxjs/operators';
 import { Component, NgZone, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { RunningService } from '../services/running.service';
 import { LoadingController } from '@ionic/angular';
 import * as firebase from 'firebase';
+import { MainServiceService } from '../services/main-service.service';
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -13,7 +15,8 @@ export class HomePage implements OnInit {
     private router: Router,
     public runn: RunningService,
     public loadingController: LoadingController,
-    private zone: NgZone
+    private zone: NgZone,
+    private mainService: MainServiceService
   ) {
     this.tickets = [];
     this.clubs = [];
@@ -29,7 +32,7 @@ export class HomePage implements OnInit {
   tickets = [];
   theUser = '';
   hasATicket = false;
-  hasAClub = false;
+  hasAClub = 'c';
   defaultpic = true;
   isSlide: boolean = true;
   slides: any;
@@ -59,6 +62,8 @@ export class HomePage implements OnInit {
   address;
   date;
   name;
+  userEvents: any = [];
+  loader;
   ngOnDestroy() {}
   ionViewDidEnter() {
     this.getdata();
@@ -67,11 +72,24 @@ export class HomePage implements OnInit {
     this.tickets = [];
     this.clubs = [];
   }
-  ngOnInit() {}
+  ngOnInit() {
+    this.getUserEvents();
+  }
   expandClass() {
     this.zone.run(() => {
       this.clubsExpanded = !this.clubsExpanded;
     });
+  }
+  getUserEvents() {
+    this.mainService
+      .getUserEvents()
+      .then((res) => {
+        this.userEvents = res;
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
   getTickets() {
     return new Promise((resolve, reject) => {
@@ -105,23 +123,19 @@ export class HomePage implements OnInit {
   }
 
   getdata() {
-    this.clubs = [];
-    this.db
-      .collection('clubs')
-      .get()
-      .then((res) => {
-        res.forEach((doc) => {
-          this.clubs.push({clubKey: doc.id, ...doc.data()});
-        });
-        console.log(this.clubs);
-        
-      });
+    this.mainService.getAllClubs().then((res: any) => {
+      if (!res) {
+        this.hasAClub = 'n';
+      } else {
+        this.clubs = res;
+      }
+    });
   }
 
   getUser() {
     this.db
       .collection('users')
-      .doc(firebase.auth().currentUser.uid)
+      .doc(this.mainService.user.uid)
       .get()
       .then((doc) => {
         this.theUser = doc.data().photoURL;
@@ -175,13 +189,10 @@ export class HomePage implements OnInit {
     });
   }
   async presentLoading() {
-    const loading = await this.loadingController.create({
-      message: 'loading...',
-      duration: 4000,
+    this.loader = await this.loadingController.create({
+      message: 'Gettind Clubs. Please wait...',
     });
-    await loading.present();
-
-    loading.dismiss();
+    // await this.loader.present();
   }
   chooseClub(myclubs) {
     let nav: NavigationExtras = {

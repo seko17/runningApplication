@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { RunningService } from 'src/app/services/running.service';
 import { NavController } from '@ionic/angular';
@@ -9,7 +9,7 @@ import * as firebase from 'firebase';
   styleUrls: ['./done.page.scss'],
 })
 export class DonePage implements OnInit {
-  db = firebase.firestore()
+  db = firebase.firestore();
   theAccount = {
     name: '',
     account: 0,
@@ -25,36 +25,30 @@ export class DonePage implements OnInit {
   name: string;
   bookingId;
   theName: string;
+  tickets;
+  price;
+  total;
   constructor(
     private route: ActivatedRoute,
     public runn: RunningService,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private zone: NgZone
   ) {
     this.runn.getAccount().subscribe((data) => {
-      this.myAccount = data.map((e) => {
+      this.myAccount = data.map((e: any) => {
         return {
           key: e.payload.doc.id,
-          bank: e.payload.doc.data()['bank'],
-          account: e.payload.doc.data()['account'],
-          branch: e.payload.doc.data()['branch'],
-          type: e.payload.doc.data()['type'],
-          recipient: e.payload.doc.data()['recipient'],
+          bank: e.payload.doc.data().bank,
+          account: e.payload.doc.data().account,
+          branch: e.payload.doc.data().branch,
+          type: e.payload.doc.data().type,
+          recipient: e.payload.doc.data().recipient,
           // ...e.payload.doc.data
         } as Account; // the Item is the class name in the item.ts
       });
       console.log(this.myAccount);
     });
   }
-  user() {
-    let user = this.runn.readCurrentSession();
-    this.name = user.uid;
-    this.theName = this.name.substring(0, 5);
-    console.log('loged in user: ', this.theName);
-  }
-
-  tickets;
-  price;
-  total;
   ngOnInit() {
     this.route.queryParams.subscribe((data) => {
       console.log(data);
@@ -65,10 +59,22 @@ export class DonePage implements OnInit {
     });
     this.user();
   }
+  user() {
+    let user = this.runn.readCurrentSession();
+    this.name = user.uid;
+    this.theName = this.name.substring(0, 5);
+    console.log('loged in user: ', this.theName);
+  }
   updateDeposit() {
-    this.db.collection('bookedEvents').doc(this.bookingId).update({deposited: true}).then(res => {
-      console.log('Deposited');
-      this.navCtrl.navigateForward('complete')
-    })
+    this.zone.run(() => {
+      this.db
+        .collection('bookedEvents')
+        .doc(this.bookingId)
+        .update({ deposited: true })
+        .then((res) => {
+          console.log('Deposited');
+          this.navCtrl.navigateForward('complete');
+        });
+    });
   }
 }

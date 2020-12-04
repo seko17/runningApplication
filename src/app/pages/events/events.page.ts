@@ -3,6 +3,7 @@ import { RunningService } from "src/app/services/running.service";
 import { NavigationExtras, Router } from "@angular/router";
 import { LoadingController } from "@ionic/angular";
 import * as firebase from "firebase";
+import { MainServiceService } from "src/app/services/main-service.service";
 // import moment from "moment";
 @Component({
   selector: "app-events",
@@ -37,31 +38,28 @@ export class EventsPage implements OnInit {
     public runn: RunningService,
     public route: Router,
     public loadingController: LoadingController,
-    public zone: NgZone
-  ) {
-    this.getdata();
-  }
+    public zone: NgZone,
+    public mainService: MainServiceService
+  ) {}
   // tslint:disable-next-line: use-lifecycle-interface
   ngOnDestroy() {
     console.log("foo destroy");
   }
-
+  ionViewDidEnter(){
+    this.getdata();
+  }
   //  date1;
   getdata() {
-this.zone.run(() => {
-  this.events = [];
-  this.db
-    .collection("events")
-    .get()
-    .then((res) => {
-      res.forEach((doc) => {
-        let event = doc.data();
-        let eventId = {eventId: doc.id,};
-        this.events.push({...event, ...eventId});
+    this.zone.run(() => {
+      this.events = [];
+
+      this.mainService.getAllEvents().then((res: any) => {
+        this.events = res;
+        res.forEach((element) => {
+          console.log(element);
+        });
       });
-      console.log(this.events);
     });
-})
   }
   async presentLoading() {
     const loading = await this.loadingController.create({
@@ -77,12 +75,14 @@ this.zone.run(() => {
     this.route.navigate(["/book-event"]);
   }
   booking(e) {
-    const nav: NavigationExtras = {
-      state: {
-        event: e,
-      },
-    };
-    this.route.navigate(['/tabs/book-event'], nav);
+    this.zone.run(() => {
+      const nav: NavigationExtras = {
+        state: {
+          event: e,
+        },
+      };
+      this.route.navigate(["/tabs/book-event"], nav);
+    });
   }
   ngOnInit() {}
 }

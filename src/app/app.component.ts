@@ -76,6 +76,6 @@ export class AppComponent implements OnInit {
       }
     })
     this.initializeApp();
-    this.presentLoading();
+    // this.presentLoading();
   }
 }
