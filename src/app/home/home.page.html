@@ -4,21 +4,21 @@
     <div class="stats">
       <div class="image">
         <img
-          src="https://firebasestorage.googleapis.com/v0/b/runningclub-46ede.appspot.com/o/images%2F8772cd635d7238fab171d82142efb46c.jpg?alt=media&token=2cdbc280-6050-4a5e-bfdb-8c981668290b"
+          [src]="userProfile.photoURL ? userProfile.photoURL : '../../assets/images/giphys.gif'"
           alt=""
         />
       </div>
       <div class="statValues">
         <p>
-          345 <br />
+          {{userProfile.runs}} <br />
           <span>Runs</span>
         </p>
         <p>
-          345 <br />
+          {{userProfile.kilos}} <br />
           <span>Kilos</span>
         </p>
         <p>
-          345 <br />
+          {{userProfile.hours}} <br />
           <span>Hours</span>
         </p>
       </div>

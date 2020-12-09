@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Component, NgZone, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { AlertController, NavController } from '@ionic/angular';
+import { MainServiceService } from 'src/app/services/main-service.service';
 
 @Component({
   selector: 'app-tabs',
@@ -18,7 +19,8 @@ export class TabsPage implements OnInit {
     private afAuth: AngularFireAuth,
     private navCtrl: NavController,
     private alertCtrl: AlertController,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private mainService: MainServiceService
   ) {}
   // /tabs/login
   ngOnInit() {}
@@ -35,16 +37,10 @@ export class TabsPage implements OnInit {
           {
           text: 'Continue',
           handler: async () => {
-            await this.afAuth.auth
-              .signOut()
-              .then((success) => {
-                console.log(success);
-                console.log('success');
-                this.navCtrl.navigateRoot('login');
-              })
-              .catch((error) => {
-                console.log(error);
-              });
+            this.mainService.logoutUser()
+            .then(() => {
+              this.navCtrl.navigateRoot('login');
+            });
           },
         },
         {

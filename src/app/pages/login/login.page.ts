@@ -1,4 +1,5 @@
-import { Component, OnInit } from "@angular/core";
+import { MainServiceService } from 'src/app/services/main-service.service';
+import { Component, NgZone, OnInit } from "@angular/core";
 import { AuthService } from "src/app/services/auth.service";
 import { Router } from "@angular/router";
 import { FormBuilder, Validators, FormGroup } from "@angular/forms";
@@ -31,20 +32,22 @@ export class LoginPage implements OnInit {
     private alertCtrl: AlertController,
     public menuCtrl: MenuController,
     public loadingCtrl: LoadingController,
-    public toastCtrl: ToastController
+    public toastCtrl: ToastController,
+    public mainService: MainServiceService,
+    public zone: NgZone
   ) {}
 
   ngOnInit() {
     this.loginForm = this.fb.group({
       email: [
-        "tefo@gmail.com",
+        "",
         Validators.compose([
           Validators.pattern("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$"),
           Validators.required,
         ]),
       ],
       password: [
-        "Password1",
+        "",
         Validators.compose([
           Validators.minLength(6),
           Validators.maxLength(12),
@@ -66,19 +69,14 @@ export class LoginPage implements OnInit {
     this.menuCtrl.enable(false);
   }
   async login() {
-    const loading = this.loadingCtrl.create({
-      message: "Signing in, Please wait...",
-      duration: 4000,
-    });
-    (await loading).present();
-    this.authService
-      .login(this.loginForm.value.email, this.loginForm.value.password)
-      .then(async () => {
-        (await loading).dismiss();
+      this.mainService.loginUser( this.loginForm.value.email, this.loginForm.value.password ).then(res => {
+        console.log(res);
       });
   }
   registerPage() {
-    this.router.navigateByUrl("signup");
+    this.zone.run(() => {
+      this.router.navigateByUrl("signup");
+    })
   }
   async forgotpassword() {
     const alerter = await this.alertCtrl.create({

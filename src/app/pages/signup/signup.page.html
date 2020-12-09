@@ -152,19 +152,13 @@
                       >Gender</ion-label
                     >
                     <ion-item id="item" lines="none">
-                      <ion-select
-                        style="margin-left: 0% !important"
-                        formControlName="gender"
-                      >
-                        <ion-select-option value="Female"
-                          >Female</ion-select-option
-                        >
+                      <ion-select style="margin-left: 0% !important" formControlName="gender">
+                        <ion-select-option value="Female">Female</ion-select-option>
                         <ion-select-option value="Male">Male</ion-select-option>
-                        <ion-select-option value="Trans gender"
-                          >Transgender</ion-select-option
-                        >
+                        <ion-select-option value="Trans gender">Transgender</ion-select-option>
                       </ion-select>
                     </ion-item>
+
                     <div
                       class="error"
                       *ngIf="signupForm.get('gender').hasError('required') && signupForm.get('gender').touched"

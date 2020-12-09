@@ -47,7 +47,7 @@ export class BookEventPage implements OnInit {
   ngOnInit() {
     this.zone.run(() => {
       this.event = this.route.getCurrentNavigation().extras.state.event;
-      console.log(this.event);
+      this.event = this.route.getCurrentNavigation().extras.state.event;
     });
   }
   ionViewDidLeave() {

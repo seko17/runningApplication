@@ -64,9 +64,17 @@ export class HomePage implements OnInit {
   name;
   userEvents: any = [];
   loader;
+  userProfile: any = {};
   ngOnDestroy() {}
   ionViewDidEnter() {
     this.getdata();
+
+    // Set the user Profile Image
+    this.mainService.getUserProfile().then((data: any) => {
+      this.userProfile =  data;
+      console.log(this.userProfile);
+      
+    });
   }
   ionViewDidLeave() {
     this.tickets = [];
