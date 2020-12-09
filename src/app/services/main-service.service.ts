@@ -28,6 +28,8 @@ export class MainServiceService {
     public mainService: MainServiceService,
     public loadingCtrl: LoadingController
   ) {
+    console.log('[MAIN SERVICE FIRED]');
+    
     firebase.auth().onAuthStateChanged((user) => {
       this.user = user;
     });
@@ -143,10 +145,29 @@ export class MainServiceService {
     });
   }
   // END USER AUTH STATE FUNCTIONS
+
   // EVENT FUNCTIONS
   /**
+   * Get account info for payment
+   * returns an array of accounts
+   */
+  public async getAccountInfo() {
+    const accounts = [];
+    return new Promise((resolve, reject) => {
+      this.db.collection('account').get().then(res => {
+        res.forEach(doc => {
+          accounts.push(doc.data());
+        });
+        resolve(accounts);
+      })
+      .catch(err => {
+        reject(err);
+      });
+    });
+  }
+  /**
    * Gets all events and
-   * updates the booked state to determine whether the event is booked or not.
+   * manages the booked state to determine whether the event is booked or not.
    */
   public async getAllEvents() {
     return new Promise((resolve, reject) => {
@@ -281,7 +302,26 @@ export class MainServiceService {
     });
   }
 
+  /**
+   * @param clubId Unique clubId(String)
+   */
+  getClubEvents(clubId) {
+    const events = [];
+    return new Promise((resolve, reject) => {
+      this.db.collection('events').where('clubKey', '==', clubId).get().then(res => {
+        res.forEach(doc => {
+          events.push(doc.data());
+        });
+        resolve(events);
+      })
+      .catch(err => {
+        reject(err);
+      });
+    });
+  }
   // END CLUB FUNCTIONS
+
+
   // FEEDBACK FUNCTIONS
   /**
    * @param message Message to be displayed while the error is active
@@ -315,6 +355,13 @@ export class MainServiceService {
         }
         break;
     }
+  }
+  public async handleToasts(message) {
+    const toaster = await this.toastCtrl.create({
+      message,
+      duration: 3000
+    });
+    await toaster.present();
   }
   // END FEEDBACK FUNCTIONS
 }

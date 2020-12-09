@@ -16,6 +16,7 @@ import { MapboxService, Feature } from 'src/app/services/mapbox.service';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { finalize } from 'rxjs/operators';
 import * as firebase from 'firebase';
+import { MainServiceService } from 'src/app/services/main-service.service';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
@@ -37,17 +38,7 @@ export class ProfilePage implements OnInit {
   defaultpic = true;
   theUser = [];
   tusr = [];
-  loggedInUser = {
-    Age: '',
-    Email: '',
-    Registered: '',
-    Timestamp: null,
-    address: '',
-    displayName: '',
-    gender: '',
-    photoURL: '',
-    uid: '',
-  };
+  loggedInUser: any = {};
 
   currentuser: string;
   private MUsers: AngularFirestoreDocument;
@@ -89,7 +80,8 @@ export class ProfilePage implements OnInit {
     public loadingController: LoadingController,
     private mapboxService: MapboxService,
     private zone: NgZone,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    public mainService: MainServiceService
   ) {
     // this.theUser = [];
     this.getdata();
@@ -199,27 +191,12 @@ export class ProfilePage implements OnInit {
         message: 'Getting Profile. Please wait...',
       });
       await loader.present();
-      this.db
-        .collection('users')
-        .doc(firebase.auth().currentUser.uid)
-        .get()
-        .then(async (doc) => {
-          this.loggedInUser = {
-            Age: doc.data().Age,
-            Email: doc.data().Email,
-            Registered: doc.data().Registered,
-            Timestamp: doc.data().Timestamp,
-            address: doc.data().address,
-            displayName: doc.data().displayName,
-            gender: doc.data().gender,
-            photoURL: doc.data().photoURL ? doc.data().photoURL : '../../../assets/images/giphys.gif',
-            uid: doc.data().url,
-          };
-          this.loggedInUser = this.loggedInUser;
-          setTimeout(async () => {
-            await loader.dismiss();
-          }, 1000);
-        });
+      this.mainService.getUserProfile().then(res => {
+        this.loggedInUser = res;
+        setTimeout(async () => {
+          await loader.dismiss();
+        }, 1000);
+      });
     });
   }
   async nameUpdate(user) {

@@ -27,12 +27,12 @@
   }
   .profile {
     position: absolute;
-    bottom: 192px;
     left: 5px;
     right: 5px;
     backdrop-filter: blur(7px) brightness(1);
     border-radius: 8px;
     color: white;
+    transition: 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
     .imageUpdate {
       position: absolute;
       top: 0;
@@ -87,19 +87,26 @@
       margin: 20px;
     }
   }
+  .highProfile {
+    bottom: 192px;
+    transition: 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+  .lowProfile {
+    bottom: 5px;
+    transition: 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
   .eventsCont {
     position: absolute;
     bottom: 5px;
     left: 5px;
     right: 5px;
-    height: 180px;
     display: flex;
     align-items: center;
-    overflow-x: auto;
+    overflow: auto hidden;
     border-radius: 8px;
     backdrop-filter: blur(10px) brightness(2);
-    background: linear-gradient(30deg ,#11C2D4, #1186d4);;
-    padding: 20px;
+    background: linear-gradient(30deg ,#11C2D4, #1186d4);
+    transition: 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
     ion-card {
       min-width: 80vw;
       height: 100%;
@@ -107,5 +114,15 @@
       background: white;
       padding: 10px;
     }
+  }
+  .showEvent {
+    height: 180px;
+    padding: 20px;
+    transition: 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+  .hideEvent {
+    height: 0px;
+    padding: 0px;
+    transition: 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
   }
 }

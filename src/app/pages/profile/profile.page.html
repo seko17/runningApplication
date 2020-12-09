@@ -1,26 +1,26 @@
 <ion-content>
   <div
-  style="background-size: cover; background-position: center;"
+    style="background-size: cover; background-position: center"
     class="container"
     [ngStyle]="{'background-image': 'url('+ loggedInUser.photoURL +')'}"
   >
     <div class="profile">
       <div class="imageUpdate">
-<div class="imageCont">
-  <div class="dummybutton">
-    <ion-fab-button>
-      <ion-icon name="camera"></ion-icon>
-    </ion-fab-button>
-  </div>
-  <div class="input">
-    <input
-    id="file-input2"
-    class="input"
-    type="file"
-    (change)="uploadProfilePic($event)"
-  />
-  </div>
-</div>
+        <div class="imageCont">
+          <div class="dummybutton">
+            <ion-fab-button>
+              <ion-icon name="camera"></ion-icon>
+            </ion-fab-button>
+          </div>
+          <div class="input">
+            <input
+              id="file-input2"
+              class="input"
+              type="file"
+              (change)="uploadProfilePic($event)"
+            />
+          </div>
+        </div>
       </div>
       <div *ngIf="!loggedInUser.Timestamp" class="skeleltonName">
         <ion-skeleton-text
@@ -31,8 +31,18 @@
       <div class="displayName">
         <h1 *ngIf="loggedInUser.displayName">{{loggedInUser.displayName}}</h1>
         <div class="editDisplayName">
-          <ion-button (click)="nameUpdate(loggedInUser)" size="small" fill="clear" shape="round">
-            <ion-icon  color="primary" size="small" slot="icon-only" name="create"></ion-icon>
+          <ion-button
+            (click)="nameUpdate(loggedInUser)"
+            size="small"
+            fill="clear"
+            shape="round"
+          >
+            <ion-icon
+              color="primary"
+              size="small"
+              slot="icon-only"
+              name="create"
+            ></ion-icon>
           </ion-button>
         </div>
       </div>
@@ -51,19 +61,38 @@
         <ion-item *ngIf="loggedInUser.Timestamp" lines="none">
           <ion-label>{{loggedInUser.Email}}</ion-label>
           <ion-button (click)="emailUpdate()" slot="end" fill="clear">
-            <ion-icon color="primary" size="small" slot="icon-only" name="create"></ion-icon>
+            <ion-icon
+              color="primary"
+              size="small"
+              slot="icon-only"
+              name="create"
+            ></ion-icon>
           </ion-button>
         </ion-item>
         <ion-item *ngIf="loggedInUser.Timestamp" lines="none">
           <ion-label>{{loggedInUser.Age}}</ion-label>
           <ion-button (click)="AgeUpdate(loggedInUser)" slot="end" fill="clear">
-            <ion-icon  color="primary" size="small" slot="icon-only" name="create"></ion-icon>
+            <ion-icon
+              color="primary"
+              size="small"
+              slot="icon-only"
+              name="create"
+            ></ion-icon>
           </ion-button>
         </ion-item>
         <ion-item *ngIf="loggedInUser.Timestamp" lines="none">
           <ion-label>{{loggedInUser.address}}</ion-label>
-          <ion-button (click)="AddressUpdate(loggedInUser)" slot="end" fill="clear">
-            <ion-icon  color="primary" size="small" slot="icon-only" name="create"></ion-icon>
+          <ion-button
+            (click)="AddressUpdate(loggedInUser)"
+            slot="end"
+            fill="clear"
+          >
+            <ion-icon
+              color="primary"
+              size="small"
+              slot="icon-only"
+              name="create"
+            ></ion-icon>
           </ion-button>
         </ion-item>
       </div>

@@ -13,7 +13,7 @@
     <img *ngIf="!club.photoURL" src="../../../assets/images/giphys.gif" alt="">
   </div>
 
-    <div class="profile">
+    <div class="profile" [ngClass]="{'highProfile': showEvents, 'lowProfile': !showEvents}">
       <div class="imageUpdate">
       </div>
       <div *ngIf="!club.name" class="skeleltonName">
@@ -48,16 +48,19 @@
         <ion-item *ngIf="club.closingHours" lines="none">
           <ion-label>Closed {{club.closingHours | date:'shortTime'}}</ion-label>
         </ion-item>
-        <ion-button (click)="willFunction()" expand="full" shape="round">
+        <ion-button *ngIf="!checkingEvents" (click)="getEvents()" expand="full" shape="round">
           Events
+        </ion-button>
+        <ion-button *ngIf="checkingEvents" expand="full" shape="round">
+          <ion-spinner></ion-spinner>
         </ion-button>
       </div>
     </div>
-    <div class="eventsCont">
-      <ion-card *ngFor="let item of tempEvents">
+    <div class="eventsCont" [ngClass]="{'showEvent': showEvents, 'hideEvent': !showEvents}">
+      <ion-card *ngFor="let e of events">
         <ion-card-header>
-          <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-          <ion-card-title>Card Title</ion-card-title>
+          <ion-card-subtitle>{{e.address}}</ion-card-subtitle>
+          <ion-card-title>{{e.name}}</ion-card-title>
         </ion-card-header>
       </ion-card>
     </div>

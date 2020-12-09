@@ -1,14 +1,14 @@
-import { map } from 'rxjs/operators';
-import { Component, NgZone, OnInit } from '@angular/core';
-import { NavigationExtras, Router } from '@angular/router';
-import { RunningService } from '../services/running.service';
-import { LoadingController } from '@ionic/angular';
-import * as firebase from 'firebase';
-import { MainServiceService } from '../services/main-service.service';
+import { map } from "rxjs/operators";
+import { Component, NgZone, OnInit } from "@angular/core";
+import { NavigationExtras, Router } from "@angular/router";
+import { RunningService } from "../services/running.service";
+import { LoadingController } from "@ionic/angular";
+import * as firebase from "firebase";
+import { MainServiceService } from "../services/main-service.service";
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  selector: "app-home",
+  templateUrl: "home.page.html",
+  styleUrls: ["home.page.scss"],
 })
 export class HomePage implements OnInit {
   constructor(
@@ -25,14 +25,14 @@ export class HomePage implements OnInit {
     this.presentLoading();
   }
   db = firebase.firestore();
-  tempCards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
   clubsExpanded = false;
   clubHeight = 0;
   clubs = [];
+  tempClubs = [];
   tickets = [];
-  theUser = '';
+  theUser = "";
   hasATicket = false;
-  hasAClub = 'c';
+  hasAClub = "c";
   defaultpic = true;
   isSlide: boolean = true;
   slides: any;
@@ -71,9 +71,7 @@ export class HomePage implements OnInit {
 
     // Set the user Profile Image
     this.mainService.getUserProfile().then((data: any) => {
-      this.userProfile =  data;
-      console.log(this.userProfile);
-      
+      this.userProfile = data;
     });
   }
   ionViewDidLeave() {
@@ -89,15 +87,29 @@ export class HomePage implements OnInit {
     });
   }
   getUserEvents() {
-    this.mainService
-      .getUserEvents()
-      .then((res) => {
-        this.userEvents = res;
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    this.mainService.getUserEvents().then((res) => {
+      this.userEvents = res;
+    });
+  }
+  searchClubs(ev: any) {
+    this.zone.run(() => {
+      // Reset items back to all of the items
+      // set val to the value of the searchbar
+      const val = ev.target.value;
+
+      // if the value is an empty string don't filter the items
+      if (val && val.trim() != "") {
+        this.clubs = this.tempClubs.filter((item) => {
+          return item.name.toLowerCase().indexOf(val.toLowerCase()) > -1;
+        });
+      } else if (val != " ") {
+        this.clubs = this.tempClubs.filter((item) => {
+          return item.name.toLowerCase().indexOf(val.toLowerCase()) > -1;
+        });
+      } else if (val == "") {
+        this.clubs = this.tempClubs;
+      }
+    });
   }
   getTickets() {
     return new Promise((resolve, reject) => {
@@ -133,16 +145,17 @@ export class HomePage implements OnInit {
   getdata() {
     this.mainService.getAllClubs().then((res: any) => {
       if (!res) {
-        this.hasAClub = 'n';
+        this.hasAClub = "n";
       } else {
         this.clubs = res;
+        this.tempClubs = res;
       }
     });
   }
 
   getUser() {
     this.db
-      .collection('users')
+      .collection("users")
       .doc(this.mainService.user.uid)
       .get()
       .then((doc) => {
@@ -153,31 +166,30 @@ export class HomePage implements OnInit {
     this.slides.startAutoplay();
   }
   go() {
-    this.router.navigateByUrl('book-event');
+    this.router.navigateByUrl("book-event");
   }
   goHome() {
-    this.router.navigateByUrl('home');
+    this.router.navigateByUrl("home");
   }
   gotoProfile() {
-    this.router.navigateByUrl('profile');
+    this.router.navigateByUrl("profile");
   }
   getBooked() {
     this.runn.getBooked().subscribe((data) => {
       this.myEvents = data.map((e) => {
         return {
           key: e.payload.doc.id,
-          closingHours: e.payload.doc.data()['closingHours'],
-          openingHours: e.payload.doc.data()['openingHours'],
-          address: e.payload.doc.data()['address'],
-          name: e.payload.doc.data()['name'],
-          date: e.payload.doc.data()['date'],
-          approved: e.payload.doc.data()['approved'],
+          closingHours: e.payload.doc.data()["closingHours"],
+          openingHours: e.payload.doc.data()["openingHours"],
+          address: e.payload.doc.data()["address"],
+          name: e.payload.doc.data()["name"],
+          date: e.payload.doc.data()["date"],
+          approved: e.payload.doc.data()["approved"],
         } as Events; // the Item is the class name in the item.ts
       });
-      console.log(this.myEvents);
 
+      // tslint:disable-next-line: prefer-for-of
       for (let r = 0; r < this.myEvents.length; r++) {
-        console.log(this.myEvents[r].approved, '&&&&&&');
         if (this.myEvents[r].approved === true) {
           this.tickets.push({
             key: this.myEvents[r].key,
@@ -198,7 +210,7 @@ export class HomePage implements OnInit {
   }
   async presentLoading() {
     this.loader = await this.loadingController.create({
-      message: 'Gettind Clubs. Please wait...',
+      message: "Gettind Clubs. Please wait...",
     });
     // await this.loader.present();
   }
@@ -208,7 +220,7 @@ export class HomePage implements OnInit {
         nav: myclubs.clubKey,
       },
     };
-    this.router.navigate(['club-home'], nav);
+    this.router.navigate(["club-home"], nav);
     this.runn.chooseClub(myclubs);
   }
 }

@@ -27,7 +27,7 @@ export class TabsPage implements OnInit {
   setUrl(page) {
     this.ngZone.run(() => {
       this.url = page;
-    })
+    });
   }
   async logout() {
     const alerter = await this.alertCtrl.create({

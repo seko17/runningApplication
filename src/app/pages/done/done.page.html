@@ -1,67 +1,96 @@
 <ion-content>
-  <body>
-    <div id="bg">
-      <ion-grid>
-        <ion-row color="primary" class="ion-justify-content-center">
-          <br />
-          <ion-col class="ion-align-self-center" size-md="6" size-lg="11" size-xs="12">
-            <div class="div1">
-              <ion-buttons color="light" slot="start">
-                <ion-back-button
-                  defaultHref="tabs/book-event"
-                ></ion-back-button>
-              </ion-buttons>
-
-              <ion-card class="card1">
-                <br /><br /><br />
-                <ion-label class="ref">Deposit reference code</ion-label>
-                <ion-input>
-                  <h1 class="cd">{{theName}}</h1>
-                </ion-input>
-                <br /><br />
-              </ion-card>
-            </div>
-
-            <div class="div2" *ngFor="let item of myAccount">
-              <br />
-              <h1 class="blac">Make your deposit</h1>
-
-              <h6>
-                Sign in to your bank, create a recipient and make &nbsp; a
-                deposit using this information
-              </h6>
-              <br />
-              <h6>RECIPIENT NAME</h6>
-              <ion-label class="label">{{item.recipient}}</ion-label><br />
-              <h6>BANK NAME</h6>
-              <ion-label class="label">{{item.bank}}</ion-label><br />
-              <h6>ACCOUNT NUMBER</h6>
-              <ion-label class="label">{{item.account}}</ion-label><br />
-              <h6>BRANCH</h6>
-              <ion-label class="label">{{item.branch}}</ion-label>
-              <br />
-              <h6>REFERENCE</h6>
-              <ion-label class="label">{{theName}}</ion-label><br />
-              <h6>AMOUNT</h6>
-              <ion-label class="label">{{total}}</ion-label><br />
-              <p>Use payment reference: {{theName}}</p>
-              <br />
-              <ion-col>
-                <ion-button
-                  style="margin-right: 5%"
-                  (click)="updateDeposit()"
-                  shape="round"
-                  
-                  expand="full"
-                  color="primary"
-                  >I've made the deposit</ion-button
-                >
-              </ion-col>
-              <br /><br />
-            </div>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
+<div class="container">
+  <div class="title">
+    <div class="customToolbar">
+      <div class="back">
+        <ion-fab-button size="small" color="light" (click)="back()">
+          <ion-icon name="arrow-back"></ion-icon>
+        </ion-fab-button>
+      </div>
+      <p>Wednesday, 29 May</p>
     </div>
-  </body>
+    <p>Deposit Account</p>
+  </div>
+<ion-slides style="height: 247.8px;" mode="ios" pager="ios" scrollbar="ios">
+<ion-slide *ngIf="!accounts.length">
+  <div class="customCard" >
+    <div class="recepient">
+      <div class="label">
+        <p>Recepient</p>
+      </div>
+      <ion-skeleton-text animated style="width: 60%; height: 20px;"></ion-skeleton-text>
+    </div>
+    <div class="recepientDetails">
+      <div class="bank">
+        <div class="label">
+          <p>Bank</p>
+        </div>
+        <ion-skeleton-text animated style="width: 100%; height: 20px;"></ion-skeleton-text>
+      </div>
+      <div class="account">
+        <div class="label">
+          <p>Account Number</p>
+        </div>
+        <ion-skeleton-text animated style="width: 100%; height: 20px;"></ion-skeleton-text>
+      </div>
+      <div class="branch">
+        <div class="label">
+          <p>Branch Code</p>
+        </div>
+        <ion-skeleton-text animated style="width: 100%; height: 20px;"></ion-skeleton-text>
+      </div>
+    </div>
+  </div>
+</ion-slide>
+  <ion-slide *ngFor="let a of accounts">
+    <div class="customCard">
+      <div class="recepient">
+        <div class="label">
+          <p>Recepient</p>
+        </div>
+        <span>{{a.recipient}}</span>
+      </div>
+      <div class="recepientDetails">
+        <div class="bank">
+          <div class="label">
+            <p>Bank</p>
+          </div>
+          <span>{{a.bank}}</span>
+        </div>
+        <div class="account">
+          <div class="label">
+            <p>Account Number</p>
+          </div>
+          <span>{{a.account}}</span>
+        </div>
+        <div class="branch">
+          <div class="label">
+            <p>Branch Code</p>
+          </div>
+          <span>{{a.branch}}</span>
+        </div>
+      </div>
+    </div>
+  </ion-slide>
+</ion-slides>
+  <div class="referenceInfo">
+    <div class="referenceTitle">
+      <p>Payment Reference</p>
+    </div>
+    <div class="reference">
+      <ion-skeleton-text *ngIf="!theName" animated style="width: 100%; height: 67px;"></ion-skeleton-text>
+      <p *ngIf="theName">{{theName}}</p>
+    </div>
+    <p>Sign in to your bank, create a recipient and make a
+      deposit using this information</p>
+<div class="button">
+  <ion-button (click)="updateDeposit()" expand="block" fill="outline" color="light" shape="round">
+    I've Made the Deposit
+  </ion-button>
+</div>
+      <div class="thankYou">
+        <p>Thank you for Participating.</p>
+      </div>
+  </div>
+</div>
 </ion-content>

@@ -2,6 +2,7 @@ import { Router } from '@angular/router';
 import { Component, NgZone, OnInit } from '@angular/core';
 import { RunningService } from 'src/app/services/running.service';
 import * as firebase from 'firebase';
+import { MainServiceService } from 'src/app/services/main-service.service';
 @Component({
   selector: 'app-club-home',
   templateUrl: './club-home.page.html',
@@ -20,10 +21,14 @@ export class ClubHomePage implements OnInit {
   saved = false;
   events = [];
   hasAEvent = false;
+  clubKey = '';
+  showEvents = false;
+  checkingEvents = false;
   constructor(
     public runn: RunningService,
     private route: Router,
-    private zone: NgZone
+    private zone: NgZone,
+    public mainService: MainServiceService
   ) {
 
     this.events = [];
@@ -31,14 +36,12 @@ export class ClubHomePage implements OnInit {
   tempEvents = [1, 2, 3, 4, 5, 6, 7, 8, 9, 9];
   ngOnInit() {
     this.zone.run(() => {
-      console.log('Club home');
-      const clubKey = this.route.getCurrentNavigation().extras.state;
+      this.clubKey = this.route.getCurrentNavigation().extras.state.nav;
       this.db
         .collection('clubs')
-        .doc(clubKey.nav)
+        .doc(this.clubKey)
         .get()
         .then((res) => {
-          console.log();
           this.club = {
             address: res.data().address,
             closingHours: res.data().closingHours,
@@ -51,33 +54,20 @@ export class ClubHomePage implements OnInit {
     });
   }
 
-  // getdata() {
-  //   this.club = [];
-  //   return new Promise((resolve, reject) => {
-  //     this.club = [];
-  //     this.runn.rtAClubs().then((data) => {
-  //       console.log(data.length);
-
-  //       console.log(data[0].myclubs[0].myclubs.clubKey, 'flower child');
-
-  //       this.club.push({
-  //         clubKey: data[0].myclubs[0].myclubs.clubKey,
-  //         name: data[0].myclubs[0].myclubs.name,
-  //         address: data[0].myclubs[0].myclubs.address,
-  //         openingHours: data[0].myclubs[0].myclubs.openingHours,
-  //         closingHours: data[0].myclubs[0].myclubs.closingHours,
-  //         userID: data[0].myclubs[0].myclubs.userID,
-  //         photoURL: data[0].myclubs[0].myclubs.photoURL,
-  //       });
-
-  //       console.log(this.club, 'LAST ONE ts');
-  //     });
-  //   });
-  // }
-
-  getAClubsEvents(myclub) {
-    //  this.runn.getAClubsEvents(myclub)
-    this.getEES();
+  getEvents() {
+    this.checkingEvents = true;
+    this.zone.run(() => {
+      this.mainService.getClubEvents(this.clubKey).then((res: any) => {
+        if (res.length == 0) {
+          this.mainService.handleToasts('No events for this club.');
+          this.checkingEvents = false;
+        } else {
+          this.events = res;
+          this.showEvents = true;
+          this.checkingEvents = false;
+        }
+      });
+    });
   }
   getEES() {
     this.events = [];
@@ -117,6 +107,7 @@ export class ClubHomePage implements OnInit {
     this.saved = false;
   }
   onClick() {
+    this.showEvents = false;
     this.route.navigate(['tabs/home']);
   }
 }

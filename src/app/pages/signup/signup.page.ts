@@ -123,7 +123,7 @@ export class SignupPage implements OnInit {
       Age: this.signupForm.value.age,
       gender: this.signupForm.value.gender,
       address: this.signupForm.value.address,
-      photoURL: '',
+      photoURL: '../../../assets/images/giphys.gif',
       Registered: 'no',
       runs: 0,
       kilos: 0,

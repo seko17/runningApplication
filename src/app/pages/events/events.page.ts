@@ -14,6 +14,7 @@ export class EventsPage implements OnInit {
   db = firebase.firestore();
   hasAEvent = false;
   events = [];
+  tempEvents = [];
   slideOpts = {
     slidesPerView: 1.5,
   };
@@ -55,10 +56,34 @@ export class EventsPage implements OnInit {
 
       this.mainService.getAllEvents().then((res: any) => {
         this.events = res;
+        this.tempEvents = res;
         res.forEach((element) => {
           console.log(element);
         });
       });
+    });
+  }
+  searchEvents(ev: any) {
+    this.zone.run(() => {
+      // Reset items back to all of the items
+      // set val to the value of the searchbar
+      const val = ev.target.value;
+      console.log(ev.target);
+      
+      // if the value is an empty string don't filter the items
+      if (val && val.trim() != "") {
+        this.events = this.tempEvents.filter((item) => {
+          return item.name.toLowerCase().indexOf(val.toLowerCase()) > -1;
+        });
+        console.log(this.events);
+        
+      } else if (val != " ") {
+        this.events = this.tempEvents.filter((item) => {
+          return item.name.toLowerCase().indexOf(val.toLowerCase()) > -1;
+        });
+      } else if (val == "") {
+        this.events = this.tempEvents;
+      }
     });
   }
   async presentLoading() {

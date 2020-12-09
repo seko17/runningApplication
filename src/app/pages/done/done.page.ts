@@ -1,8 +1,9 @@
 import { Component, NgZone, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RunningService } from 'src/app/services/running.service';
 import { NavController } from '@ionic/angular';
 import * as firebase from 'firebase';
+import { MainServiceService } from 'src/app/services/main-service.service';
 @Component({
   selector: 'app-done',
   templateUrl: './done.page.html',
@@ -21,7 +22,7 @@ export class DonePage implements OnInit {
   theUser = [];
   private uid: string = null;
   email: any;
-  myAccount;
+  accounts = [];
   name: string;
   bookingId;
   theName: string;
@@ -29,37 +30,32 @@ export class DonePage implements OnInit {
   price;
   total;
   constructor(
-    private route: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
+    public route: Router,
     public runn: RunningService,
     private navCtrl: NavController,
-    private zone: NgZone
+    private zone: NgZone,
+    private mainService: MainServiceService
   ) {
-    this.runn.getAccount().subscribe((data) => {
-      this.myAccount = data.map((e: any) => {
-        return {
-          key: e.payload.doc.id,
-          bank: e.payload.doc.data().bank,
-          account: e.payload.doc.data().account,
-          branch: e.payload.doc.data().branch,
-          type: e.payload.doc.data().type,
-          recipient: e.payload.doc.data().recipient,
-          // ...e.payload.doc.data
-        } as Account; // the Item is the class name in the item.ts
-      });
-      console.log(this.myAccount);
+    this.mainService.getAccountInfo().then((res: any) => {
+      this.accounts = res;
     });
+
   }
   ngOnInit() {
-    this.route.queryParams.subscribe((data) => {
+    this.generateReference();
+    this.activatedRoute.queryParams.subscribe((data) => {
       console.log(data);
       this.tickets = parseFloat(data.tickets);
       this.price = parseFloat(data.price);
       this.bookingId = data.bookingId;
       this.total = this.tickets * this.price;
     });
-    this.user();
   }
-  user() {
+  back() {
+    this.route.navigate(['tabs/events']);
+  }
+  generateReference() {
     let user = this.runn.readCurrentSession();
     this.name = user.uid;
     this.theName = this.name.substring(0, 5);

@@ -40,7 +40,7 @@
         >
           <ion-card-header>
             <ion-card-subtitle> {{e.date | date}} </ion-card-subtitle>
-            <ion-card-title>{{e.name}}</ion-card-title>
+            <ion-card-title style="text-transform: capitalize;">{{e.name}}</ion-card-title>
           </ion-card-header>
         </ion-card>
       </div>
@@ -59,7 +59,7 @@
     <div [ngClass]="{'search': !clubsExpanded, 'search-ex': clubsExpanded}">
       <ion-searchbar
         placeholder="Search"
-        (ionChange)="onSearchChange($event)"
+        (ionChange)="searchClubs($event)"
         [debounce]="250"
       ></ion-searchbar>
     </div>

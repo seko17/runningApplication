@@ -29,7 +29,11 @@
     <div class="subtitle">
       <p>Event</p>
       <div class="searchInput">
-        <ion-input type="text" placeholder="Search Event"></ion-input>
+        <ion-searchbar
+        placeholder="Search"
+        (ionChange)="searchEvents($event)"
+        [debounce]="250"
+      ></ion-searchbar>
       </div>
     </div>
     <div class="secondSection">
