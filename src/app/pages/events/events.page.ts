@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit } from "@angular/core";
+import { Component, ViewChild, NgZone, OnInit } from "@angular/core";
 import { RunningService } from "src/app/services/running.service";
 import { NavigationExtras, Router } from "@angular/router";
 import { LoadingController } from "@ionic/angular";
@@ -11,6 +11,7 @@ import { MainServiceService } from "src/app/services/main-service.service";
   styleUrls: ["./events.page.scss"],
 })
 export class EventsPage implements OnInit {
+  @ViewChild("scrollcontent", { static: false }) scrollContent;
   db = firebase.firestore();
   hasAEvent = false;
   events = [];
@@ -35,6 +36,8 @@ export class EventsPage implements OnInit {
         "https://www.verdict.co.uk/wp-content/uploads/2019/08/wish-funding-round.jpg",
     },
   ];
+  scrollUpButton = false;
+
   constructor(
     public runn: RunningService,
     public route: Router,
@@ -46,10 +49,24 @@ export class EventsPage implements OnInit {
   ngOnDestroy() {
     console.log("foo destroy");
   }
-  ionViewDidEnter(){
+  ionViewDidEnter() {
     this.getdata();
   }
   //  date1;
+  logScrolling(event) {
+    this.zone.run(() => {
+      const yScroll = event.detail.currentY;
+      if (yScroll > 500) {
+        this.scrollUpButton = true;
+      } else {
+        this.scrollUpButton = false;
+      }
+    });
+  }
+  scrollToTop() {
+    this.scrollContent.scrollToTop(1000);
+    
+  }
   getdata() {
     this.zone.run(() => {
       this.events = [];
@@ -69,14 +86,13 @@ export class EventsPage implements OnInit {
       // set val to the value of the searchbar
       const val = ev.target.value;
       console.log(ev.target);
-      
+
       // if the value is an empty string don't filter the items
       if (val && val.trim() != "") {
         this.events = this.tempEvents.filter((item) => {
           return item.name.toLowerCase().indexOf(val.toLowerCase()) > -1;
         });
         console.log(this.events);
-        
       } else if (val != " ") {
         this.events = this.tempEvents.filter((item) => {
           return item.name.toLowerCase().indexOf(val.toLowerCase()) > -1;

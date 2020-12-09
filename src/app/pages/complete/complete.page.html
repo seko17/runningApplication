@@ -1,52 +1,18 @@
-<!-- <ion-header>
-  <ion-toolbar>
-    <ion-title>complete</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
-
-</ion-content> -->
-<ion-content>
-
-
-
-    <body>
-        <div class="div2">
-
-            <div class="div1">
-                <!-- <div id="bg"> -->
-
-                <ion-grid>
-                    <ion-row color="primary" class="ion-justify-content-center">
-
-                        <ion-col class="ion-align-self-center" size-md="11" size-lg="11" size-xs="12">
-
-
-
-                            <img src="\assets\images\done.gif" alt="Avatar" class="imgC">
-
-
-
-
-
-
-
-
-
-                        </ion-col>
-
-                    </ion-row>
-                </ion-grid>
-                <!-- </div> -->
-                <ion-col>
-                    <ion-button class="shape" shape="round" routerLink="/tabs/events" expand="full" color="light">Done</ion-button>
-                </ion-col>
-            </div>
-
+<div class="container">
+    <div class="top">
+        <div class="img">
+            <img src="../../../assets/icon/4x/success.png" alt="">
         </div>
-
-    </body>
-
-
+    </div>
+    <div class="bottom">
+       <div>
+        <h1>Success</h1>
+        <p>Great start to you new journey.</p>
+        <ion-button (click)="back()" expand="block" fill="outline" shape="round">
+            Awesome
+        </ion-button>
+       </div>
+    </div>
+</div>
 </ion-content>

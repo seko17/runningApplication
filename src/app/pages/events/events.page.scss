@@ -1,3 +1,18 @@
+.fabScroll {
+  position: fixed;
+  bottom: 66px;
+  right: 20px;
+  z-index: 20;
+  transition: 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.hideFabScroll {
+  transform: scale(0);
+  transition: 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.showFabScroll {
+  transform: scale(1);
+  transition: 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
 .body {
   width: 100%;
   height: 100%;

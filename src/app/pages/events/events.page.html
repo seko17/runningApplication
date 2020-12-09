@@ -1,5 +1,12 @@
-<ion-content>
-  <div class="body">
+<ion-content #scrollcontent [scrollEvents]="true" (ionScroll)="logScrolling($event)">
+  <div class="fabScroll" [ngClass]="{'hideFabScroll': !scrollUpButton, 'showFabScroll': scrollUpButton}">
+    
+      <ion-fab-button (click)="scrollToTop()">
+        <ion-icon name="arrow-up"></ion-icon>
+      </ion-fab-button>
+   
+  </div>
+  <div class="body" onscroll="onScroll($event)">
     <div class="mainTitle">
       <p>Event Feed</p>
     </div>

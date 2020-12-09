@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-complete',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CompletePage implements OnInit {
 
-  constructor() { }
+  constructor(public route: Router, public zone: NgZone) { }
 
   ngOnInit() {
   }
-
+  back() {
+    this.zone.run(() => {
+      this.route.navigate(['tabs/home']);
+    })
+  }
 }
