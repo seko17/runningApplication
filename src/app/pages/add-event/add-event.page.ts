@@ -240,7 +240,9 @@ export class AddEventPage implements OnInit {
     throw new Error("Method not implemented.");
     //
   }
-  back() {}
+  back() {
+    this.route.navigate(['/tabs/events'])
+  }
   async presentLoading() {
     const loading = await this.loadingController.create({
       message: "loading...",

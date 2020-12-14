@@ -120,7 +120,7 @@ export class EventsPage implements OnInit {
   }
   async createEvent() {
     const inputs = []
-    this.mainService.handleLoader('Just a sec...', true);
+    // this.mainService.handleLoader('Just a sec...', true);
     this.mainService.getUserClubs().then((res: any) => {
       res.forEach(element => {
         let input = {
@@ -131,7 +131,7 @@ export class EventsPage implements OnInit {
         }
         inputs.push(input)
       });
-      
+      // this.mainService.handleLoader('', false);
       this.getClubNames(inputs);
     });
   }
@@ -158,7 +158,7 @@ export class EventsPage implements OnInit {
         },
       ],
     });
-    this.mainService.handleLoader('', false);
+    
     await alerter.present();
   }
   ngOnInit() {}
