@@ -100,8 +100,6 @@ export class AuthService {
   }
   who() {
     let user = firebase.auth();
-    console.log('[RUNNING SERVICE WHO] >>> ', user);
-    
     return user;
     // return this.theUser;
   }

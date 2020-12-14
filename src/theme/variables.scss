@@ -5,9 +5,16 @@
 h1, h2 {
     text-shadow: 0px 0px 10px #1717174d;
 }
+.errorAlert .alert-wrapper {
+    --background: linear-gradient(#ff9191, #ff9e77) !important;
+  }
+  .successAlert .alert-wrapper {
+    --background: linear-gradient(#b4ffdc, #8cff90)!important;
+  }
 :root {
+    // linear-gradient(30deg ,#11C2D4, #1186d4
     /** primary **/
-    --ion-color-primary: linear-gradient(30deg ,#11C2D4, #1186d4) #1186d4;
+    --ion-color-primary:  #11C2D4;
     --ion-color-primary-rgb: 56, 128, 255;
     --ion-color-primary-contrast: #ffffff;
     --ion-color-primary-contrast-rgb: 255, 255, 255;

@@ -68,7 +68,7 @@ export class HomePage implements OnInit {
   ngOnDestroy() {}
   ionViewDidEnter() {
     this.getdata();
-
+    this.getUserEvents();
     // Set the user Profile Image
     this.mainService.getUserProfile().then((data: any) => {
       this.userProfile = data;
@@ -79,12 +79,26 @@ export class HomePage implements OnInit {
     this.clubs = [];
   }
   ngOnInit() {
-    this.getUserEvents();
+    
   }
   expandClass() {
     this.zone.run(() => {
       this.clubsExpanded = !this.clubsExpanded;
     });
+  }
+  finishEvent(event) {
+this.zone.run(() => {
+  this.mainService.finishEvent(event).then(res => {
+    this.getUserEvents();
+  })
+})
+  }
+  cancelEvent(event) {
+this.zone.run(() =>{
+  this.mainService.cancelEvent(event).then(res => {
+    this.getUserEvents();
+  })
+})
   }
   getUserEvents() {
     this.mainService.getUserEvents().then((res) => {

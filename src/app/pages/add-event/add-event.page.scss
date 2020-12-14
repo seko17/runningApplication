@@ -1,208 +1,108 @@
-/* Define standard variables and values for website */
-
-// $bgcolor: #a2b9bc;
-// $bgcolor: linear-gradient(180deg, rgba(200, 116, 152, 0.969) 0%, rgba(196, 135, 161, 0.969) 39.74%, rgb(99, 57, 75) 100%);
-// // $bgcolor: linear-gradient(#34e89e, #0f3443);
-// $bgcolor: #11C2D4;
-// $textcolor: #11C2D4;
-$fontsize: 18px;
-
-/* Use the variables */
-
-body {
-    // background: $bgcolor;
-    // color: $textcolor;
-    font-size: $fontsize;
-    $mywidth: 100%;
-    width: $mywidth;
-    $myheight: 100%;
-    height: $myheight;
-    text-align: center;
-    overflow-y: auto;
-    #bg {
-        // background-color: #11C2D4;
-        width: 106% !important;
-        margin: 0px -50% 0px -3% !important;
-        padding: 10px 0px 0px 0px !important;
-        // $mywidth: 100%;
-        // width: $mywidth;
-        $myheight: 100%;
-        height: $myheight;
-        $myposition: absolute;
-        position: $myposition;
-        $z-index: -1;
-        z-index: $z-index;
-        // left: -10px;
-        // margin-left: 10%;
-        // right: 10px;
-        top: -20px;
-    }
-    #bd {
-        // -webkit-text-fill-color: aliceblue;
-        $mywidth: 100%;
-        width: $mywidth;
-        $myheight: 100%;
-        height: $myheight;
-        $myborder-radius: 10px;
-        border-radius: $myborder-radius;
-        $mybackground: rgba(0, 0, 0, 0.6);
-        background: $mybackground;
-    }
-    h2 {
-        $fontsize: 25px;
-        font-size: $fontsize;
-     //   $font-family: "Comic Sans MS";
-      //  font-family: $font-family;
-        $textcolor: #11C2D4;
-        color: $textcolor;
-        // $padding: 0px 280px 50px 0px;
-        // padding: $padding;
-    }
-    p {
-        $textcolor: #11C2D4;
-        color: $textcolor;
-        $font-size: inherit;
-        font-size: $font-size;
-    }
-    #item {
-        $textcolor: #11C2D4;
-        color: $textcolor;
-    }
-    #cen {
-        $margin: 5px 20px 5px 300px;
-        margin: $margin;
-    }
-    #heading {
-        $fontsize: 25px;
-        font-size: $fontsize;
-       // $font-family: "Comic Sans MS";
-      //  font-family: $font-family;
-        $textcolor: #11C2D4;
-        color: $textcolor;
-    }
-    #lol {
-        $textcolor: #11C2D4;
-        color: $textcolor;
-    }
-    #button {
-        $padding: 10px;
-        padding: $padding;
-        $border-radius: 50px 20px;
-        border-radius: $border-radius;
-    }
-    #but {
-        ion-fab-button {
-            margin-left: 0%;
+.topHalf {
+    width: 100%;
+    height: 40vh;
+    background: linear-gradient(#11c2d4, #11c0d4),
+      url("../../../assets/images/svg/pattern.svg");
+    background-size: cover;
+    border-radius: 0px 0px 30px 30px;
+    overflow: hidden;
+    padding: 0px 10px 10px 10px;
+    .title {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      height: 72.8px;
+      .backButton {
+        margin-right: 10px;
+      }
+      .titleHeader {
+        flex-basis: 100%;
+        background: white;
+        border-radius: 8px;
+        height: 44.8px;
+        display: flex;
+        align-items: center;
+        padding: 0px 20px;
+        p {
+          margin: 0px;
+          font-weight: bolder;
         }
-        $margin-left: 55%;
-        margin-left: $margin-left;
+      }
     }
-    .div2 {
-        $background-color: #fff;
-        background-color: $background-color;
-        $mywidth: 100%;
-        width: $mywidth;
-        $margin-left: 0%;
-        margin-left: $margin-left;
-        $myheight: 60%;
-        height: $myheight;
-        $margin-bottom: 0%;
-        margin-bottom: $margin-bottom;
-        $order-top-right-radius: 13%;
-        border-top-left-radius: 13%;
-        padding-left: 15px;
-    }
-    #img {
-        $myheight: 60%;
-        height: $myheight;
-    }
-    #out {
-        text-align: start;
-    }
-    #for {
-        $margin-left: 62%;
-        margin-left: $margin-left;
-    }
-    a {
-        color: #11C2D4;
-        text-decoration: none;
-    }
-    .div1 {
-         $background-color: #11C2D4;
-        background-color: $background-color;
-        $myheight: 40%;
-        height: $myheight;
-
-        border-bottom-right-radius: 20%;
-        border-bottom-left-radius: 20%;
-        padding: 10px 0px 0px 0px !important;
-    }
-    img {
-        border-radius: 50%;
-        text-align: center;
-    }
-     :root {
-        .profile {
-            height: 100%;
-            width: 100%;
-            -webkit-box-shadow: 0px 0px 142px -37px rgba(0, 0, 0, 0.75);
-            -moz-box-shadow: 0px 0px 142px -37px rgba(0, 0, 0, 0.75);
-            box-shadow: 0px 0px 142px -37px rgba(0, 0, 0, 0.75);
-        }
-    }
-    .profile-image img {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-    }
-    .input {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-    }
-    .profile-image {
-        img {
-            background-color: #11C2D4;
-            height: 100px;
-            width: 100px;
-            border-radius: 50%;
-            border: 3px solid #fff;
-            // -webkit-box-shadow: 0px 0px 142px -37px rgb(32, 114, 125);
-            -moz-box-shadow: 0px 0px 142px -37px rgb(32, 114, 125);
-            box-shadow: 0px 0px 142px -37px rgb(32, 114, 125);
-        }
-        .pro-pic {
-            size: 16px;
-        }
-    }
-    .profile-image {
+    .clubImage {
+      height: calc(100% - 72.8px);
+      width: 100%;
+      margin: auto;
+      overflow: hidden;
+      position: relative;
+      border-radius: 20px;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .buttonWrapper {
         position: absolute;
-        z-index: 5;
-        top: 4%;
-        left: 10%;
+        bottom: 10px;
+        left: 10px;
+        right: 10px;
+        backdrop-filter: blur(30px);
+        overflow: hidden;
+        border-radius: 20px;
+        height: 50px;
+        .realInput {
+          position: absolute;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          right: 0;
+          z-index: 10;
+        }
+        .dummyButton {
+          position: absolute;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          right: 0;
+        }
+        #fileInput {
+          opacity: 0 !important;
+          width: 100%;
+          height: 50px;
+        }
+      }
     }
-    .image-upload>input {
-        display: none;
-        margin-top: 20px;
+  }
+  .bottomHalf {
+    width: 100%;
+    height: 60vh;
+    overflow: hidden auto;
+    padding: 20px;
+    #item {
+      border: 1px solid #11c2d4;
+      padding: 0px;
+      border-radius: 25px;
+      margin-top: 10px;
     }
-    .input {
-        font-size: 25px;
+    .inputLabel {
+      margin-left: 10px;
     }
-     ion-spinner {
-        display: block;
-        margin: auto;
-        top: -60px;
-        width: 30px;
-        height: 30px;
+    .error {
+      background: rgba(255, 0, 0, 0.068);
+      color: red;
+      padding: 10px;
+      border-radius: 8px;
+      margin-top: 5px;
     }
-    // ion-fab {}
-    .document {
-        font-size: 20px;
+    .time {
+        display: flex;
+        justify-content: space-between;
+        .openTime {
+          flex-basis: 48%;
+        }
+        .closedTime {
+          flex-basis: 48%;
+        }
     }
-    .camera {
-        font-size: 20px;
-    }
-    .fab {
-        top: 80px !important;
-    }
-}
+  }
+  

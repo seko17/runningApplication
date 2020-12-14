@@ -3,6 +3,7 @@ import { RunningService } from "src/app/services/running.service";
 import { Router } from "@angular/router";
 import { LoadingController } from "@ionic/angular";
 import * as firebase from "firebase";
+import { MainServiceService } from "src/app/services/main-service.service";
 @Component({
   selector: "app-add",
   templateUrl: "./add.page.html",
@@ -28,61 +29,33 @@ export class AddPage implements OnInit {
   constructor(
     public runn: RunningService,
     private router: Router,
-    public loadingController: LoadingController
+    public loadingController: LoadingController,
+    public mainService: MainServiceService
   ) {
     this.clubs = [];
   }
   ngOnInit() {}
   ionViewDidEnter() {
-    this.getdata();
+    this.getData();
   }
   slideChanged() {
     this.slides.startAutoplay();
   }
-  getdata() {
-    console.log("Getting clubs");
-    this.db
-      .collection("clubs")
-      .where("userID", "==", firebase.auth().currentUser.uid)
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          this.clubs.push({
-            clubKey: doc.id,
-            name: doc.data().name,
-            openingHours: doc.data().openingHours,
-            closingHours: doc.data().closingHours,
-            userID: doc.data().userID,
-            photoURL: doc.data().photoURL,
-          });
-        });
-        console.log("Clubs >>> ", this.clubs);
-      });
+  getData() {
+    this.mainService.getUserClubs().then((res: any) => {
+      this.clubs = res;
+    });
   }
 
   ngOnDestroy() {
-    console.log("foo destroy");
+
   }
-  // ionViewDidEnter() {
-  //   this.getdata();
-  // }
   ionViewDidLeave() {
     this.clubs = [];
-    console.log("k");
+ 
   }
 
   getAClubsEvents(myclub) {
-    console.log(myclub);
-    //  this.runn.getAClubsEvents(myclub)
     this.router.navigateByUrl("tabs/club-profile");
-  }
-  async presentLoading() {
-    const loading = await this.loadingController.create({
-      message: "loading...",
-      duration: 2000,
-    });
-    await loading.present();
-    // this.getdata()
-    // loading.dismiss()
   }
 }

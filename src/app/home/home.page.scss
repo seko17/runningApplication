@@ -50,7 +50,8 @@
     .title {
       padding: 20px 20px 0px 20px;
       h1 {
-        font-size: 20px;
+        font-size: 14px;
+        font-weight: bold;
       }
     }
     .evList {
@@ -62,10 +63,20 @@
       align-items: center;
       position: relative;
       padding: 20px;
+      .buttons {
+        position: absolute;
+        bottom: 0px;
+        right: 0px;
+        left: 0px;
+        display: flex;
+        justify-content: space-evenly;
+      }
       ion-card {
         min-width: 200px;
         height: 100%;
         margin: 10px;
+        justify-content: center;
+        text-align: center;
       }
     }
   }
@@ -100,6 +111,7 @@
     font-size: 20px;
     flex-basis: 100%;
     margin: 0;
+    font-weight: bold;
   }
 }
 .search {

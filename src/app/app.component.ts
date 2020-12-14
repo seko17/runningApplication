@@ -74,6 +74,7 @@ export class AppComponent implements OnInit {
     this.zone.run(() => {
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
+
           this.navCtrl.navigateRoot('tabs/home');
         } else {
           this.navCtrl.navigateRoot('login');

@@ -17,6 +17,7 @@ import { environment } from '../environments/environment';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import { TabsPageModule } from './pages/tabs/tabs.module';
 
+
 const firebaseConfig = {
   apiKey: "AIzaSyAv85O55WcgVEXgWUTr5GVqspI__ywOSn4",
     authDomain: "runningclub-46ede.firebaseapp.com",

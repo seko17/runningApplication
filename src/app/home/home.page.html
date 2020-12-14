@@ -11,7 +11,7 @@
       <div class="statValues">
         <p>
           {{userProfile.runs}} <br />
-          <span>Runs</span>
+          <span>Run<span *ngIf="userProfile.runs > 1">s</span></span>
         </p>
         <p>
           {{userProfile.kilos}} <br />
@@ -25,23 +25,32 @@
     </div>
     <div class="events">
       <div class="title">
-        <h1>Your Events</h1>
+        <h1>Events Booked</h1>
       </div>
       <!-- Event List -->
       <div class="evList">
         <div class="noCards" *ngIf="userEvents.length==0">
           <div>
-            <h1>No Events</h1>
+            <h1>No Bookings</h1>
           </div>
         </div>
         <ion-card
-          style="display: flex; align-items: center"
+          style="display: flex; position: relative;"
           *ngFor="let e of userEvents"
         >
           <ion-card-header>
             <ion-card-subtitle> {{e.date | date}} </ion-card-subtitle>
             <ion-card-title style="text-transform: capitalize;">{{e.name}}</ion-card-title>
+
           </ion-card-header>
+          <div class="buttons">
+            <ion-button (click)="cancelEvent(e)" size="small" fill="clear" color="danger" shape="round">
+              <ion-icon name="remove-circle-outline"></ion-icon>
+            </ion-button>
+            <ion-button (click)="finishEvent(e)" fill="clear" size="small" color="primary" shape="round">
+              <ion-icon slot="icon-only" name="flag"></ion-icon>
+            </ion-button>
+          </div>
         </ion-card>
       </div>
     </div>

@@ -25,13 +25,13 @@
           </ion-row>
           <ion-row>
             <ion-col>
-              <h6 class="endo">{{event.openingHours}}</h6>
+              <h6 class="endo">{{event.openingHours | date:'shortTime'}}</h6>
             </ion-col>
             <ion-col>
               <h6 class="end">{{event.distance}} Km</h6>
             </ion-col>
             <ion-col>
-              <h6 class="endi">{{event.closingHours}}</h6>
+              <h6 class="endi">{{event.closingHours  | date:'shortTime'}}</h6>
             </ion-col>
           </ion-row>
         </ion-grid>

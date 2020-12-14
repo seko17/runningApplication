@@ -43,11 +43,20 @@ const routes: Routes = [
         (m) => m.CompletePageModule
       ),
   },
-  // {
-  //   path: 'list',
-  //   loadChildren: () => import('./list/list.module').then(m => m.ListPageModule)
-  // },
-
+  {
+    path: 'add-club',
+    loadChildren: () =>
+      import('./pages/add-club/add-club.module').then(
+        (m) => m.AddClubPageModule
+      ),
+  },
+  {
+    path: 'add-event',
+    loadChildren: () =>
+      import('./pages/add-event/add-event.module').then(
+        (m) => m.AddEventPageModule
+      ),
+  },
   {
     path: 'tabs',
     component: TabsPage,
@@ -101,15 +110,6 @@ const routes: Routes = [
         loadChildren: () =>
           import('./pages/reset/reset.module').then((m) => m.ResetPageModule),
       },
-      // {
-      //   path: 'profile',
-      //   loadChildren: () => import('./page/profile/profile.module').then( m => m.ProfilePageModule)
-      // },
-
-      // {
-      //   path: 'payments',
-      //   loadChildren: () => import('./pages/payments/payments.module').then( m => m.PaymentsPageModule)
-      // },
       {
         path: 'payments',
         loadChildren: () =>
@@ -117,20 +117,8 @@ const routes: Routes = [
             (m) => m.PaymentsPageModule
           ),
       },
-      {
-        path: 'add-club',
-        loadChildren: () =>
-          import('./pages/add-club/add-club.module').then(
-            (m) => m.AddClubPageModule
-          ),
-      },
-      {
-        path: 'add-event',
-        loadChildren: () =>
-          import('./pages/add-event/add-event.module').then(
-            (m) => m.AddEventPageModule
-          ),
-      },
+
+
       {
         path: 'book-event',
         loadChildren: () =>
@@ -172,19 +160,6 @@ const routes: Routes = [
     ],
   },
 ];
-
-// {
-//   path: 'events',
-//   loadChildren: () => import('./pages/events/events.module').then( m => m.EventsPageModule)
-// },
-// {
-//   path: 'add',
-//   loadChildren: () => import('./pages/add/add.module').then( m => m.AddPageModule)
-// },
-// {
-//   path: 'tabs',
-//   loadChildren: () => import('./pages/tabs/tabs.module').then( m => m.TabsPageModule)
-// }
 
 @NgModule({
   imports: [

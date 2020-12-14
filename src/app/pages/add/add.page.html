@@ -6,10 +6,10 @@
       </div>
       <div class="create">
         <ion-button
-          routerLink="/tabs/add-club"
-          class="actButtons"
+          routerLink="/add-club"
           color="primary"
           shape="round"
+          expand="full"
         >
           <ion-icon slot="start" name="add-circle"></ion-icon>
           Create</ion-button
@@ -27,10 +27,11 @@
         </div>
         <ion-card *ngFor="let c of clubs">
           <div style="width: 100%; height: 200px;">
-            <img style="width: 100%; height: 100%; object-fit: cover;" src="{{c.photoURL}}" />
+            <img *ngIf="c.photoURL" style="width: 100%; height: 100%; object-fit: cover;" src="{{c.photoURL}}" />
+            <img *ngIf="!c.photoURL" style="width: 100%; height: 100%; object-fit: cover;" src="../../../assets/images/giphys.gif" />
           </div>
           <ion-card-header>
-            <ion-card-subtitle>Destination</ion-card-subtitle>
+            <ion-card-subtitle>{{c.address}}</ion-card-subtitle>
             <ion-card-title style="text-transform: capitalize;">{{c.name}}</ion-card-title>
           </ion-card-header>
           <ion-card-content style="padding-top: 0px;">

@@ -1,10 +1,15 @@
 import { Component, ViewChild, NgZone, OnInit } from "@angular/core";
 import { RunningService } from "src/app/services/running.service";
 import { NavigationExtras, Router } from "@angular/router";
-import { LoadingController } from "@ionic/angular";
+import {
+  AlertController,
+  LoadingController,
+  ModalController,
+} from "@ionic/angular";
 import * as firebase from "firebase";
 import { MainServiceService } from "src/app/services/main-service.service";
 // import moment from "moment";
+import { ModalPage } from "../modal/modal.page";
 @Component({
   selector: "app-events",
   templateUrl: "./events.page.html",
@@ -43,7 +48,9 @@ export class EventsPage implements OnInit {
     public route: Router,
     public loadingController: LoadingController,
     public zone: NgZone,
-    public mainService: MainServiceService
+    public mainService: MainServiceService,
+    public modal: ModalController,
+    public alertCtrl: AlertController
   ) {}
   // tslint:disable-next-line: use-lifecycle-interface
   ngOnDestroy() {
@@ -65,18 +72,13 @@ export class EventsPage implements OnInit {
   }
   scrollToTop() {
     this.scrollContent.scrollToTop(1000);
-    
   }
   getdata() {
     this.zone.run(() => {
       this.events = [];
-
       this.mainService.getAllEvents().then((res: any) => {
         this.events = res;
         this.tempEvents = res;
-        res.forEach((element) => {
-          console.log(element);
-        });
       });
     });
   }
@@ -102,15 +104,6 @@ export class EventsPage implements OnInit {
       }
     });
   }
-  async presentLoading() {
-    const loading = await this.loadingController.create({
-      message: "loading...",
-      duration: 4000,
-    });
-    await loading.present();
-
-    loading.dismiss();
-  }
 
   book() {
     this.route.navigate(["/book-event"]);
@@ -124,6 +117,49 @@ export class EventsPage implements OnInit {
       };
       this.route.navigate(["/tabs/book-event"], nav);
     });
+  }
+  async createEvent() {
+    const inputs = []
+    this.mainService.handleLoader('Just a sec...', true);
+    this.mainService.getUserClubs().then((res: any) => {
+      res.forEach(element => {
+        let input = {
+          name: element.clubKey,
+          type: 'radio',
+          label: element.name,
+          value: element.clubKey
+        }
+        inputs.push(input)
+      });
+      
+      this.getClubNames(inputs);
+    });
+  }
+  async getClubNames(inputs) {
+    let alerter = await this.alertCtrl.create({
+      header: "Select Club",
+      message: "Select the Club you are making the event for.",
+      inputs: inputs,
+      buttons: [
+        {
+          text: "Cancel",
+          role: "cancel",
+        },
+        {
+          text: "Continue",
+          handler: (data) => {
+            let nav: NavigationExtras = {
+              state: {
+                club: data
+              },
+            };
+            this.route.navigate(["/add-event"], nav);
+          },
+        },
+      ],
+    });
+    this.mainService.handleLoader('', false);
+    await alerter.present();
   }
   ngOnInit() {}
 }

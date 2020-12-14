@@ -1,16 +1,16 @@
-import { Observable } from 'rxjs';
-import { Injectable, NgZone } from '@angular/core';
-import * as firebase from 'firebase';
+import { Observable } from "rxjs";
+import { Injectable, NgZone } from "@angular/core";
+import * as firebase from "firebase";
 import {
   NavController,
   LoadingController,
   AlertController,
   ToastController,
-} from '@ionic/angular';
-import { Router } from '@angular/router';
+} from "@ionic/angular";
+import { Router } from "@angular/router";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class MainServiceService {
   db = firebase.firestore();
@@ -18,6 +18,7 @@ export class MainServiceService {
   user = firebase.auth().currentUser;
   userProfile;
   loader;
+  successLoader;
   error;
   constructor(
     public navCtrl: NavController,
@@ -28,8 +29,8 @@ export class MainServiceService {
     public mainService: MainServiceService,
     public loadingCtrl: LoadingController
   ) {
-    console.log('[MAIN SERVICE FIRED]');
-    
+    console.log("[MAIN SERVICE FIRED]");
+
     firebase.auth().onAuthStateChanged((user) => {
       this.user = user;
     });
@@ -43,7 +44,7 @@ export class MainServiceService {
   public async loginUser(email, password) {
     return new Promise((resolve, reject) => {
       this.zone.run(() => {
-        this.handleLoader('Signing in, Please wait...', true);
+        this.handleLoader("Signing in, Please wait...", true);
         firebase
           .auth()
           .signInWithEmailAndPassword(email, password)
@@ -51,13 +52,13 @@ export class MainServiceService {
             firebase.auth().onAuthStateChanged((user) => {
               this.user = user;
               resolve(user);
-              this.handleLoader('', false);
+              this.handleLoader("", false);
             });
           })
           .catch((err) => {
             this.handleError(err.message);
             reject(err);
-            this.handleLoader('', false);
+            this.handleLoader("", false);
           });
       });
     });
@@ -68,12 +69,16 @@ export class MainServiceService {
   getUserProfile() {
     return new Promise((resolve, reject) => {
       this.zone.run(() => {
-        this.db.collection('users').doc(this.user.uid).get().then(res => {
-          resolve(res.data());
-        })
-        .catch(err => {
-          reject(err);
-        });
+        this.db
+          .collection("users")
+          .doc(this.user.uid)
+          .get()
+          .then((res) => {
+            resolve(res.data());
+          })
+          .catch((err) => {
+            reject(err);
+          });
       });
     });
   }
@@ -86,7 +91,7 @@ export class MainServiceService {
   public async signUpUser(email, password, profileInfo) {
     return new Promise((resolve, reject) => {
       this.zone.run(() => {
-        this.handleLoader('Creating Account, Please wait...', true);
+        this.handleLoader("Creating Account, Please wait...", true);
         firebase
           .auth()
           .createUserWithEmailAndPassword(email, password)
@@ -95,26 +100,26 @@ export class MainServiceService {
               this.user = user;
             });
             this.db
-              .collection('users')
+              .collection("users")
               .doc(res.user.uid)
               .set({ ...profileInfo, ...{ uid: res.user.uid } })
               .then(() => {
                 resolve(true);
-                this.handleLoader('', false);
+                this.handleLoader("", false);
               })
               .catch((err) => {
                 this.handleError(err.message);
                 reject(err);
-                this.handleLoader('', false);
+                this.handleLoader("", false);
                 this.handleError(
-                  'Something went wrong with creating your Profile, Please try creating it again under the Profile tab.'
+                  "Something went wrong with creating your Profile, Please try creating it again under the Profile tab."
                 );
               });
           })
           .catch((err) => {
             this.handleError(err.message);
             reject(err);
-            this.handleLoader('', false);
+            this.handleLoader("", false);
           });
       });
     });
@@ -125,7 +130,7 @@ export class MainServiceService {
   public async logoutUser() {
     return new Promise((resolve, reject) => {
       this.zone.run(() => {
-        this.handleLoader('Signing out, Please wait...', true);
+        this.handleLoader("Signing out, Please wait...", true);
         firebase
           .auth()
           .signOut()
@@ -133,13 +138,13 @@ export class MainServiceService {
             firebase.auth().onAuthStateChanged((user) => {
               this.user = null;
               resolve(true);
-              this.handleLoader('', false);
+              this.handleLoader("", false);
             });
           })
           .catch((err) => {
             this.handleError(err.message);
             reject(err);
-            this.handleLoader('', false);
+            this.handleLoader("", false);
           });
       });
     });
@@ -154,15 +159,18 @@ export class MainServiceService {
   public async getAccountInfo() {
     const accounts = [];
     return new Promise((resolve, reject) => {
-      this.db.collection('account').get().then(res => {
-        res.forEach(doc => {
-          accounts.push(doc.data());
+      this.db
+        .collection("account")
+        .get()
+        .then((res) => {
+          res.forEach((doc) => {
+            accounts.push(doc.data());
+          });
+          resolve(accounts);
+        })
+        .catch((err) => {
+          reject(err);
         });
-        resolve(accounts);
-      })
-      .catch(err => {
-        reject(err);
-      });
     });
   }
   /**
@@ -173,20 +181,20 @@ export class MainServiceService {
     return new Promise((resolve, reject) => {
       this.zone.run(() => {
         // initialise loader
-        this.handleLoader('Getting Events. Please wait...', true);
+        this.handleLoader("Getting Events. Please wait...", true);
         const events = [];
         // get events
         this.db
-          .collection('events')
+          .collection("events")
           .get()
           .then((res) => {
             // for each document, go into booked events
             res.forEach((doc) => {
               // using the current event id and the logged in user check if this event was booked
               this.db
-                .collection('bookedEvents')
-                .where('eventId', '==', doc.id)
-                .where('personBooked', '==', firebase.auth().currentUser.uid)
+                .collection("bookedEvents")
+                .where("eventId", "==", doc.id)
+                .where("personBooked", "==", firebase.auth().currentUser.uid)
                 .get()
                 .then((response) => {
                   if (response.size > 0) {
@@ -205,11 +213,11 @@ export class MainServiceService {
                 });
             });
             resolve(events);
-            this.handleLoader('', false);
+            this.handleLoader("", false);
           })
           .catch((err) => {
             reject(err);
-            this.handleLoader('', false);
+            this.handleLoader("", false);
           });
       });
     });
@@ -222,12 +230,12 @@ export class MainServiceService {
     return new Promise((resolve, reject) => {
       this.zone.run(() => {
         this.db
-          .collection('bookedEvents')
-          .where('personBooked', '==', this.user.uid)
+          .collection("bookedEvents")
+          .where("personBooked", "==", this.user.uid)
           .get()
           .then((res) => {
             res.forEach((doc) => {
-              userEvents.push(doc.data());
+              userEvents.push({ docId: doc.id, ...doc.data() });
             });
             resolve(userEvents);
           })
@@ -237,8 +245,121 @@ export class MainServiceService {
       });
     });
   }
+  /**
+   * @param event Event data (Object)
+   */
+  public async finishEvent(event) {
+    return new Promise(async (resolve, reject) => {
+      const alerter = await this.alertCtrl.create({
+        message: "This event will be marked as complete. Continue?",
+        buttons: [
+          {
+            text: "Not yet",
+            role: "cancel",
+          },
+          {
+            text: "Yes",
+            handler: () => {
+              this.handleLoader("Just a sec...", true);
 
-  public async getBookedEvents() {}
+              // Update the user stats
+              this.db
+                .collection("users")
+                .doc(this.user.uid)
+                .update({
+                  hours: firebase.firestore.FieldValue.increment(
+                    parseFloat(event.hours)
+                  ),
+                  kilos: firebase.firestore.FieldValue.increment(
+                    parseFloat(event.distance)
+                  ),
+                  runs: firebase.firestore.FieldValue.increment(1),
+                })
+                .then((res) => {
+                  // copy the booking to past Events
+                  this.db
+                    .collection("pastEvents")
+                    .doc(event.docId)
+                    .set(event)
+                    .then((res) => {
+                      // Delete the booked event
+                      this.db
+                        .collection("bookedEvents")
+                        .doc(event.docId)
+                        .delete()
+                        .then((res) => {
+                          this.handleLoader("", false);
+                          resolve(true);
+                          this.handleToasts(
+                            "Congrats. We hope you enjoyed yourself during the event."
+                          );
+                        })
+                        .catch((err) => {
+                          this.handleLoader("", false);
+                          this.handleError(
+                            "Something went wrong. Please try again later."
+                          );
+                          reject(err);
+                        });
+                    })
+                    .catch((err) => {
+                      this.handleLoader("", false);
+                      reject(err);
+                    });
+                })
+                .catch((err) => {
+                  this.handleLoader("", false);
+                  this.handleError(
+                    "Something went wrong. Please try again later."
+                  );
+                  reject(err);
+                });
+            },
+          },
+        ],
+      });
+      await alerter.present();
+    });
+  }
+  /**
+   * @param event Event data (Object)
+   */
+  public async cancelEvent(event) {
+    return new Promise(async (resolve, reject) => {
+      const alerter = await this.alertCtrl.create({
+        header: "Warning!",
+        message:
+          "You are about to cancel this booking, all ticket purchases are not refundable. Continue?",
+        buttons: [
+          {
+            text: "Yes",
+            handler: () => {
+              this.handleLoader("Just a sec...", true);
+              this.db
+                .collection("bookedEvents")
+                .doc(event.docId)
+                .delete()
+                .then((res) => {
+                  this.handleLoader("", false);
+                  this.handleSuccess(
+                    "Booking removed. We sorry to see you not participating. You can book another event."
+                  );
+                  resolve(true);
+                })
+                .catch((err) => {
+                  this.handleLoader("", false);
+                  this.handleError(
+                    "Something went wrong. Please try again later."
+                  );
+                  reject(err);
+                });
+            },
+          },
+        ],
+      });
+      await alerter.present();
+    });
+  }
   /**
    *
    * @param event Contains the event information (Object)
@@ -246,32 +367,53 @@ export class MainServiceService {
    */
   public async bookEvent(event, data) {
     // Load the process
-    this.handleLoader('Making your Booking. Please wait...', true);
+    this.handleLoader("Making your Booking. Please wait...", true);
     // invoke new promise
     return new Promise((resolve, reject) => {
       // add booking data
       this.db
-        .collection('bookedEvents')
+        .collection("bookedEvents")
         .add({ ...event, ...data })
         .then(async (doc) => {
-          this.handleLoader('', false);
+          this.handleLoader("", false);
           this.zone.run(() => {
             // navigate upon success
             resolve(doc.id);
           });
         })
         .catch(async (error) => {
-          this.handleLoader('', false);
+          this.handleLoader("", false);
           this.zone.run(async () => {
             this.handleError(
-              'Something went wrong with the transaction please try again.'
+              "Something went wrong with the transaction please try again."
             );
             reject(false);
           });
         });
     });
   }
-  createEvent() {}
+  /**
+   * Creates an event
+   * @param data Event Data (Object)
+   * Resolves the created event's document id
+   */
+  createEvent(data) {
+    this.handleLoader("Creating event. Please wait...", true);
+    return new Promise((resolve, reject) => {
+      this.db
+        .collection("events")
+        .add(data)
+        .then((res) => {
+          resolve(res.id);
+          this.handleLoader("", false);
+          this.handleSuccess("Event created successfully.");
+        })
+        .catch((err) => {
+          this.handleLoader("", false);
+          reject(err);
+        });
+    });
+  }
   // END EVENT ACTIVITIES
 
   // CLUB FUNCTIONS
@@ -283,7 +425,7 @@ export class MainServiceService {
     const clubs = [];
     return new Promise((resolve, reject) => {
       this.db
-        .collection('clubs')
+        .collection("clubs")
         .get()
         .then(async (res) => {
           res.forEach(async (doc) => {
@@ -308,19 +450,75 @@ export class MainServiceService {
   getClubEvents(clubId) {
     const events = [];
     return new Promise((resolve, reject) => {
-      this.db.collection('events').where('clubKey', '==', clubId).get().then(res => {
-        res.forEach(doc => {
-          events.push(doc.data());
+      this.db
+        .collection("events")
+        .where("clubKey", "==", clubId)
+        .get()
+        .then((res) => {
+          res.forEach((doc) => {
+            events.push(doc.data());
+          });
+          resolve(events);
+        })
+        .catch((err) => {
+          reject(err);
         });
-        resolve(events);
-      })
-      .catch(err => {
-        reject(err);
-      });
+    });
+  }
+  /**
+   * Creates a new club and
+   * Returns the document id of the club created
+   * @param clubData Club data
+   */
+  createClub(clubData) {
+    this.handleLoader("Creating Club. Please wait...", true);
+
+    return new Promise((resolve, reject) => {
+      this.db
+        .collection("clubs")
+        .add(clubData)
+        .then((res) => {
+          resolve(res.id);
+          this.handleLoader("", false);
+          this.handleSuccess(
+            "Your new club is now available. Go create events for it."
+          );
+        })
+        .catch((err) => {
+          reject(err);
+          this.handleLoader("", false);
+          this.handleError(
+            "Could not creat your club this time. Please try again later."
+          );
+        });
+    });
+  }
+  /**
+   * Gets clubs created by the logged in user
+   */
+  getUserClubs() {
+    const userClubs = [];
+    return new Promise((resolve, reject) => {
+      this.handleLoader('Getting your Clubs. Please wait...', true)
+      this.db
+        .collection("clubs")
+        .where("userID", "==", this.user.uid)
+        .get()
+        .then((res) => {
+          res.forEach((doc) => {
+            const club = { clubKey: doc.id, ...doc.data() };
+            userClubs.push(club);
+          });
+          resolve(userClubs);
+          this.handleLoader('', false)
+        })
+        .catch((err) => {
+          reject(err);
+          this.handleLoader('', false)
+        });
     });
   }
   // END CLUB FUNCTIONS
-
 
   // FEEDBACK FUNCTIONS
   /**
@@ -328,13 +526,25 @@ export class MainServiceService {
    */
   public async handleError(message) {
     this.loader = await this.alertCtrl.create({
-      header: 'Oops!',
+      header: "Oops!",
       message,
-      buttons: ['Okay'],
+      cssClass: "errorAlert",
+      buttons: ["Okay"],
     });
     this.loader.present();
   }
-
+  /**
+   * @param message Message to be displayed while the success is active
+   */
+  public async handleSuccess(message) {
+    this.successLoader = await this.alertCtrl.create({
+      header: "Success!",
+      message,
+      cssClass: "successAlert",
+      buttons: ["Okay"],
+    });
+    this.successLoader.present();
+  }
   /**
    * @param message Message to be displayed while the loader is active
    * @param option Condition that opens or closes the loader (Boolean)
@@ -351,15 +561,18 @@ export class MainServiceService {
         try {
           this.loader.dismiss();
         } catch (error) {
-          console.log('Cannot dismiss an un-presented loader.');
+          console.log("Cannot dismiss an un-presented loader.");
         }
         break;
     }
   }
+  /**
+   * @param message Message to be displayed while the toast is active
+   */
   public async handleToasts(message) {
     const toaster = await this.toastCtrl.create({
       message,
-      duration: 3000
+      duration: 3000,
     });
     await toaster.present();
   }

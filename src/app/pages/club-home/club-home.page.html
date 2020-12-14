@@ -57,10 +57,13 @@
       </div>
     </div>
     <div class="eventsCont" [ngClass]="{'showEvent': showEvents, 'hideEvent': !showEvents}">
-      <ion-card *ngFor="let e of events">
+      <ion-card style="    display: flex;
+      align-items: center;" *ngFor="let e of events">
         <ion-card-header>
           <ion-card-subtitle>{{e.address}}</ion-card-subtitle>
           <ion-card-title>{{e.name}}</ion-card-title>
+          <hr>
+          <p>{{e.distance}}km long | Starts: {{e.date | date:'mediumDate'}}</p>
         </ion-card-header>
       </ion-card>
     </div>

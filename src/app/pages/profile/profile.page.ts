@@ -70,7 +70,6 @@ export class ProfilePage implements OnInit {
   aname;
 
   constructor(
-    private storage: AngularFireStorage,
     private authService: AuthService,
     public afs: AngularFirestore,
     private altctrl: AlertController,
@@ -81,7 +80,7 @@ export class ProfilePage implements OnInit {
     private mapboxService: MapboxService,
     private zone: NgZone,
     private toastCtrl: ToastController,
-    public mainService: MainServiceService
+    public mainService: MainServiceService,
   ) {
     // this.theUser = [];
     this.getdata();
@@ -165,6 +164,7 @@ export class ProfilePage implements OnInit {
             .then(() => {
               this.uploading = false;
               this.progress = 0;
+              this.getdata();
             })
             .catch(async (err) => {
               let alerter = await this.altctrl.create({
@@ -331,7 +331,6 @@ export class ProfilePage implements OnInit {
           text: 'Ok',
           handler: (inputData) => {
             this.nn = inputData.displayName;
-
             // this.tempUser=this.theUser[0]
             console.log(this.nn + 'ddfdddfdfdd', user);
             this.runn.updateAddress(this.firebaseUser.uid, this.nn);

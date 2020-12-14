@@ -1,203 +1,223 @@
 <ion-content>
-
-    <form [formGroup]="eventForm">
-
-        <body>
-
-            <div id="bg">
-                <ion-grid>
-                    <ion-row class="ion-justify-content-center">
-
-                        <ion-col class="ion-align-self-center" size-md="11" size-lg="11" size-xs="12">
-                           
-                           
-                            <div class="div1">
-                                <ion-buttons slot="start"  routerLink="/tabs/club-profile">
-                                    <ion-icon color="light" name="arrow-back" style="zoom:1.5"></ion-icon>
-                                </ion-buttons> 
-                                <!-- <ion-icon name="arrow-round-back" defaultHref="club-profile"></ion-icon> -->
-
-
-                                <h2 id="heading">Add Your Event!</h2>
-                                <div class="profile-image">
-                                    <div *ngIf="urlPath ==''">
-                                        <img src="/assets/images/profile-user.png" class="x">
-                                    </div>
-
-                                    <div *ngIf="urlPath !=''">
-                                        <img data-src="{{urlPath}}">
-                                    </div>
-
-                                    <div class="image-upload">
-                                        <ion-fab horizontal="center" vertical="top" class="fab">
-                                            <ion-fab-button color="primary" size="small">
-                                                <ion-icon name="camera" class="input"> </ion-icon>
-                                            </ion-fab-button>
-
-
-                                            <ion-fab-list side="end">
-                                                <ion-fab-button color="primary">
-                                                    <label for="file-input2">
-                                                            <ion-icon name="document" class="document"> </ion-icon> 
-                                                    </label>
-                                                </ion-fab-button>
-                                            </ion-fab-list>
-                                        </ion-fab>
-
-
-                                        <input id="file-input2" class="input" type="file" (change)="uploadEventPic($event)" />
-                                    </div>
-                                </div>
-                            </div>
-                                <br><br><br>
-                                <div class="div2">
-
-                                    <!-- <form #form="ngForm" (ngSubmit)="login(form)"> -->
-
-
-                                    <div padding>
-                                        <br><br><br>
-
-                                        <ion-item id="item" color="transparent">
-                                            <ion-label position="floating">Event name</ion-label>
-                                            <ion-input type="text" maxlength="20"[(ngModel)]="newName" formControlName="newName"></ion-input>
-                                        </ion-item>
-                                        <div class="error" *ngIf="eventForm.get('newName').hasError('required') && eventForm.get('newName').touched">
-                                            Please input your event
-                                        </div>
-                                        <div class="error" *ngIf="eventForm.get('newName').hasError('minlength') && eventForm.get('newName').touched">
-                                            Minimum 4 characters
-                                        </div>
-                                        <div class="error" *ngIf="eventForm.get('newName').hasError('maxlength') && eventForm.get('newName').touched">
-                                            Maximum 20 characters
-                                        </div>
- <!-- address search -->
-<ion-item id="item" color="transparent">
-    <ion-label position="floating">Address</ion-label>
-    <ion-input type="text" [(ngModel)]="newAddress" formControlName="newAddress" (ionInput)="search($event)"  [value]="selectedAddress" clearInput></ion-input>
-</ion-item>
-<div style="position: absolute; max-width: 90%; min-width: 90%; z-index: 999; " class="search">
-    <ion-list lines="none" *ngIf="addresses.length > 0" color="lightb" style="background: var(--ion-item-background,var(--ion-background-color, black)); ">
-        <ion-item *ngFor="let address of addresses ; let i=index" (click)="onSelect(address, i)" color="dark">
+  <div class="topHalf">
+    <div class="title">
+      <div class="backButton">
+        <ion-button (click)="back()" color="light">
+          <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+        </ion-button>
+      </div>
+      <div class="titleHeader">
+        <p>New Event</p>
+      </div>
+    </div>
+    <div class="clubImage">
+      <img *ngIf="photoURL" src="{{photoURL}}" alt="" />
+      <img *ngIf="!photoURL" src="../../../assets/images/giphys.gif" alt="" />
+      <div class="buttonWrapper">
+        <div class="dummyButton">
+          <ion-button
+            *ngIf="uploading"
+            expand="block"
+            fill="clear"
+            color="light"
+            shape="round"
+          >
+            <ion-spinner name="bubbles"></ion-spinner>
+            {{progress.toFixed(2)}}%
+          </ion-button>
+          <ion-button
+            *ngIf="!uploading"
+            expand="block"
+            color="light"
+            fill="clear"
+            shape="round"
+          >
+            <ion-icon slot="start" name="image"></ion-icon>
+            Select Image
+          </ion-button>
+        </div>
+        <div class="realInput">
+          <input
+            *ngIf="!uploading"
+            id="fileInput"
+            class="input"
+            type="file"
+            (change)="uploadEventPic($event)"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bottomHalf">
+    <form [formGroup]="eventForm" (ngSubmit)="addEvent(eventForm.value)">
+      <!-- CLUB NAME -->
+      <ion-label class="inputLabel" position="floating">Event Name</ion-label>
+      <ion-item id="item" lines="none" color="transparent">
+        <ion-input type="text" formControlName="name"></ion-input>
+      </ion-item>
+      <div *ngFor="let v of vMessages.name">
+        <div
+          class="error"
+          *ngIf="eventForm.get('name').hasError(v.type) && (eventForm.get('name').dirty || eventForm.get('name').touched)"
+        >
+          {{v.message}}
+        </div>
+      </div>
+       <br>
+      <!-- ADDRESS -->
+      <ion-label class="inputLabel" position="floating">Address</ion-label>
+      <ion-item id="item" lines="none" color="transparent">
+        <ion-input
+          type="text"
+          formControlName="address"
+          (ionInput)="search($event)"
+          [value]="selectedAddress"
+          clearInput
+        ></ion-input>
+      </ion-item>
+      <div
+        style="position: absolute; max-width: 90%; min-width: 90%; z-index: 999"
+        class="search"
+      >
+        <ion-list
+          lines="none"
+          *ngIf="addresses.length > 0"
+          color="light"
+          style="
+            background: var(
+              --ion-item-background,
+              var(--ion-background-color, black)
+            );
+            border: solid 1px rgb(226, 226, 226);
+            border-radius: 8px;
+          "
+        >
+          <ion-item
+            style="border-bottom: solid 1px rgb(209, 209, 209)"
+            *ngFor="let address of addresses ; let i=index"
+            (click)="onSelect(address, i)"
+            color="light"
+          >
             <ion-icon name="pin"></ion-icon>
             <p class="searchv">{{address}}</p>
-        </ion-item>
-    </ion-list>
-</div>
-<!-- address search -->
+          </ion-item>
+        </ion-list>
+      </div> <br>
+      <div *ngFor="let v of vMessages.address">
+        <div
+          class="error"
+          *ngIf="eventForm.get('address').hasError(v.type) && (eventForm.get('address').dirty || eventForm.get('address').touched)"
+        >
+          {{v.message}}
+        </div>
+      </div>
+      <!-- DISTANCE -->
+      <ion-label class="inputLabel" position="floating"
+        >Distance (Km)</ion-label
+      >
+      <ion-item id="item" lines="none" color="transparent">
+        <ion-input type="tel" maxlength="2" formControlName="distance"></ion-input>
+      </ion-item>
+      <div *ngFor="let v of vMessages.distance">
+        <div
+          class="error"
+          *ngIf="eventForm.get('distance').hasError(v.type) && (eventForm.get('distance').dirty || eventForm.get('distance').touched)"
+        >
+          {{v.message}}
+        </div>
+      </div>
+<br>
+      <div class="time">
+        <!-- Open -->
+        <div class="openTime">
+          <ion-label class="inputLabel"
+            >Opening Time</ion-label
+          >
 
-                                        <div *ngIf="eventForm.controls.newAddress.invalid && eventForm.controls.newAddress.dirty">
-                                        </div>
-                                        <div class="error" *ngIf="eventForm.get('newAddress').hasError('required') && eventForm.get('newAddress').touched">
-                                            Please input your Address
-                                        </div> 
-
-                                        <ion-item id="item" color="transparent">
-                                            <ion-label position="floating">Distance (KM)</ion-label>
-                                            <ion-input type="number" maxlength="5" minlength="2" [(ngModel)]="newDistance" formControlName="newDistance"></ion-input>
-                                        </ion-item>
-                                        <div class="error" *ngIf="eventForm.get('newDistance').hasError('required') && eventForm.get('newDistance').touched">
-                                            Please input the distance
-                                        </div>
-                                        <div class="error" *ngIf="eventForm.get('newDistance').hasError('minlength') && eventForm.get('newDistance').touched">
-                                            Minimum 2 numbers
-                                        </div>
-                                        <div class="error" *ngIf="eventForm.get('newDistance').hasError('maxlength') && eventForm.get('newDistance').touched">
-                                            Maximum 6 numbers
-                                        </div>
-                                        <!-- event date -->
-                                       
-
-                                        <ion-item id="item" color="transparent">
-                                            <ion-label position="floating">Date: MM DD YY</ion-label>
-                                            <ion-datetime displayFormat="MM DD YY" [(ngModel)]="newDate" formControlName="newDate"></ion-datetime>
-
-                                           
-                                        </ion-item>
-                                        <div class="error" *ngIf="eventForm.get('newDate').hasError('required') && eventForm.get('newDate').touched">
-                                            Please select event date
-                                        </div>
-                                       
-
-
-
-                                        <!-- event times -->
-                                        <ion-grid>
-                                            <ion-row>
-                                                <ion-col>
-                                                    <ion-item id="item" color="transparent">
-                                                        <ion-label position="floating">Opening Time</ion-label>
-                                                        <ion-datetime [(ngModel)]="newOpeningHours" formControlName="newOpeningHours" displayFormat="H:mm a"></ion-datetime>
-                                                    </ion-item>
-                                                    <div *ngIf="eventForm.controls.newOpeningHours.invalid && eventForm.controls.newOpeningHours.dirty">
-                                                    </div>
-                                                    <div class="error" *ngIf="eventForm.get('newOpeningHours').hasError('required') && eventForm.get('newOpeningHours').touched">
-                                                        Please input your Open Hour
-                                                    </div>
-                                                </ion-col>
-                                                <ion-col>
-                                                    <ion-item id="item" color="transparent">
-                                                        <ion-label position="floating">Closing Time</ion-label>
-                                                        <ion-datetime [(ngModel)]="newClosingHours" formControlName="newClosingHours" displayFormat="H:mm a"></ion-datetime>
-                                                    </ion-item>
-                                                    <div *ngIf="eventForm.controls.newClosingHours.invalid && eventForm.controls.newClosingHours">
-                                                    </div>
-                                                    <div class="error" *ngIf="eventForm.get('newClosingHours').hasError('required') && eventForm.get('newClosingHours').touched">
-                                                        Please input your Close Hour
-                                                    </div>
-                                                </ion-col>
-                                                <!-- price -->
-                                                <ion-item id="item" color="transparent">
-                                                    <ion-label position="floating">Price(R)</ion-label>
-                                                    <ion-input type="number" [(ngModel)]="newPrice" formControlName="newPrice"></ion-input>
-                                                </ion-item>
-
-                                                <div *ngIf="eventForm.controls.newPrice.invalid && eventForm.controls.newPrice.dirty">
-                                                </div>
-                                                <div class="error" *ngIf="eventForm.get('newPrice').hasError('required') && eventForm.get('newPrice').touched">
-                                                    Please input the Price
-                                                </div>
-
-                                                <!-- price -->
-                                            </ion-row>
-                                        </ion-grid>
-
-
-
-
-                                        <!-- <ion-item color="transparent" lines="none">
-                                            <div id="h">
-                                                <h2>Submit</h2>
-                                            </div>
-
-                                            <div id="but">
-                                                <ion-fab-button [disabled]="!eventForm.valid" (click)="trySubmit()" color="light" size="small">
-                                                    <ion-icon color="primary" name="arrow-forward"></ion-icon>
-                                                </ion-fab-button>
-
-                                            </div>
-                                        </ion-item> -->
-                                        <br><br>
-                                        <ion-col>
-                                            <ion-button style="margin-right: 4%;margin-left: 4%;"  shape="round"  expand="full" color="primary" [disabled]="!eventForm.valid" (click)="addEvent()">Add</ion-button>
-                                        </ion-col>
-
-                                        <br>
-
-
-
-                                    </div>
-                                </div>
-                          
-                        </ion-col>
-
-                    </ion-row>
-                </ion-grid>
-
-
-
+          <ion-item lines="none" id="item" color="transparent">
+            <ion-datetime
+              formControlName="openingHours"
+              displayFormat="HH:mm a"
+            ></ion-datetime>
+          </ion-item>
+          <div *ngFor="let v of vMessages.openingHours">
+            <div
+              class="error"
+              *ngIf="eventForm.get('openingHours').hasError(v.type) && (eventForm.get('openingHours').dirty || eventForm.get('openingHours').touched)"
+            >
+              {{v.message}}
             </div>
-
-        </body>
+          </div>
+        </div>
+<br>
+        <!-- Closed -->
+        <div class="closedTime">
+          <ion-label class="inputLabel"
+            >Closing Time</ion-label
+          >
+          <ion-item lines="none" id="item" color="transparent">
+            <ion-datetime
+              formControlName="closingHours"
+              displayFormat="HH:mm a"
+            ></ion-datetime>
+          </ion-item>
+          <div *ngFor="let v of vMessages.closingHours">
+            <div
+              class="error"
+              *ngIf="eventForm.get('closingHours').hasError(v.type) && (eventForm.get('closingHours').dirty || eventForm.get('closingHours').touched)"
+            >
+              {{v.message}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <!-- Date -->
+      <ion-label class="inputLabel" position="floating"
+        >Date</ion-label
+      >
+      <ion-item lines="none" id="item" color="transparent">
+        <ion-datetime
+        min="2020" max="2023"
+          displayFormat="MMM, DD YYYY"
+          formControlName="date"
+        ></ion-datetime>
+      </ion-item>
+      <div *ngFor="let v of vMessages.date">
+        <div
+          class="error"
+          *ngIf="eventForm.get('date').hasError(v.type) && (eventForm.get('date').dirty || eventForm.get('date').touched)"
+        >
+          {{v.message}}
+        </div>
+      </div>
+      <!-- Price -->
+      <br>
+      <ion-label class="inputLabel" position="floating">Price(R)</ion-label>
+      <ion-item lines="none" id="item" color="transparent">
+        <ion-input
+          type="tel"
+          maxlength="4"
+          formControlName="price"
+        ></ion-input>
+      </ion-item>
+      <div *ngFor="let v of vMessages.price">
+        <div
+          class="error"
+          *ngIf="eventForm.get('price').hasError(v.type) && (eventForm.get('price').dirty || eventForm.get('price').touched)"
+        >
+          {{v.message}}
+        </div>
+      </div>
+      <ion-button
+        style="margin-right: 4%; margin-left: 4%"
+        shape="round"
+        expand="full"
+        color="primary"
+        [disabled]="!eventForm.valid"
+        type="submit"
+        >Add</ion-button
+      >
     </form>
+  </div>
 </ion-content>
